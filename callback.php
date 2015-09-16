@@ -2,7 +2,6 @@
 require("settings.php");
 header('Content-Type: application/json');
 
-
 $id = $_POST['id'];
 if (empty($id) || !is_numeric($id)) {
    header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request");
@@ -18,8 +17,6 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1);
 curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'TLSv1');
 $user = json_decode(curl_exec($ch),true);
 
-//print_r($user);
-
 if (empty($user)) {
    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
    echo json_encode(array('message' => 'No user found with RFID'));
@@ -27,7 +24,7 @@ if (empty($user)) {
 }
 
 $const = 'constant';
-$c=pg_connect("host={$const('DB_HOST')} dbname={$const('DB_NAME')} user={$const('DB_USER')} password={$const('DB_PWD')} connect_timeout=5");
+$c = pg_connect("host={$const('DB_HOST')} dbname={$const('DB_NAME')} user={$const('DB_USER')} password={$const('DB_PWD')} connect_timeout=5");
 
 if (!$c) {
    echo "An error occurred.\n";
@@ -46,27 +43,20 @@ if (empty($uid)) {
 }
 
 $uid = $uid['id'];
-
 $free_coffee = pg_query_params($c, "SELECT * FROM auth_user u INNER JOIN auth_user_groups ug ON ug.user_id=u.id INNER JOIN auth_group_permissions gp ON ug.group_id=gp.group_id WHERE u.id=$1 AND (gp.permission_id=174 OR gp.permission_id=175)", array($uid));
-
-//$rec = pg_select($c, 'auth_user', array('username' => 'gusar484'));
 
 $date = new DateTime(null, new DateTimeZone('UTC'));
 $date_str = $date->format('Y-m-d H:i:s');
 
 if (pg_num_rows($free_coffee) > 0) {
-   // Gratis
+   // Free
    $order = pg_query_params($c, "INSERT INTO baljan_order (made, put_at, user_id, paid, currency, accepted) VALUES ($1, $2, $3, 0, 'SEK', true) RETURNING id", array($date_str, $date_str, $uid));
    $order_good = pg_insert($c, "baljan_ordergood", array('made' => $date_str, 'order_id' => pg_fetch_array($order)['id'], 'good_id' => 1, 'count' => 1));
-   //print_r($order);
-   //print_r(pg_fetch_array($order));
-   //print_r(pg_fetch_array($order_good));
-   //pg_insert($c, 'baljan_order', array('put_at' => 'NOW()', )
    header($_SERVER["SERVER_PROTOCOL"]." 202 Accepted");
    echo json_encode(array('message' => 'Free coffee order has been put'));
 }
 else {
-   // Betala
+   // Pay
    $baljan = pg_fetch_array(pg_query_params($c, "SELECT balance FROM baljan_profile WHERE user_id=$1", array($uid)));
    if ($baljan['balance'] < 5) {
       header($_SERVER["SERVER_PROTOCOL"]." 402 Payment Required");
@@ -84,6 +74,5 @@ else {
 
 pg_close($c);
 
-//print_r(pg_fetch_all($res));
 
 ?>

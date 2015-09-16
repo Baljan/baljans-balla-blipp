@@ -1,0 +1,46 @@
+body {
+    background-color: #00aae4;
+}
+body, html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+h1 {
+    font-family: 'Lobster', cursive;
+    font-size: 6em;
+    color: #f70079;
+    text-align: center;
+}
+h2 {
+    font-family: 'Lobster', cursive;
+    font-size: 3em;
+    color: #00F771;
+    text-align: center;
+}
+.input-xxl {
+    height: 1.4em;
+    padding: 0.2em 0.2em;
+    font-size: 6em;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+.input-hidden{
+    font-size:0px;
+    padding: 0;
+    width:0px;
+    height:0px;
+}
+#status {
+    font-size: 300px;
+    text-align: center;
+}
+#icon-success, #icon-failure {
+    display: none;
+}
+#icon-success {
+    color: #00F771;
+
+}
+#icon-failure {
+    color: #FF2b2b;
+}

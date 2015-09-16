@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Baljans Balla Blipp</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <form id="form">
+      <input type="text" class="form-control input-hidden" placeholder="RFID" name="rfid" id="rfid" autocomplete="off">
+    </form>
+
+    <div class="container">
+      <div class="row">
+      	<div class="col-xs-12">
+      	  <h1>Baljans Balla Blipp</h1>
+      	</div>
+      </div>
+      <div class="row">
+      	<div class="col-md-12" id="status">
+      	  <div id="icon-success" class="glyphicon glyphicon-ok"></div>
+      	  <div id="icon-failure" class="glyphicon glyphicon-remove"></div>
+      	</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 id="balance-message"></h2>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script srcf="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

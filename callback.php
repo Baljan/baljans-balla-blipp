@@ -53,7 +53,7 @@ if (pg_num_rows($free_coffee) > 0) {
    $order = pg_query_params($c, "INSERT INTO baljan_order (made, put_at, user_id, paid, currency, accepted) VALUES ($1, $2, $3, 0, 'SEK', true) RETURNING id", array($date_str, $date_str, $uid));
    $order_good = pg_insert($c, "baljan_ordergood", array('made' => $date_str, 'order_id' => pg_fetch_array($order)['id'], 'good_id' => 1, 'count' => 1));
    header($_SERVER["SERVER_PROTOCOL"]." 202 Accepted");
-   echo json_encode(array('message' => 'Free coffee order has been put'));
+   echo json_encode(array('message' => 'Free coffee order has been put', 'balance' => 'unlimited'));
 }
 else {
    // Pay

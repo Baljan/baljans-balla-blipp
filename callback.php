@@ -63,7 +63,7 @@ if (pg_num_rows($free_coffee) > 0) {
    //print_r(pg_fetch_array($order_good));
    //pg_insert($c, 'baljan_order', array('put_at' => 'NOW()', )
    header($_SERVER["SERVER_PROTOCOL"]." 202 Accepted");
-   echo json_encode(array('message' => 'Free coffee order has been put'));
+   echo json_encode(array('message' => 'Free coffee order has been put', 'balance' => 'unlimited'));
 }
 else {
    // Betala

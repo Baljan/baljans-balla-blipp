@@ -64,6 +64,13 @@ function successfulBlipp(data, textStatus) {
             .fadeOut(transitionTime);
     }
 
+    if(balance == 'unlimited'){
+        $("#balance-message").html("Du har <b>∞</b> kr kvar att blippa för.")
+            .fadeIn(transitionTime)
+            .delay(successDelay)
+            .fadeOut(transitionTime);
+    }
+
     console.log("Successful blipp with status: " + textStatus);
 };
 

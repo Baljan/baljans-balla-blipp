@@ -21,6 +21,11 @@ $("#rfid").blur(function(){
     $("#rfid").focus();
 });
 
+$(document).ready(function(){
+  //Hide after load to ensure that the icons are loaded
+  $("#icon-success, #icon-failure").hide();
+});
+
 //When the scanner has written the rfid code
 $("#form").submit(function (event) {
     var rfid = parseInt($("#rfid").val());

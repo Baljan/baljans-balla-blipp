@@ -1,8 +1,9 @@
-//Backgrounds
+//Background colors
 var defaultBg = "#00aae4";
 var redBg = "#820C0C";
 var greenBg = "rgb(0, 165, 76)";
 
+//Animation times
 var transitionTime = 300;
 var errorDelay = 1500;
 var successDelay = 1000;
@@ -20,6 +21,7 @@ $("#rfid").blur(function(){
     $("#rfid").focus();
 });
 
+//When the scanner has written the rfid code
 $("#form").submit(function (event) {
     var rfid = parseInt($("#rfid").val());
     $("#rfid").prop('disabled', true);
@@ -34,6 +36,7 @@ $("#form").submit(function (event) {
         error: failedBlipp
     });
 
+    //Clear input
     $("#rfid").val("");
 
     event.preventDefault();
@@ -42,6 +45,7 @@ $("#form").submit(function (event) {
 function successfulBlipp(data, textStatus) {
     var balance = data["balance"];
 
+    //Change the background color
     $("body").animate({backgroundColor: greenBg}, transitionTime)
         .delay(successDelay)
         .animate({backgroundColor: defaultBg}, transitionTime, function(){
@@ -49,22 +53,25 @@ function successfulBlipp(data, textStatus) {
             $("#rfid").focus();
         });
 
+    //Animate the success icon
     $("#icon-success").fadeIn(transitionTime)
         .delay(successDelay)
         .fadeOut(transitionTime);
 
+    //Change the color of the main text to match the other text colors
     $("h1").animate({color: greenColor}, transitionTime)
         .delay(successDelay)
         .animate({color: defaultColor}, transitionTime);
 
+    //Show the balance for normal users
     if(!isNaN(balance)){
         $("#balance-message").text("Du har " + balance + " kr kvar att blippa för.")
             .fadeIn(transitionTime)
             .delay(successDelay)
             .fadeOut(transitionTime);
     }
-
-    if(balance == 'unlimited'){
+    //Show text for free coffee users
+    else if(balance == 'unlimited'){
         $("#balance-message").html("Du har <b>∞</b> kr kvar att blippa för.")
             .fadeIn(transitionTime)
             .delay(successDelay)
@@ -75,6 +82,7 @@ function successfulBlipp(data, textStatus) {
 };
 
 function failedBlipp(data, textStatus){
+    //Change the background color
     $("body").animate({backgroundColor: redBg}, transitionTime)
         .delay(errorDelay)
         .animate({backgroundColor: defaultBg}, transitionTime, function(){
@@ -82,10 +90,12 @@ function failedBlipp(data, textStatus){
             $("#rfid").focus();
         });
 
+    //Change the color of the main text to match the other text colors
     $("h1").animate({color: redColor}, transitionTime)
         .delay(errorDelay)
         .animate({color: defaultColor}, transitionTime);
 
+    //Animate the error icon
     $("#icon-failure").fadeIn(transitionTime)
         .delay(errorDelay)
         .fadeOut(transitionTime);

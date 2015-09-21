@@ -35,7 +35,7 @@ h2 {
     text-align: center;
 }
 #icon-success, #icon-failure {
-    display: none;
+    display: block;
 }
 #icon-success {
     color: #00F771;

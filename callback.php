@@ -21,6 +21,7 @@
   catch (Exception $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
     echo json_encode(array('message' => $e->getMessage());
+    exit;
   }
 
   // Create the user object
@@ -43,5 +44,6 @@
   catch (Exception $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 500 Internal Server Error");
     echo json_encode(array('message' => $e->getMessage());
+    exit;
   }
 ?>

@@ -43,7 +43,7 @@
     }
 
     function is_coffee_free(){
-      if(isset($this->free_coffee){
+      if(isset($this->free_coffee)){
         return $this->free_coffee;
       }
 
@@ -55,7 +55,7 @@
     }
 
     function get_balance(){
-      if(isset($this->balance){
+      if(isset($this->balance)){
         return $this->balance;
       }
 

@@ -34,22 +34,22 @@
   //Error handling
   catch (UserNotFoundException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-    echo json_encode(array('message' => $e->getMessage());
+    echo json_encode(array('message' => $e->getMessage()));
     exit;
   }
   catch (DatabaseConnectionException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 500 Internal Server Error");
-    echo json_encode(array('message' => $e->getMessage());
+    echo json_encode(array('message' => $e->getMessage()));
     exit;
   }
   catch (PaymentException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 402 Payment Required");
-    echo json_encode(array('message' => $e->getMessage());
+    echo json_encode(array('message' => $e->getMessage()));
     exit;
   }
   catch (Exception $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-    echo json_encode(array('message' => $e->getMessage());
+    echo json_encode(array('message' => $e->getMessage()));
     exit;
   }
 ?>

@@ -13,7 +13,7 @@
 
       //Check that no error occured
       if(!$this->c){
-        throw new Exception('Bad DB connection.');
+        throw new DatabaseConnectionException('Bad DB connection.');
       }
 
       $this->liu_id = $liu_id;
@@ -33,7 +33,7 @@
       $uid = pg_fetch_array($uid_array);
 
       if (empty($uid)) {
-        throw new Exception('No user found with user id');
+        throw new UserNotFoundException('No user found with user id');
       }
 
       $this->uid = $uid["id"];
@@ -81,7 +81,7 @@
       else{
         $balance = $this->get_balance();
         if ($balance < $price) {
-           throw new Exception('Insufficient funds.');
+           throw new PaymentException('Insufficient funds.');
         }
         $new_balance = $balance - $price;
         $this->set_balance($new_balance);
@@ -92,4 +92,8 @@
       $order_good = pg_insert($this->c, "baljan_ordergood", array('made' => $date_str, 'order_id' => pg_fetch_array($order)['id'], 'good_id' => 1, 'count' => 1));
     }
   }
+
+  class UserNotFoundException extends Exception { }
+  class DatabaseConnectionException extends Exception { }
+  class PaymentException extends Exception { }
 ?>

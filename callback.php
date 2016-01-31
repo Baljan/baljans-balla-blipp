@@ -1,7 +1,7 @@
 <?php
-  require("settings.php");
-  require("user.php");
-  require("rfid_converter.php");
+  require_once("settings.php");
+  require_once("user.php");
+  require_once("rfid_converter.php");
   header('Content-Type: application/json');
 
   $price = 5;
@@ -13,18 +13,10 @@
      exit;
   }
 
-  // Convert rfid to liuid
-  try{
-    $liuid = get_liuid($rfid);
-  }
-  catch (Exception $e) {
-    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-    echo json_encode(array('message' => $e->getMessage());
-    exit;
-  }
-
   // Create the user object
   try {
+    $liuid = get_liuid($rfid);
+
     $user = new User($liuid);
     $user->do_blipp($price);
 
@@ -52,6 +44,11 @@
   }
   catch (PaymentException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 402 Payment Required");
+    echo json_encode(array('message' => $e->getMessage());
+    exit;
+  }
+  catch (Exception $e) {
+    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
     echo json_encode(array('message' => $e->getMessage());
     exit;
   }

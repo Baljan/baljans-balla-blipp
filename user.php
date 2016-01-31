@@ -1,4 +1,5 @@
 <?php
+  require_once("settings.php");
   class User {
     var $c;
     var $liu_id;

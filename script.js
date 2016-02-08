@@ -13,6 +13,9 @@ var defaultColor = "#f70079";
 var greenColor = "#00F771";
 var redColor = "#FF2b2b";
 
+var successSound = new Audio("sounds/success.wav");
+var errorSound = new Audio("sounds/error.wav");
+
 //Never lose focus (by drinking a lot of coffee)
 $(function () {
     $("#rfid").focus();
@@ -49,6 +52,9 @@ $("#form").submit(function (event) {
 
 function successfulBlipp(data, textStatus) {
     var balance = data["balance"];
+
+    //Play success sound
+    successSound.play();
 
     //Change the background color
     $("body").animate({backgroundColor: greenBg}, transitionTime)
@@ -87,6 +93,9 @@ function successfulBlipp(data, textStatus) {
 };
 
 function failedBlipp(data, textStatus){
+    //Play error sound
+    errorSound.play();
+
     //Change the background color
     $("body").animate({backgroundColor: redBg}, transitionTime)
         .delay(errorDelay)

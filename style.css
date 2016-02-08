@@ -1,12 +1,12 @@
 body {
     background-color: #00aae4;
+    font-family: 'Lobster', cursive;
 }
 body, html {
     overflow-x: hidden;
     overflow-y: hidden;
 }
 h1 {
-    font-family: 'Lobster', cursive;
     font-size: 6em;
     color: #f70079;
     text-align: center;
@@ -43,4 +43,13 @@ h2 {
 }
 #icon-failure {
     color: #FF2b2b;
+}
+#github{
+  font-size: 16pt;
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+}
+#github span{
+  vertical-align: text-top;
 }

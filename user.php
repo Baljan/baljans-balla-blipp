@@ -48,7 +48,8 @@
       }
 
       //Get if the user should get the coffe for free
-      $free_coffee_req = pg_query_params($this->c, "SELECT * FROM auth_user u INNER JOIN auth_user_groups ug ON ug.user_id=u.id INNER JOIN auth_group_permissions gp ON ug.group_id=gp.group_id WHERE u.id=$1 AND (gp.permission_id=174 OR gp.permission_id=175)", $this->get_uid());
+      $free_coffee_req = pg_query_params($this->c, "SELECT * FROM auth_user u INNER JOIN auth_user_groups ug ON ug.user_id=u.id INNER JOIN 
+auth_group_permissions gp ON ug.group_id=gp.group_id WHERE u.id=$1 AND (gp.permission_id=174 OR gp.permission_id=175)", array($this->get_uid()));
       $this->free_coffee = (pg_num_rows($free_coffee_req) > 0);
 
       return $this->free_coffee;

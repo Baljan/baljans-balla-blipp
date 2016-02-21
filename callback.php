@@ -4,7 +4,7 @@
   require_once("rfid_converter.php");
   header('Content-Type: application/json');
 
-  $price = 5;
+  $price = 6;
 
   $rfid = $_POST['id'];
   if (empty($rfid) || !is_numeric($rfid)) {

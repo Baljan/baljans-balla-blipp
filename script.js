@@ -4,9 +4,9 @@ var redBg = "#820C0C";
 var greenBg = "rgb(0, 165, 76)";
 
 //Animation times
-var transitionTime = 300;
-var errorDelay = 1500;
-var successDelay = 1000;
+var transitionTime = 400;
+var errorDelay = 2000;
+var successDelay = 1200;
 
 //Text colors
 var defaultColor = "#f70079";
@@ -51,8 +51,6 @@ $("#form").submit(function (event) {
 });
 
 function successfulBlipp(data, textStatus) {
-    var balance = data["balance"];
-
     //Play success sound
     successSound.play();
 
@@ -65,28 +63,26 @@ function successfulBlipp(data, textStatus) {
         });
 
     //Animate the success icon
-    $("#icon-success").fadeIn(transitionTime)
+    $("#icon-success").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic')
         .delay(successDelay)
-        .fadeOut(transitionTime);
+        .transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0)
 
     //Change the color of the main text to match the other text colors
-    $("h1").animate({color: greenColor}, transitionTime)
+    $("h1").animate({color: greenColor}, transitionTime, 'easeOutCubic')
         .delay(successDelay)
-        .animate({color: defaultColor}, transitionTime);
+        .animate({color: defaultColor}, transitionTime, 'easeOutCubic');
 
-    //Show the balance for normal users
-    if(!isNaN(balance)){
-        $("#balance-message").text("Du har " + balance + " kr kvar att blippa för.")
-            .fadeIn(transitionTime)
+    $("#maindiv").transition({ y: '-300px' }, transitionTime, 'easeOutCubic')
+      .delay(successDelay)
+      .transition({ y: '0px' }, transitionTime, 'easeOutCubic')
+
+    $("h2").css({color: greenColor});
+
+    if(data["message"]){
+        $("#balance-message h2").text(data["message"]);
+        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic')
             .delay(successDelay)
-            .fadeOut(transitionTime);
-    }
-    //Show text for free coffee users
-    else if(balance == 'unlimited'){
-        $("#balance-message").html("Du har <b>∞</b> kr kvar att blippa för.")
-            .fadeIn(transitionTime)
-            .delay(successDelay)
-            .fadeOut(transitionTime);
+            .transition({ opacity: 0 }, transitionTime, 'easeOutCubic');
     }
 
     console.log("Successful blipp with status: " + textStatus);
@@ -95,6 +91,8 @@ function successfulBlipp(data, textStatus) {
 function failedBlipp(data, textStatus){
     //Play error sound
     errorSound.play();
+
+    var data = data.responseJSON;
 
     //Change the background color
     $("body").animate({backgroundColor: redBg}, transitionTime)
@@ -110,9 +108,24 @@ function failedBlipp(data, textStatus){
         .animate({color: defaultColor}, transitionTime);
 
     //Animate the error icon
-    $("#icon-failure").fadeIn(transitionTime)
+    $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime)
         .delay(errorDelay)
-        .fadeOut(transitionTime);
+        .transition({ opacity: 0 }, transitionTime).hide(0);
+
+
+    $("#maindiv").transition({ y: '-300px' }, transitionTime)
+      .delay(errorDelay)
+      .transition({ y: '0px' }, transitionTime)
+
+    //Change the color of the main text to match the other text colors
+    $("h2").css({color: redColor});
+
+    if(data["message"]){
+        $("#balance-message h2").text(data["message"]);
+        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime)
+            .delay(errorDelay)
+            .transition({ opacity: 0 }, transitionTime);
+    }
 
     console.log("Failed blipp with status: " + textStatus);
 };

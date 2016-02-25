@@ -14,7 +14,7 @@
 
       //Check that no error occured
       if(!$this->c){
-        throw new DatabaseConnectionException('Bad DB connection.');
+        throw new DatabaseConnectionException('Could not connect to database.');
       }
 
       $this->liu_id = $liu_id;

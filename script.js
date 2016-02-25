@@ -55,9 +55,9 @@ function successfulBlipp(data, textStatus) {
     successSound.play();
 
     //Change the background color
-    $("body").animate({backgroundColor: greenBg}, transitionTime)
+    $("body").transition({backgroundColor: greenBg}, transitionTime)
         .delay(successDelay)
-        .animate({backgroundColor: defaultBg}, transitionTime, function(){
+        .transition({backgroundColor: defaultBg}, transitionTime, function(){
             $("#rfid").prop('disabled', false);
             $("#rfid").focus();
         });
@@ -65,12 +65,12 @@ function successfulBlipp(data, textStatus) {
     //Animate the success icon
     $("#icon-success").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic')
         .delay(successDelay)
-        .transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0)
+        .transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0);
 
     //Change the color of the main text to match the other text colors
-    $("h1").animate({color: greenColor}, transitionTime, 'easeOutCubic')
+    $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic')
         .delay(successDelay)
-        .animate({color: defaultColor}, transitionTime, 'easeOutCubic');
+        .transition({color: defaultColor}, transitionTime, 'easeOutCubic');
 
     $("#maindiv").transition({ y: '-300px' }, transitionTime, 'easeOutCubic')
       .delay(successDelay)
@@ -95,17 +95,17 @@ function failedBlipp(data, textStatus){
     var data = data.responseJSON;
 
     //Change the background color
-    $("body").animate({backgroundColor: redBg}, transitionTime)
+    $("body").transition({backgroundColor: redBg}, transitionTime)
         .delay(errorDelay)
-        .animate({backgroundColor: defaultBg}, transitionTime, function(){
+        .transition({backgroundColor: defaultBg}, transitionTime, function(){
             $("#rfid").prop('disabled', false);
             $("#rfid").focus();
         });
 
     //Change the color of the main text to match the other text colors
-    $("h1").animate({color: redColor}, transitionTime)
+    $("h1").transition({color: redColor}, transitionTime)
         .delay(errorDelay)
-        .animate({color: defaultColor}, transitionTime);
+        .transition({color: defaultColor}, transitionTime);
 
     //Animate the error icon
     $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime)

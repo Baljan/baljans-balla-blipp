@@ -5,7 +5,7 @@
   header('Content-Type: application/json; charset=utf-8');
 
   $price = 6;
-  
+
   try {
     $rfid = $_POST['id'];
     if (empty($rfid) || !is_numeric($rfid)) {

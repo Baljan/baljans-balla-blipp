@@ -6,7 +6,7 @@ var greenBg = "rgb(0, 165, 76)";
 //Animation times
 var transitionTime = 400;
 var errorDelay = 2000;
-var successDelay = 1200;
+var successDelay = 2000;
 
 //Text colors
 var defaultColor = "#f70079";
@@ -55,9 +55,9 @@ function successfulBlipp(data, textStatus) {
     successSound.play();
 
     //Change the background color
-    $("body").transition({backgroundColor: greenBg}, transitionTime)
+    $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic')
         .delay(successDelay)
-        .transition({backgroundColor: defaultBg}, transitionTime, function(){
+        .transition({backgroundColor: defaultBg}, transitionTime, 'easeOutCubic', function(){
             $("#rfid").prop('disabled', false);
             $("#rfid").focus();
         });
@@ -79,7 +79,7 @@ function successfulBlipp(data, textStatus) {
     $("h2").css({color: greenColor});
 
     if(data["message"]){
-        $("#balance-message h2").text(data["message"]);
+        $("#balance-message h2").html(data["message"]);
         $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic')
             .delay(successDelay)
             .transition({ opacity: 0 }, transitionTime, 'easeOutCubic');

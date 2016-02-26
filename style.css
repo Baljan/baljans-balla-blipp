@@ -7,16 +7,20 @@ body, html {
     overflow-y: hidden;
 }
 h1 {
-    font-size: 6em;
+    font-size: 10em;
     color: #f70079;
     text-align: center;
 }
 h2 {
     font-family: 'Lobster', cursive;
-    font-size: 3em;
-    color: #00F771;
+    font-size: 6em;
     text-align: center;
 }
+
+#balance-message{
+  color: #00F771;
+}
+
 .input-xxl {
     height: 1.4em;
     padding: 0.2em 0.2em;
@@ -31,7 +35,9 @@ h2 {
     height:0px;
 }
 #status {
-    font-size: 300px;
+    margin-top: 75px;
+    margin-bottom: 75px;
+    font-size: 450px;
     text-align: center;
 }
 #icon-success, #icon-failure {
@@ -52,4 +58,15 @@ h2 {
 }
 #github span{
   vertical-align: text-top;
+}
+
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), local('Lobster-Regular'), url(fonts/Lobster.otf) format('woff2');
+}
+
+#title{
+  padding-top: 350px;
 }

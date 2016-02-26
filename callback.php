@@ -2,19 +2,17 @@
   require_once("settings.php");
   require_once("user.php");
   require_once("rfid_converter.php");
-  header('Content-Type: application/json');
+  header('Content-Type: application/json; charset=utf-8');
 
   $price = 6;
 
-  $rfid = $_POST['id'];
-  if (empty($rfid) || !is_numeric($rfid)) {
-     header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request");
-     echo json_encode(array('message' => 'Bad or no ID sent'));
-     exit;
-  }
-
-  // Create the user object
   try {
+    $rfid = $_POST['id'];
+    if (empty($rfid) || !is_numeric($rfid)) {
+       throw new UserNotFoundException('Bad or no ID sent');
+    }
+
+    // Create the user object
     $liuid = get_liuid($rfid);
 
     $user = new User($liuid);
@@ -23,10 +21,10 @@
     header($_SERVER["SERVER_PROTOCOL"]." 202 Accepted");
 
     if($user->is_coffee_free()){
-      echo json_encode(array('message' => 'Free coffee order has been put', 'balance' => 'unlimited'));
+      echo json_encode(array('message' => 'Du har <b>∞</b> kr kvar att blippa för', 'balance' => 'unlimited'));
     }
     else{
-      echo json_encode(array('message' => 'Coffee order has been put', 'balance' => $user->get_balance()));
+      echo json_encode(array('message' => 'Du har <b>' + $user->get_balance() + ' kr</b> kvar att blippa för', 'balance' => $user->get_balance()));
     }
 
     $user->close();
@@ -34,17 +32,17 @@
   //Error handling
   catch (UserNotFoundException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-    echo json_encode(array('message' => $e->getMessage()));
+    echo json_encode(array('message' => "Felaktigt användar-id"));
     exit;
   }
   catch (DatabaseConnectionException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 500 Internal Server Error");
-    echo json_encode(array('message' => $e->getMessage()));
+    echo json_encode(array('message' => "Kunde inte ansluta till databasen"));
     exit;
   }
   catch (PaymentException $e) {
     header($_SERVER["SERVER_PROTOCOL"]." 402 Payment Required");
-    echo json_encode(array('message' => $e->getMessage()));
+    echo json_encode(array('message' => "Du har för lite pengar för att blippa"));
     exit;
   }
   catch (Exception $e) {

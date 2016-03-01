@@ -1,4 +1,4 @@
-# Baljans Balla Blipp
+# :coffee: :coffee:  Baljans Balla Blipp :coffee: :coffee: 
 
 This is a small project for the *blipp* system for coffee.
 

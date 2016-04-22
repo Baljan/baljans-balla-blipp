@@ -21,10 +21,10 @@
     header($_SERVER["SERVER_PROTOCOL"]." 202 Accepted");
 
     if($user->is_coffee_free()){
-      echo json_encode(array('message' => 'Du har <b>∞</b> kr kvar att blippa för', 'balance' => 'unlimited'));
+      echo json_encode(array('message' => 'Du har <b>∞ kr</b> kvar att blippa för', 'balance' => 'unlimited'));
     }
     else{
-      echo json_encode(array('message' => 'Du har <b>' + $user->get_balance() + ' kr</b> kvar att blippa för', 'balance' => $user->get_balance()));
+      echo json_encode(array('message' => 'Du har <b>' . $user->get_balance() . ' kr</b> kvar att blippa för', 'balance' => $user->get_balance()));
     }
 
     $user->close();

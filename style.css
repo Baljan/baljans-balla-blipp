@@ -60,13 +60,6 @@ h2 {
   vertical-align: text-top;
 }
 
-@font-face {
-  font-family: 'Lobster';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lobster'), local('Lobster-Regular'), url(fonts/Lobster.otf) format('woff2');
-}
-
 #title{
   padding-top: 350px;
 }

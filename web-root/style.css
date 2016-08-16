@@ -21,18 +21,17 @@ h2 {
   color: #00F771;
 }
 
+#form{
+    height: 0;
+    overflow: hidden;
+}
+
 .input-xxl {
     height: 1.4em;
     padding: 0.2em 0.2em;
     font-size: 6em;
     line-height: 1.3333333;
     border-radius: 6px;
-}
-.input-hidden{
-    font-size:0px;
-    padding: 0;
-    width:0px;
-    height:0px;
 }
 #status {
     margin-top: 75px;

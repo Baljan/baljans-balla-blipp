@@ -19,8 +19,9 @@
   </head>
 
   <body>
-    <form id="form">
-      <input type="text" class="form-control input-hidden" placeholder="RFID" name="rfid" id="rfid" autocomplete="off">
+    <!-- Bootstrap's input-hidden works bad with Chrome. As a workaround, we make the form invisible. -->
+    <form id="form" style="height: 0; overflow: hidden;">
+      <input type="text" class="form-control" placeholder="RFID" name="rfid" id="rfid" autocomplete="off">
     </form>
 
     <div id="maindiv">

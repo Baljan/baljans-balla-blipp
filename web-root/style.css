@@ -1,64 +1,72 @@
 body {
-    background-color: #00aae4;
-    font-family: 'Lobster', cursive;
-}
-body, html {
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
-h1 {
-    font-size: 10em;
-    color: #f70079;
-    text-align: center;
-}
-h2 {
-    font-family: 'Lobster', cursive;
-    font-size: 6em;
-    text-align: center;
+  background-color: #00aae4;
+  font-family: 'Lobster', cursive;
 }
 
-#balance-message{
+body, html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+h1 {
+  font-size: 10em;
+  color: #f70079;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Lobster', cursive;
+  font-size: 6em;
+  text-align: center;
+}
+
+#balance-message {
   color: #00F771;
 }
 
-#form{
-    height: 0;
-    overflow: hidden;
+#form {
+  height: 0;
+  overflow: hidden;
 }
 
 .input-xxl {
-    height: 1.4em;
-    padding: 0.2em 0.2em;
-    font-size: 6em;
-    line-height: 1.3333333;
-    border-radius: 6px;
+  height: 1.4em;
+  padding: 0.2em 0.2em;
+  font-size: 6em;
+  line-height: 1.3333333;
+  border-radius: 6px;
 }
-#status {
-    margin-top: 75px;
-    margin-bottom: 75px;
-    font-size: 450px;
-    text-align: center;
-}
-#icon-success, #icon-failure {
-    display: block;
-}
-#icon-success {
-    color: #00F771;
 
+#status {
+  margin-top: 75px;
+  margin-bottom: 75px;
+  font-size: 450px;
+  text-align: center;
 }
+
+#icon-success, #icon-failure {
+  display: block;
+}
+
+#icon-success {
+  color: #00F771;
+}
+
 #icon-failure {
-    color: #FF2b2b;
+  color: #FF2b2b;
 }
-#github{
+
+#github {
   font-size: 16pt;
   position: absolute;
   left: 15px;
   bottom: 15px;
 }
-#github span{
+
+#github span {
   vertical-align: text-top;
 }
 
-#title{
+#title {
   padding-top: 350px;
 }

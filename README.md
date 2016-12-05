@@ -6,3 +6,4 @@ This is a small project for the *blipp* system for coffee.
 
 * Gustav Blomér ([@garnesson](https://github.com/garnesson))
 * Johan Lindell ([@lindell](https://github.com/lindell))
+* Olle Vidner ([@ovidner](https://github.com/ovidner))

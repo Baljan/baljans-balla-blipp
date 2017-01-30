@@ -1,5 +1,5 @@
 <?php
-  require_once("settings.php");
+  require_once("../settings.php");
   function get_liuid($rfid){
     $ch = curl_init(API_URL.$rfid."/");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: Token ".API_TOKEN));

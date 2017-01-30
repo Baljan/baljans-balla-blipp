@@ -1,5 +1,5 @@
 <?php
-  require_once("settings.php");
+  require_once("../settings.php");
   require_once("user.php");
   require_once("rfid_converter.php");
   header('Content-Type: application/json; charset=utf-8');

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Baljans Balla Blipp"
+AuthUserFile .htpasswd
+Require valid-user

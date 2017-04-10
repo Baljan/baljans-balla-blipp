@@ -106,7 +106,7 @@ function successfulAnimation(data, textStatus) {
     $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic');
 
     // Move all (most) content up
-    $("#maindiv").transition({ y: '-300px' }, transitionTime, 'easeOutCubic', function(){
+    $("#maindiv").transition({ y: '-30%' }, transitionTime, 'easeOutCubic', function(){
       $("#rfid").prop('disabled', false);
       $("#rfid").focus();
     });
@@ -140,7 +140,7 @@ function failedAnimation(data, textStatus){
     $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime);
 
     // Move all (most) content up
-    $("#maindiv").transition({ y: '-300px' }, transitionTime, function(){
+    $("#maindiv").transition({ y: '-22%' }, transitionTime, function(){
       $("#rfid").prop('disabled', false);
       $("#rfid").focus();
     });

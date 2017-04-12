@@ -1,6 +1,7 @@
 body {
   background-color: #00aae4;
   font-family: 'Lobster', cursive;
+  -webkit-appearance: none !important;
 }
 
 body, html {

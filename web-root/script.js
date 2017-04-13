@@ -106,7 +106,7 @@ function successfulAnimation(data, textStatus) {
     $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic');
 
     // Move all (most) content up
-    $("#maindiv").transition({ y: '-30%' }, transitionTime, 'easeOutCubic', function(){
+    $("#maindiv").transition({ y: '-28%' }, transitionTime, 'easeOutCubic', function(){
       $("#rfid").prop('disabled', false);
       $("#rfid").focus();
     });

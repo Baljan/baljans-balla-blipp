@@ -1,6 +1,7 @@
 body {
   background-color: #00aae4;
   font-family: 'Lobster', cursive;
+  -webkit-appearance: none !important;
 }
 
 body, html {
@@ -9,15 +10,15 @@ body, html {
 }
 
 h1 {
-  font-size: 8em;
+  font-size: 7.5em;
   color: #f70079;
   text-align: center;
-  margin-top: -60px;
+  margin-top: -40px;
 }
 
 h2 {
   font-family: 'Lobster', cursive;
-  font-size: 6em;
+  font-size: 4em;
   text-align: center;
 }
 

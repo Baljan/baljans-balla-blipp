@@ -93,8 +93,8 @@ h2 {
  text-shadow: 0 0 1px #000;
 }
 
-.snowflake:nth-child(odd) {
-  z-index: -999;
+.snowflakes {
+  position: fixed;
 }
 
 @-webkit-keyframes snowflakes-fall {

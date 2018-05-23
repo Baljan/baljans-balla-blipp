@@ -72,6 +72,14 @@ h2 {
   margin-top: 22%;
 }
 
+#info-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 28px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  display: block;
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 480px) {
   #status {

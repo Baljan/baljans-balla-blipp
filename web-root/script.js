@@ -48,8 +48,11 @@ $("#form").submit(function (event) {
     console.log("Sending blipp request for id: " + rfid);
 
     var request = $.ajax({
-        url: "callback.php",
+        url: "https://www.baljan.org/baljan/do-blipp",
         method: "POST",
+        headers: {
+            "Authorization": "Basic " + window.blipp_credentials
+        },
         data: { id : rfid },
         dataType: "json",
         success : successfulBlipp,

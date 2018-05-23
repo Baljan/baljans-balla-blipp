@@ -5,7 +5,7 @@ RUN apt-get update && \
     docker-php-ext-install pgsql
 
 # Settings should not be under web-accessible path!
-COPY settings.php entrypoint.sh .htpasswd.tmpl /var/www/
+COPY entrypoint.sh .htpasswd.tmpl /var/www/
 
 COPY web-root/ /var/www/html/
 

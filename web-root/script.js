@@ -12,6 +12,7 @@ var successDelay = 2300;
 var defaultColor = "#f70079";
 var greenColor = "#00F771";
 var redColor = "#FF2b2b";
+var infoColor = "#333333";
 
 var successSound = new Audio("sounds/success.wav");
 var errorSound = new Audio("sounds/error.wav");
@@ -107,6 +108,7 @@ function successfulAnimation(data, textStatus) {
 
     //Change the color of the main text to match the other text colors
     $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic');
+    $("#info-text").transition({color: greenColor}, transitionTime);
 
     // Move all (most) content up
     $("#maindiv").transition({ y: '-28%' }, transitionTime, 'easeOutCubic', function(){
@@ -116,9 +118,12 @@ function successfulAnimation(data, textStatus) {
 
     $("h2").css({color: greenColor});
 
-    if(data["message"]){
+    if(data && data["message"]){
         $("#balance-message h2").html(data["message"]);
         $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic');
+    } else {
+        $("#balance-message h2").text("Ett fel inträffade");
+        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
     }
 
     resetTimeout = setTimeout(resetBlipp, successDelay);
@@ -138,12 +143,13 @@ function failedAnimation(data, textStatus){
 
     //Change the color of the main text to match the other text colors
     $("h1").transition({color: redColor}, transitionTime);
+    $("#info-text").transition({color: redColor}, transitionTime);
 
     //Animate the error icon
     $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime);
 
     // Move all (most) content up
-    $("#maindiv").transition({ y: '-22%' }, transitionTime, function(){
+    $("#maindiv").transition({ y: '-28%' }, transitionTime, function(){
       $("#rfid").prop('disabled', false);
       $("#rfid").focus();
     });
@@ -151,8 +157,11 @@ function failedAnimation(data, textStatus){
     //Change the color of the main text to match the other text colors
     $("h2").css({color: redColor});
 
-    if(data["message"]){
+    if(data && data["message"]){
         $("#balance-message h2").text(data["message"]);
+        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
+    } else {
+        $("#balance-message h2").text("Ett fel inträffade");
         $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
     }
 
@@ -164,6 +173,7 @@ function resetBlipp(){
   $("#icon-success").transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0);
   $("#icon-failure").transition({ opacity: 0 }, transitionTime).hide(0);
   $("h1").transition({color: defaultColor}, transitionTime, 'easeOutCubic');
+  $("#info-text").transition({color: infoColor}, transitionTime, 'easeOutCubic');
   $("#maindiv").transition({ y: '0px' }, transitionTime, 'easeOutCubic');
 
   $("#balance-message").transition({ opacity: 0 }, transitionTime, function(){

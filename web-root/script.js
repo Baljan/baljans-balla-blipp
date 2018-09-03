@@ -44,7 +44,7 @@ $("#form").submit(function (event) {
       resetBlipp();
     }
 
-    var rfid = parseInt($("#rfid").val());
+    var rfid = $("#rfid").val();
 
     console.log("Sending blipp request for id: " + rfid);
 

@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  blipp:
+    build:
+      context: ./
+    ports:
+      - 8085:80
+    volumes:
+    - .entrypoint.sh:/var/www/.entrypoint.sh
+    - .htpasswd.tmpl:/var/www/.htpasswd.tmpl
+    - ./web-root:/var/www/html
+    environment:
+      BLIPP_USERNAME: foo
+      BLIPP_PASSWORD: bar
+      BLIPP_URL: http://localhost:8085/test/success.php
+      # BLIPP_URL: http://localhost:8085/test/fail.php

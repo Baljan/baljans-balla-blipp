@@ -48,11 +48,13 @@ $("#form").submit(function (event) {
 
     console.log("Sending blipp request for id: " + rfid);
 
+    var token = Cookies.get('token') || 'no-token';
     var request = $.ajax({
-        url: "https://www.baljan.org/baljan/do-blipp",
+        //url: "https://www.baljan.org/baljan/do-blipp",
+        url: "http://127.0.0.1:8000/baljan/do-blipp",
         method: "POST",
         headers: {
-            "Authorization": "Basic " + window.blipp_credentials
+            "Authorization": "Token " + token
         },
         data: { id : rfid },
         dataType: "json",

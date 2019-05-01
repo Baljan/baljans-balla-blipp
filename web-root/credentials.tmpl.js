@@ -1,1 +1,0 @@
-window.blipp_credentials = btoa("${BLIPP_USERNAME}:${BLIPP_PASSWORD}");

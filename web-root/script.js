@@ -2,6 +2,7 @@
 var defaultBg = "#00aae4";
 var redBg = "#820C0C";
 var greenBg = "rgb(0, 165, 76)";
+var yellowBg = "#edcb21";
 
 //Animation times
 var transitionTime = 300;
@@ -13,6 +14,7 @@ var defaultColor = "#f70079";
 var greenColor = "#00F771";
 var redColor = "#FF2b2b";
 var infoColor = "#333333";
+var blackColor = "#000000";
 
 var successSound = new Audio("sounds/success.wav");
 var errorSound = new Audio("sounds/error.wav");
@@ -25,7 +27,7 @@ var callAfterReset = null;
 
 // Time of last blipp
 var lastBlippTime = new Date().getTime();
-var blippCooldown = 1000; // ms
+var blippCooldown = 2300; // ms
 
 var request = false;
 
@@ -39,7 +41,7 @@ $("#rfid").blur(function(){
 
 $(document).ready(function(){
   //Hide after load to ensure that the icons are loaded
-  $("#icon-success, #icon-failure").hide();
+  $("#icon-success, #icon-failure, #icon-warning").hide();
 });
 
 //When the scanner has written the rfid code
@@ -87,12 +89,12 @@ $("#form").submit(function (event) {
 function successfulBlipp(data, textStatus){
   if(resetTimeout === -1){
     // Call instantly
-    successfulAnimation(data, textStatus);
+    animation(data, textStatus, true);
   }
   else{
     // Wait to after the reset animation has finished
     callAfterReset = function(){
-      successfulAnimation(data, textStatus);
+      animation(data, textStatus, true);
     }
   }
 }
@@ -100,32 +102,65 @@ function successfulBlipp(data, textStatus){
 function failedBlipp(data, textStatus){
   if(resetTimeout === -1){
     // Call instantly
-    failedAnimation(data, textStatus);
+    animation(data, textStatus, false);
   }
   else{
     // Wait to after the reset animation has finished
     callAfterReset = function(){
-      failedAnimation(data, textStatus);
+      animation(data, textStatus, false);
     }
   }
 }
 
-function successfulAnimation(data, textStatus) {
+function animation(data, textStatus, successful) {
     // Some debugging
-    console.log("Successful blipp with status: " + textStatus);
+    console.log(`${successful ? "Succesful" : "Failed"} blipp with status: ${textStatus}`);
 
-    //Play success sound
-    successSound.play();
+    var data = data.responseJSON;
+
+    var backgroundColor = null;
+    var color = null;
+    var elementId = null;
+    var sound = null;
+    var delay = null;
+
+    switch (data.type) {
+      case "success":
+          backgroundColor = greenBg;
+          color = greenColor;
+          elementId = "#icon-success";
+          sound = successSound;
+          delay = successDelay;
+          break;
+      case "warning":
+        backgroundColor = yellowBg;
+        color = blackColor;
+        elementId = "#icon-warning";
+        sound = errorSound;
+        delay = errorDelay;
+        break;
+      case "error":
+      default:
+        backgroundColor = redBg;
+        color = redColor;
+        elementId = "#icon-failure";
+        sound = errorSound;
+        delay = errorDelay;
+        break;
+    }
+
+    // Play the sound
+    sound.play();
 
     //Change the background color
-    $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic');
+    $("body").transition({backgroundColor: backgroundColor}, transitionTime, 'easeOutCubic');
 
-    //Animate the success icon
-    $("#icon-success").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic');
+    //Animate the icon
+    $(elementId).show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic');
 
     //Change the color of the main text to match the other text colors
-    $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic');
-    $("#info-text").transition({color: greenColor}, transitionTime);
+    $("h1").transition({color: color}, transitionTime, 'easeOutCubic');
+    $("#info-text").transition({color: color}, transitionTime);
 
     // Move all (most) content up
     $("#maindiv").transition({ y: '-28%' }, transitionTime, 'easeOutCubic', function(){
@@ -133,7 +168,7 @@ function successfulAnimation(data, textStatus) {
       $("#rfid").focus();
     });
 
-    $("h2").css({color: greenColor});
+    $("h2").css({color: color});
 
     if(data && data["message"]){
         $("#balance-message h2").html(data["message"]);
@@ -143,52 +178,15 @@ function successfulAnimation(data, textStatus) {
         $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
     }
 
-    resetTimeout = setTimeout(resetBlipp, successDelay);
+    resetTimeout = setTimeout(resetBlipp, delay);
 }
 
-function failedAnimation(data, textStatus){
-    // Some debuging
-    console.log("Failed blipp with status: " + textStatus);
-
-    //Play error sound
-    errorSound.play();
-
-    var data = data.responseJSON;
-
-    //Change the background color
-    $("body").transition({backgroundColor: redBg}, transitionTime);
-
-    //Change the color of the main text to match the other text colors
-    $("h1").transition({color: redColor}, transitionTime);
-    $("#info-text").transition({color: redColor}, transitionTime);
-
-    //Animate the error icon
-    $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime);
-
-    // Move all (most) content up
-    $("#maindiv").transition({ y: '-28%' }, transitionTime, function(){
-      $("#rfid").prop('disabled', false);
-      $("#rfid").focus();
-    });
-
-    //Change the color of the main text to match the other text colors
-    $("h2").css({color: redColor});
-
-    if(data && data["message"]){
-        $("#balance-message h2").text(data["message"]);
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
-    } else {
-        $("#balance-message h2").text("Ett fel inträffade");
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
-    }
-
-    resetTimeout = setTimeout(resetBlipp, errorDelay);
-}
 
 function resetBlipp(){
   $("body").transition({backgroundColor: defaultBg}, transitionTime, 'easeOutCubic');
   $("#icon-success").transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0);
   $("#icon-failure").transition({ opacity: 0 }, transitionTime).hide(0);
+  $("#icon-warning").transition({ opacity: 0 }, transitionTime).hide(0);
   $("h1").transition({color: defaultColor}, transitionTime, 'easeOutCubic');
   $("#info-text").transition({color: infoColor}, transitionTime, 'easeOutCubic');
   $("#maindiv").transition({ y: '0px' }, transitionTime, 'easeOutCubic');

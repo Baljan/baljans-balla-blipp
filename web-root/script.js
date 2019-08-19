@@ -23,6 +23,12 @@ var resetTimeout = -1;
 // Function that should be called when the reset has been done
 var callAfterReset = null;
 
+// Time of last blipp
+var lastBlippTime = new Date().getTime();
+var blippCooldown = 1000; // ms
+
+var request = false;
+
 //Never lose focus (by drinking a lot of coffee)
 $(function () {
   $("#rfid").focus();
@@ -38,6 +44,9 @@ $(document).ready(function(){
 
 //When the scanner has written the rfid code
 $("#form").submit(function (event) {
+  var blippTime = new Date().getTime();
+
+  if (blippTime - lastBlippTime >= blippCooldown) {
     // If the success / failed screen is active
     if(resetTimeout !== -1){
       clearTimeout(resetTimeout);
@@ -49,7 +58,12 @@ $("#form").submit(function (event) {
     console.log("Sending blipp request for id: " + rfid);
 
     var token = Cookies.get('token') || 'no-token';
-    var request = $.ajax({
+
+    if (request) {
+      request.abort();
+    }
+
+    request = $.ajax({
         url: "https://www.baljan.org/baljan/do-blipp",
         method: "POST",
         headers: {
@@ -64,8 +78,10 @@ $("#form").submit(function (event) {
     //Clear input
     $("#rfid").val("");
     $("#rfid").prop('disabled', true);
+  }
 
     event.preventDefault();
+    lastBlippTime = blippTime;
 });
 
 function successfulBlipp(data, textStatus){

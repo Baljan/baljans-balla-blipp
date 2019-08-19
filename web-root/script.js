@@ -27,7 +27,7 @@ var callAfterReset = null;
 
 // Time of last blipp
 var lastBlippTime = new Date().getTime();
-var blippCooldown = 2300; // ms
+var blippCooldown = 1000; // ms
 
 var request = false;
 

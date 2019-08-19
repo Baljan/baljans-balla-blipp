@@ -100,6 +100,8 @@ function successfulBlipp(data, textStatus){
 }
 
 function failedBlipp(data, textStatus){
+  var data = data.responseJSON;
+
   if(resetTimeout === -1){
     // Call instantly
     animation(data, textStatus, false);
@@ -115,8 +117,6 @@ function failedBlipp(data, textStatus){
 function animation(data, textStatus, successful) {
     // Some debugging
     console.log(`${successful ? "Succesful" : "Failed"} blipp with status: ${textStatus}`);
-
-    var data = data.responseJSON;
 
     var backgroundColor = null;
     var color = null;

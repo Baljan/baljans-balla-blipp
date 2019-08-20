@@ -6,8 +6,8 @@ var yellowBg = "#edcb21";
 
 //Animation times
 var transitionTime = 300;
-var errorDelay = 2300;
-var successDelay = 2300;
+var errorDelay = 3000;
+var successDelay = 3000;
 
 //Text colors
 var defaultColor = "#f70079";
@@ -27,7 +27,7 @@ var callAfterReset = null;
 
 // Time of last blipp
 var lastBlippTime = new Date().getTime();
-var blippCooldown = 1000; // ms
+var blippCooldown = 1500; // ms
 
 var request = false;
 
@@ -46,15 +46,11 @@ $(document).ready(function(){
 
 //When the scanner has written the rfid code
 $("#form").submit(function (event) {
+  event.preventDefault();
+
   var blippTime = new Date().getTime();
 
-  if (blippTime - lastBlippTime >= blippCooldown) {
-    // If the success / failed screen is active
-    if(resetTimeout !== -1){
-      clearTimeout(resetTimeout);
-      resetBlipp();
-    }
-
+  if (resetTimeout === -1 && blippTime - lastBlippTime >= blippCooldown) {
     var rfid = $("#rfid").val();
 
     console.log("Sending blipp request for id: " + rfid);
@@ -82,7 +78,6 @@ $("#form").submit(function (event) {
     $("#rfid").prop('disabled', true);
   }
 
-    event.preventDefault();
     lastBlippTime = blippTime;
 });
 
@@ -136,8 +131,8 @@ function animation(data, textStatus, successful) {
         backgroundColor = yellowBg;
         color = blackColor;
         elementId = "#icon-warning";
-        sound = errorSound;
-        delay = errorDelay;
+        sound = successSound;
+        delay = successDelay;
         break;
       case "error":
       default:

@@ -45,7 +45,7 @@ h2 {
   text-align: center;
 }
 
-#icon-success, #icon-failure, #icon-warning {
+#icon-success, #icon-failure {
   display: block;
 }
 
@@ -55,10 +55,6 @@ h2 {
 
 #icon-failure {
   color: #FF2b2b;
-}
-
-#icon-warning {
-  color: #000000;
 }
 
 #github {

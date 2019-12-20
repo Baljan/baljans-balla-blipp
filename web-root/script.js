@@ -1,7 +1,7 @@
 //Background colors
-var defaultBg = "#d42426";
+var defaultBg = "#00aae4";
 var redBg = "#820C0C";
-var greenBg = "#18802b";
+var greenBg = "rgb(0, 165, 76)";
 
 //Animation times
 var transitionTime = 300;
@@ -9,9 +9,9 @@ var errorDelay = 2300;
 var successDelay = 2300;
 
 //Text colors
-var defaultColor = "#ffffff";
-var greenColor = "#ffffff";
-var redColor = "#ffffff";
+var defaultColor = "#f70079";
+var greenColor = "#00F771";
+var redColor = "#FF2b2b";
 var infoColor = "#333333";
 
 var successSound = new Audio("sounds/success.wav");

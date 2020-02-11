@@ -14,7 +14,9 @@ var greenColor = "#ffffff";
 var redColor = "#ffffff";
 var infoColor = "#333333";
 
+var successChooser = 1;
 var successSound = new Audio("sounds/success.wav");
+var successSound2 = new Audio("sounds/success2.mp3");
 var errorSound = new Audio("sounds/error.wav");
 
 // ID of the reset timeout. Is used for detecting when success/failed screen is
@@ -99,7 +101,12 @@ function successfulAnimation(data, textStatus) {
     console.log("Successful blipp with status: " + textStatus);
 
     //Play success sound
-    successSound.play();
+    successChooser = Math.random()
+    if (successChooser > 0.5){
+        successSound.play();
+    } else {
+        successSound2.play();
+    }
 
     //Change the background color
     $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic');

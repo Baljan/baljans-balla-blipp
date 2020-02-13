@@ -15,8 +15,14 @@ var redColor = "#ffffff";
 var infoColor = "#333333";
 
 var successChooser = 1;
-var successSound = new Audio("sounds/success.wav");
-var successSound2 = new Audio("sounds/success2.mp3");
+var successSound1 = new Audio("sounds/lasse1.mp3");
+var successSound2 = new Audio("sounds/lasse2.mp3");
+var successSound3 = new Audio("sounds/lasse3.mp3");
+var successSound4 = new Audio("sounds/lass4.mp3");
+var successSound5 = new Audio("sounds/agge.mp3");
+var successSound6 = new Audio("sounds/emma.mp3");
+var successSound7 = new Audio("sounds/baljan.mp3");
+
 var errorSound = new Audio("sounds/error.wav");
 
 // ID of the reset timeout. Is used for detecting when success/failed screen is
@@ -102,10 +108,20 @@ function successfulAnimation(data, textStatus) {
 
     //Play success sound
     successChooser = Math.random()
-    if (successChooser > 0.5){
-        successSound.play();
-    } else {
+    if (successChooser < 0.1){
+        successSound1.play();
+    } else if (successChooser < 0.2){
         successSound2.play();
+    } else if (successChooser < 0.3){
+        successSound3.play();
+    } else if (successChooser < 0.4){
+        successSound4.play();
+    } else if (successChooser < 0.55){
+        successSound5.play();
+    } else if (successChooser < 0.7){
+        successSound6.play();
+    } else {
+        successSound7.play();
     }
 
     //Change the background color

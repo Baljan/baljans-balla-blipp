@@ -100,7 +100,7 @@ function successfulAnimation(data, textStatus) {
 
     //Play success sound
     successSound.play();
-    }
+
 
     //Change the background color
     $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic');

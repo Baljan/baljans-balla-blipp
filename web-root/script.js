@@ -1,5 +1,5 @@
 //Background colors
-var defaultBg = "#ffc0cb";
+var defaultBg = "#00aae4";
 var redBg = "#820C0C";
 var greenBg = "rgb(0, 165, 76)";
 

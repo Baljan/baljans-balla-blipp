@@ -99,7 +99,7 @@ function successfulAnimation(data, textStatus) {
     console.log("Successful blipp with status: " + textStatus);
 
     //Play success sound
-    successSound.play()
+    successSound.play();
 
     //Change the background color
     $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic');

@@ -16,6 +16,18 @@ let callAfterReset = null;
 // current audio playing
 let currentAudio = null;
 
+// token for auth
+const token = Cookies.get("token");
+if (!token) {
+  const tokenPromptValue = window.prompt(
+    "Enter the API token for this location."
+  );
+  if (tokenPromptValue) {
+    Cookies.set("token", tokenPromptValue);
+  }
+  location.reload();
+}
+
 // Elements
 const rfidInput = document.getElementById("rfid");
 const rfidForm = document.getElementById("form");
@@ -102,9 +114,6 @@ rfidForm.addEventListener("submit", function (event) {
   const rfid = rfidInput.value;
 
   // console.log("Sending blipp request for id: " + rfid);
-
-  // token for auth
-  const token = Cookies.get("token") || "no-token";
 
   // Only send request in live environment.
   if (SEND_BLIPP) {

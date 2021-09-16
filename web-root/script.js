@@ -17,6 +17,8 @@ let callAfterReset = null;
 let currentAudio = null;
 
 // token for auth
+
+Cookies.remove("token");
 const token = Cookies.get("token");
 /*if (!token) {
   const tokenPromptValue = window.prompt(

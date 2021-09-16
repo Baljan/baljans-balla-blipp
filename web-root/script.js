@@ -18,7 +18,7 @@ let currentAudio = null;
 
 // token for auth
 const token = Cookies.get("token");
-if (!token) {
+/*if (!token) {
   const tokenPromptValue = window.prompt(
     "Enter the API token for this location."
   );
@@ -26,7 +26,7 @@ if (!token) {
     Cookies.set("token", tokenPromptValue);
   }
   location.reload();
-}
+}*/
 
 // Elements
 const rfidInput = document.getElementById("rfid");

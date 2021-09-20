@@ -200,7 +200,7 @@ function statusAnimation(options) {
   currentAudio.play();
 
   // Set status text
-  statusMessage.innerText = options.message || "Ett fel inträffade";
+  statusMessage.innerHTML = options.message || "Ett fel inträffade";
   // Set status icon
   statusIcon.innerHTML = "";
   if (options.icon instanceof Image) {

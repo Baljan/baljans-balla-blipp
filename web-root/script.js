@@ -17,9 +17,6 @@ let callAfterReset = null;
 let currentAudio = null;
 
 // token for auth
-
-Cookies.remove("token");
-const token = Cookies.get("token");
 /*if (!token) {
   const tokenPromptValue = window.prompt(
     "Enter the API token for this location."
@@ -117,6 +114,7 @@ rfidForm.addEventListener("submit", function (event) {
 
   // console.log("Sending blipp request for id: " + rfid);
 
+  const token = Cookies.get("token");
   // Only send request in live environment.
   if (SEND_BLIPP) {
     // TODO: change to fetch API

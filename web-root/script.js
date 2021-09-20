@@ -19,13 +19,19 @@ let currentAudio = null;
 const urlParams = new URLSearchParams(window.location.search);
 const isPWA = urlParams.get("pwa") !== null;
 
-// token for auth
+// token for auth in PWA version, saved in localStorage as cookies are time-limited on iOS.
 if (isPWA && !Cookies.get("token")) {
-  const tokenPromptValue = window.prompt(
-    "Enter the API token for this location."
-  );
-  if (tokenPromptValue) {
-    Cookies.set("token", tokenPromptValue);
+  const lsToken = localStorage.getItem("token");
+  if (!lsToken) {
+    const tokenPromptValue = window.prompt(
+      "Enter the API token for this location."
+    );
+    if (tokenPromptValue) {
+      Cookies.set("token", tokenPromptValue);
+      localStorage.setItem("token", tokenPromptValue);
+    }
+  } else {
+    Cookies.set("token", lsToken);
   }
 }
 

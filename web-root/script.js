@@ -182,7 +182,10 @@ function failedBlipp(data) {
       textColor: theme.errorTextColor,
       icon: theme.errorIcon,
       delay: errorDelay,
-      message: data && data["message"] ? data["message"] : undefined,
+      message:
+        data && data["responseJSON"] && data["responseJSON"]["message"]
+          ? data["responseJSON"]["message"]
+          : undefined,
     })
   );
 }

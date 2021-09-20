@@ -1,0 +1,19 @@
+{
+  "name": "Baljans Balla Blipp",
+  "icons": [
+    {
+      "src": "/images/pwa-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/pwa-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/?pwa",
+  "background_color": "#ffffff",
+  "theme_color": "#00aae4",
+  "display": "standalone"
+}

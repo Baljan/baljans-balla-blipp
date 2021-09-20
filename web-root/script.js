@@ -1,189 +1,249 @@
-//Background colors
-var defaultBg = "#00aae4";
-var redBg = "#820C0C";
-var greenBg = "rgb(0, 165, 76)";
+// Change when testing visuals on local machine
+const SEND_BLIPP = true;
+
+const theme = selectTheme();
 
 //Animation times
-var transitionTime = 300;
-var errorDelay = 2300;
-var successDelay = 2300;
-
-//Text colors
-var defaultColor = "#f70079";
-var greenColor = "#00F771";
-var redColor = "#FF2b2b";
-var infoColor = "#333333";
-
-var successSound = new Audio("sounds/success.wav");
-var errorSound = new Audio("sounds/error.wav");
+const transitionTime = 300;
+const errorDelay = 2300;
+const successDelay = 2300;
 
 // ID of the reset timeout. Is used for detecting when success/failed screen is
 //displayed and when to abort that if needed.
-var resetTimeout = -1;
+let resetTimeout = -1;
 // Function that should be called when the reset has been done
-var callAfterReset = null;
+let callAfterReset = null;
+// current audio playing
+let currentAudio = null;
 
-//Never lose focus (by drinking a lot of coffee)
-$(function () {
-  $("#rfid").focus();
-});
-$("#rfid").blur(function(){
-  $("#rfid").focus();
-});
+const urlParams = new URLSearchParams(window.location.search);
+const isPWA = urlParams.get("pwa") !== null;
 
-$(document).ready(function(){
-  //Hide after load to ensure that the icons are loaded
-  $("#icon-success, #icon-failure").hide();
-});
+// token for auth
+if (isPWA && !Cookies.get("token")) {
+  const tokenPromptValue = window.prompt(
+    "Enter the API token for this location."
+  );
+  if (tokenPromptValue) {
+    Cookies.set("token", tokenPromptValue);
+  }
+}
 
-//When the scanner has written the rfid code
-$("#form").submit(function (event) {
-    // If the success / failed screen is active
-    if(resetTimeout !== -1){
-      clearTimeout(resetTimeout);
-      resetBlipp();
+// Elements
+const rfidInput = document.getElementById("rfid");
+const rfidForm = document.getElementById("form");
+const maindiv = document.getElementById("maindiv");
+const statusMessage = document.getElementById("status-message");
+const statusIcon = document.getElementById("status-icon");
+const snowflakes = document.getElementById("snowflakes");
+const root = document.documentElement;
+
+// Get random element from a list
+function getRandomElement(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function getRandomNumberBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// Focus the RFID input element
+function focusInput() {
+  rfidInput.focus();
+}
+
+// Never lose focus (by drinking a lot of coffee)
+window.addEventListener("load", focusInput);
+rfidInput.addEventListener("blur", focusInput);
+
+// Reset color variables for displaying default view
+function resetColors() {
+  root.style.setProperty("--background-color", theme.defaultBackground);
+  root.style.setProperty("--main-title-color", theme.defaultTextColor);
+  root.style.setProperty("--text-color", theme.infoTextColor);
+  root.style.setProperty("--github-color", theme.infoTextColor);
+}
+// set default colors
+resetColors();
+
+// Add snowflakes according to theme
+if (theme.snowflakes) {
+  const range = [...Array(10).keys()]; // array of [0, ..., 9]
+
+  const flakes = range.map((i) => {
+    const flake = document.createElement("div");
+    const flakeInner = document.createElement("div");
+    flake.classList.add("snowflake");
+    const flakeInput = theme.snowflakes[i % theme.snowflakes.length];
+    if (flakeInput instanceof Image) {
+      flakeInner.appendChild(flakeInput.cloneNode());
+    } else {
+      flakeInner.innerText = flakeInput;
     }
+    flake.appendChild(flakeInner);
 
-    var rfid = $("#rfid").val();
+    // TODO: snowflake size variation??
+    // set snowflake specific CSS values.
+    const fallSpeed = getRandomNumberBetween(7, 12);
+    const shakeSpeed = getRandomNumberBetween(2.5, 3.5);
+    const fallDelay = getRandomNumberBetween(0, fallSpeed);
+    const shakeDelay = getRandomNumberBetween(0, shakeSpeed);
+    flake.style.setProperty("--fall-speed", `${fallSpeed}s`);
+    flake.style.setProperty("--shake-speed", `${shakeSpeed}s`);
+    // Negative delays for instant start.
+    flake.style.setProperty("--fall-delay", `-${fallDelay}s`);
+    flake.style.setProperty("--shake-delay", `-${shakeDelay}s`);
 
-    console.log("Sending blipp request for id: " + rfid);
+    return flake;
+  });
 
-    var token = Cookies.get('token') || 'no-token';
-    var request = $.ajax({
-        url: "https://www.baljan.org/baljan/do-blipp",
-        method: "POST",
-        headers: {
-            "Authorization": "Token " + token
+  snowflakes.innerHTML = "";
+  snowflakes.append(...flakes);
+}
+
+// When the scanner has written the rfid code
+rfidForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  // If the success / failed screen is active
+  if (resetTimeout !== -1) {
+    clearTimeout(resetTimeout);
+    resetBlipp();
+  }
+
+  // LiU-card number (or whatever user configured)
+  const rfid = rfidInput.value;
+
+  // console.log("Sending blipp request for id: " + rfid);
+
+  const token = Cookies.get("token");
+  // Only send request in live environment.
+  if (SEND_BLIPP) {
+    // TODO: change to fetch API
+    $.ajax({
+      url: "https://www.baljan.org/baljan/do-blipp",
+      method: "POST",
+      headers: {
+        Authorization: "Token " + token,
+      },
+      data: { id: rfid },
+      dataType: "json",
+      success: successfulBlipp,
+      error: failedBlipp,
+    });
+  } else {
+    // Debug only
+    if (rfid !== "") {
+      successfulBlipp(
+        {
+          message: "Bra blipp " + rfid,
         },
-        data: { id : rfid },
-        dataType: "json",
-        success : successfulBlipp,
-        error: failedBlipp
-    });
+        "success"
+      );
+    } else {
+      failedBlipp({}, "error");
+    }
+  }
 
-    //Clear input
-    $("#rfid").val("");
-    $("#rfid").prop('disabled', true);
-
-    event.preventDefault();
+  // Clear input
+  rfidInput.value = "";
+  rfidInput.setAttribute("disabled", true);
 });
 
-function successfulBlipp(data, textStatus){
-  if(resetTimeout === -1){
+// If a status message is being shown, delay function call.
+function delayUntilReset(func) {
+  if (resetTimeout === -1) {
     // Call instantly
-    successfulAnimation(data, textStatus);
-  }
-  else{
+    func();
+  } else {
     // Wait to after the reset animation has finished
-    callAfterReset = function(){
-      successfulAnimation(data, textStatus);
-    }
+    callAfterReset = func;
   }
 }
 
-function failedBlipp(data, textStatus){
-  if(resetTimeout === -1){
-    // Call instantly
-    failedAnimation(data, textStatus);
+function successfulBlipp(data) {
+  delayUntilReset(() =>
+    statusAnimation({
+      sounds: theme.successSounds,
+      backgroundColor: theme.successBackground,
+      textColor: theme.successTextColor,
+      icon: theme.successIcon,
+      delay: successDelay,
+      message: data && data["message"] ? data["message"] : undefined,
+    })
+  );
+}
+
+function failedBlipp(data) {
+  delayUntilReset(() =>
+    statusAnimation({
+      sounds: theme.errorSounds,
+      backgroundColor: theme.errorBackground,
+      textColor: theme.errorTextColor,
+      icon: theme.errorIcon,
+      delay: errorDelay,
+      message: data && data["message"] ? data["message"] : undefined,
+    })
+  );
+}
+
+function statusAnimation(options) {
+  // TODO: purpose of "easeOutCubic" vs no ease??
+  // should error be more aggressive?
+
+  // Play status sound (and cancel previous playback)
+  if (currentAudio && !currentAudio.isPaused) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
   }
-  else{
-    // Wait to after the reset animation has finished
-    callAfterReset = function(){
-      failedAnimation(data, textStatus);
-    }
+  currentAudio = getRandomElement(options.sounds);
+  currentAudio.play();
+
+  // Set status text
+  statusMessage.innerText = options.message || "Ett fel inträffade";
+  // Set status icon
+  statusIcon.innerHTML = "";
+  if (options.icon instanceof Image) {
+    statusIcon.appendChild(options.icon);
+  } else if (options.icon.startsWith("glyphicon-")) {
+    const iconElem = document.createElement("div");
+    iconElem.classList.add("glyphicon", options.icon);
+    statusIcon.appendChild(iconElem);
+  } else {
+    statusIcon.innerText = options.icon;
   }
+
+  // Set colors
+  root.style.setProperty("--background-color", options.backgroundColor);
+  root.style.setProperty("--main-title-color", options.textColor);
+  root.style.setProperty("--text-color", options.textColor);
+  root.style.setProperty("--status-text-color", options.textColor); // should not be reset on resetColors
+
+  // maindiv gets a class while showing status message.
+  maindiv.classList.add("showing-status");
+
+  // Re-enable form
+  setTimeout(() => {
+    rfidInput.removeAttribute("disabled");
+    focusInput();
+  }, transitionTime);
+
+  // Make sure form resets
+  resetTimeout = setTimeout(resetBlipp, options.delay);
 }
 
-function successfulAnimation(data, textStatus) {
-    // Some debugging
-    console.log("Successful blipp with status: " + textStatus);
+function resetBlipp() {
+  resetColors();
 
-    //Play success sound
-    successSound.play();
+  maindiv.classList.remove("showing-status");
 
-    //Change the background color
-    $("body").transition({backgroundColor: greenBg}, transitionTime, 'easeOutCubic');
-
-    //Animate the success icon
-    $("#icon-success").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic');
-
-    //Change the color of the main text to match the other text colors
-    $("h1").transition({color: greenColor}, transitionTime, 'easeOutCubic');
-    $("#info-text").transition({color: greenColor}, transitionTime);
-
-    // Move all (most) content up
-    $("#maindiv").transition({ y: '-28%' }, transitionTime, 'easeOutCubic', function(){
-      $("#rfid").prop('disabled', false);
-      $("#rfid").focus();
-    });
-
-    $("h2").css({color: greenColor});
-
-    if(data && data["message"]){
-        $("#balance-message h2").html(data["message"]);
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime, 'easeOutCubic');
-    } else {
-        $("#balance-message h2").text("Ett fel inträffade");
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
-    }
-
-    resetTimeout = setTimeout(resetBlipp, successDelay);
-}
-
-function failedAnimation(data, textStatus){
-    // Some debuging
-    console.log("Failed blipp with status: " + textStatus);
-
-    //Play error sound
-    errorSound.play();
-
-    var data = data.responseJSON;
-
-    //Change the background color
-    $("body").transition({backgroundColor: redBg}, transitionTime);
-
-    //Change the color of the main text to match the other text colors
-    $("h1").transition({color: redColor}, transitionTime);
-    $("#info-text").transition({color: redColor}, transitionTime);
-
-    //Animate the error icon
-    $("#icon-failure").show(0).transition({ opacity: 1 }, transitionTime);
-
-    // Move all (most) content up
-    $("#maindiv").transition({ y: '-28%' }, transitionTime, function(){
-      $("#rfid").prop('disabled', false);
-      $("#rfid").focus();
-    });
-
-    //Change the color of the main text to match the other text colors
-    $("h2").css({color: redColor});
-
-    if(data && data["message"]){
-        $("#balance-message h2").text(data["message"]);
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
-    } else {
-        $("#balance-message h2").text("Ett fel inträffade");
-        $("#balance-message").show(0).transition({ opacity: 1 }, transitionTime);
-    }
-
-    resetTimeout = setTimeout(resetBlipp, errorDelay);
-}
-
-function resetBlipp(){
-  $("body").transition({backgroundColor: defaultBg}, transitionTime, 'easeOutCubic');
-  $("#icon-success").transition({ opacity: 0 }, transitionTime, 'easeOutCubic').hide(0);
-  $("#icon-failure").transition({ opacity: 0 }, transitionTime).hide(0);
-  $("h1").transition({color: defaultColor}, transitionTime, 'easeOutCubic');
-  $("#info-text").transition({color: infoColor}, transitionTime, 'easeOutCubic');
-  $("#maindiv").transition({ y: '0px' }, transitionTime, 'easeOutCubic');
-
-  $("#balance-message").transition({ opacity: 0 }, transitionTime, function(){
+  setTimeout(() => {
     resetTimeout = -1;
 
     // Called when reset is completed
-    if(callAfterReset){
+    if (callAfterReset) {
       callAfterReset();
       callAfterReset = null;
     }
-  });
+  }, transitionTime);
 }

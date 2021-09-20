@@ -16,16 +16,18 @@ let callAfterReset = null;
 // current audio playing
 let currentAudio = null;
 
+const urlParams = new URLSearchParams(window.location.search);
+const isPWA = urlParams.get("pwa") !== null;
+
 // token for auth
-/*if (!token) {
+if (isPWA && !Cookies.get("token")) {
   const tokenPromptValue = window.prompt(
     "Enter the API token for this location."
   );
   if (tokenPromptValue) {
     Cookies.set("token", tokenPromptValue);
   }
-  location.reload();
-}*/
+}
 
 // Elements
 const rfidInput = document.getElementById("rfid");

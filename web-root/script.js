@@ -1,7 +1,9 @@
-// Change when testing visuals on local machine
-const SEND_BLIPP = true;
+const urlParams = new URLSearchParams(window.location.search);
+const isPWA = urlParams.get("pwa") !== null;
+const isTestingEnvironment = urlParams.get("testing") !== null;
+const overrideTheme = urlParams.get("theme");
 
-const theme = selectTheme();
+const theme = selectTheme(overrideTheme);
 
 //Animation times
 const transitionTime = 300;
@@ -15,9 +17,6 @@ let resetTimeout = -1;
 let callAfterReset = null;
 // current audio playing
 let currentAudio = null;
-
-const urlParams = new URLSearchParams(window.location.search);
-const isPWA = urlParams.get("pwa") !== null;
 
 // token for auth in PWA version, saved in localStorage as cookies are time-limited on iOS.
 if (isPWA && !Cookies.get("token")) {
@@ -124,7 +123,7 @@ rfidForm.addEventListener("submit", function (event) {
 
   const token = Cookies.get("token");
   // Only send request in live environment.
-  if (SEND_BLIPP) {
+  if (!isTestingEnvironment) {
     // TODO: change to fetch API
     $.ajax({
       url: "https://www.baljan.org/baljan/do-blipp",

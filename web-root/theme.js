@@ -1,4 +1,7 @@
 class BaseTheme {
+  // Unique name for theme
+  static name = "base";
+
   // ---
   // Colors
   // ---
@@ -58,6 +61,7 @@ class BaseTheme {
 }
 
 class ChristmasTheme extends BaseTheme {
+  static name = "christmas";
   successIcon = "glyphicon-tree-conifer";
   snowflakes = ["❆", "❅"];
   defaultBackground = "#d42426";
@@ -76,6 +80,7 @@ class ChristmasTheme extends BaseTheme {
 }
 
 class ValentineTheme extends BaseTheme {
+  static name = "valentine";
   successIcon = "💖";
   errorIcon = "💔";
   snowflakes = ["❤", "💕", "❤", "💘", "😘", "❤", "💘", "❤", "❥", "☕"];
@@ -98,6 +103,7 @@ class ValentineTheme extends BaseTheme {
 }
 
 class SemlaTheme extends BaseTheme {
+  static name = "semla";
   constructor() {
     super();
     const semla = new Image();
@@ -118,6 +124,7 @@ class SemlaTheme extends BaseTheme {
 }
 
 class KanelbulleTheme extends BaseTheme {
+  static name = "kanelbulle";
   constructor() {
     super();
     const bulle = new Image();
@@ -135,9 +142,14 @@ class KanelbulleTheme extends BaseTheme {
 // Add any active themes to this list.
 const themes = [ChristmasTheme, ValentineTheme, SemlaTheme, KanelbulleTheme];
 
-function selectTheme() {
+function selectTheme(override) {
+  const OverrideTheme = themes.find((theme) => override === theme.name);
+  if (OverrideTheme) {
+    return new OverrideTheme();
+  }
+
   const Theme = themes.find((theme) => theme.shouldApplyToday()) || BaseTheme;
-  
+
   // init instance here to not initialize unnecessary resources.
   return new Theme();
 }

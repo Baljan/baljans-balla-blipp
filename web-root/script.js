@@ -37,7 +37,6 @@ if (isPWA && !Cookies.get("token")) {
 // Elements
 const rfidInput = document.getElementById("rfid");
 const rfidForm = document.getElementById("form");
-const maindiv = document.getElementById("maindiv");
 const statusMessage = document.getElementById("status-message");
 const statusIcon = document.getElementById("status-icon");
 const snowflakes = document.getElementById("snowflakes");
@@ -61,6 +60,18 @@ function focusInput() {
 window.addEventListener("load", focusInput);
 rfidInput.addEventListener("blur", focusInput);
 
+// Reload every day
+const pageLoadedAt = new Date().toDateString();
+window.addEventListener(
+  "focus",
+  () => {
+    if (new Date().toDateString() !== pageLoadedAt) {
+      window.location.reload();
+    }
+  },
+  false
+);
+
 // Reset color variables for displaying default view
 function resetColors() {
   root.style.setProperty("--background-color", theme.defaultBackground);
@@ -73,6 +84,8 @@ resetColors();
 
 // Add snowflakes according to theme
 if (theme.snowflakes) {
+  root.style.setProperty("--snowflake-size", theme.snowflakeSize);
+
   const range = [...Array(10).keys()]; // array of [0, ..., 9]
 
   const flakes = range.map((i) => {
@@ -104,6 +117,12 @@ if (theme.snowflakes) {
 
   snowflakes.innerHTML = "";
   snowflakes.append(...flakes);
+}
+
+// Add background according to theme
+if (theme.backgroundImage) {
+  console.log("cool", theme.backgroundImage.src);
+  document.body.style.backgroundImage = `ùrl(${theme.backgroundImage.src})`;
 }
 
 // When the scanner has written the rfid code
@@ -141,7 +160,7 @@ rfidForm.addEventListener("submit", function (event) {
     if (rfid !== "") {
       successfulBlipp(
         {
-          message: "Bra blipp " + rfid,
+          message: "Testar blippen: " + rfid,
         },
         "success"
       );
@@ -172,7 +191,7 @@ function successfulBlipp(data) {
       sounds: theme.successSounds,
       backgroundColor: theme.successBackground,
       textColor: theme.successTextColor,
-      icon: theme.successIcon,
+      icons: theme.successIcons,
       delay: successDelay,
       message: data && data["message"] ? data["message"] : undefined,
     })
@@ -185,7 +204,7 @@ function failedBlipp(data) {
       sounds: theme.errorSounds,
       backgroundColor: theme.errorBackground,
       textColor: theme.errorTextColor,
-      icon: theme.errorIcon,
+      icons: theme.errorIcons,
       delay: errorDelay,
       message:
         data && data["responseJSON"] && data["responseJSON"]["message"]
@@ -207,18 +226,19 @@ function statusAnimation(options) {
   currentAudio = getRandomElement(options.sounds);
   currentAudio.play();
 
+  const currentIcon = getRandomElement(options.icons);
   // Set status text
   statusMessage.innerHTML = options.message || "Ett fel inträffade";
   // Set status icon
   statusIcon.innerHTML = "";
-  if (options.icon instanceof Image) {
-    statusIcon.appendChild(options.icon);
-  } else if (options.icon.startsWith("glyphicon-")) {
+  if (currentIcon instanceof Image) {
+    statusIcon.appendChild(currentIcon);
+  } else if (currentIcon.startsWith("glyphicon-")) {
     const iconElem = document.createElement("div");
-    iconElem.classList.add("glyphicon", options.icon);
+    iconElem.classList.add("glyphicon", currentIcon);
     statusIcon.appendChild(iconElem);
   } else {
-    statusIcon.innerText = options.icon;
+    statusIcon.innerText = currentIcon;
   }
 
   // Set colors
@@ -227,8 +247,8 @@ function statusAnimation(options) {
   root.style.setProperty("--text-color", options.textColor);
   root.style.setProperty("--status-text-color", options.textColor); // should not be reset on resetColors
 
-  // maindiv gets a class while showing status message.
-  maindiv.classList.add("showing-status");
+  // body gets a class while showing status message.
+  document.body.classList.add("showing-status");
 
   // Re-enable form
   setTimeout(() => {
@@ -243,7 +263,7 @@ function statusAnimation(options) {
 function resetBlipp() {
   resetColors();
 
-  maindiv.classList.remove("showing-status");
+  document.body.classList.remove("showing-status");
 
   setTimeout(() => {
     resetTimeout = -1;

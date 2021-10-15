@@ -77,7 +77,7 @@ function resetColors() {
   root.style.setProperty("--background-color", theme.defaultBackground);
   root.style.setProperty("--main-title-color", theme.defaultTextColor);
   root.style.setProperty("--text-color", theme.infoTextColor);
-  root.style.setProperty("--github-color", theme.infoTextColor);
+  root.style.setProperty("--github-color", theme.githubColor);
 }
 // set default colors
 resetColors();

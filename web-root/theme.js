@@ -14,6 +14,7 @@ class BaseTheme {
   successTextColor = "#00F771";
   errorTextColor = "#FF2b2b";
   infoTextColor = "#333333";
+  githubColor = "#333333";
 
   // ---
   // Background image
@@ -147,6 +148,10 @@ class RecruitingTheme extends BaseTheme {
   snowflakeSize = 0.4;
 
   successSounds = [new Audio("sounds/cykelklocka.wav")];
+
+  defaultBackground = "#f70079";
+  defaultTextColor = "#00aae4";
+  infoTextColor = "#fff";
 
   constructor() {
     super();

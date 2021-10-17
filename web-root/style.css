@@ -64,12 +64,13 @@ h1 {
 #status {
   position: absolute;
   top: 0;
-  bottom: 20%;
+  bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   justify-content: end;
   flex-direction: column;
+  margin-bottom: 20%;
 }
 
 #status-message {

@@ -58,6 +58,8 @@ function focusInput() {
 
 // Never lose focus (by drinking a lot of coffee)
 window.addEventListener("load", focusInput);
+window.addEventListener("click", focusInput);
+window.addEventListener("focus", focusInput);
 rfidInput.addEventListener("blur", focusInput);
 
 // Reload every day

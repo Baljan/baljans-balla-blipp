@@ -18,9 +18,20 @@ body {
   overflow: hidden;
 }
 
-#maindiv {
-  margin-top: 22%;
+#content {
   transition: transform ease-out 0.3s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.showing-status #content {
+  transform: translateY(-10%);
 }
 
 h1 {
@@ -43,6 +54,22 @@ h1 {
   display: block;
   text-align: center;
   max-width: 900px;
+  transition: opacity ease-out 0.3s;
+}
+
+.showing-status #content .info-text {
+  opacity: 0;
+}
+
+#status {
+  position: absolute;
+  top: 0;
+  bottom: 20%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
 }
 
 #status-message {
@@ -57,23 +84,21 @@ h1 {
 }
 
 #status-icon {
+  max-height: 24rem;
   margin-bottom: -20px;
-  font-size: 250px;
+  font-size: 18rem;
   text-align: center;
   opacity: 0;
   transition: opacity ease-out 0.3s;
 }
 
 #status-icon > * {
+  max-height: 100%;
   display: block;
   color: var(--status-text-color);
   transition: color ease-out 0.3s;
   max-width: 400px;
   margin: auto;
-}
-
-.showing-status {
-  transform: translateY(-25%);
 }
 
 .showing-status #status-icon,
@@ -113,10 +138,10 @@ h1 {
 
 @keyframes snowflakes-fall {
   0% {
-    transform: translateY(-100px);
+    transform: translateY(-100px) scale(var(--snowflake-size));
   }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(100vh) scale(var(--snowflake-size));
   }
 }
 
@@ -137,8 +162,8 @@ h1 {
   color: #fff;
   font-size: 5em;
   max-width: 100px;
-  font-family: Arial;
-  text-shadow: 0 0 1px #000;
+  max-height: 100px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   transform-origin: center;
   animation-name: snowflakes-shake;

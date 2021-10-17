@@ -14,6 +14,7 @@ class BaseTheme {
   successTextColor = "#00F771";
   errorTextColor = "#FF2b2b";
   infoTextColor = "#333333";
+  githubColor = "#333333";
 
   // ---
   // Background image
@@ -41,6 +42,7 @@ class BaseTheme {
   // snowflakes = ["❄️", "❅", new Image("images/snowflake.png")];
   // No snowflakes:
   snowflakes = null;
+  snowflakeSize = 1;
   // TODO: alternate size of flakes?
 
   // ---
@@ -50,8 +52,8 @@ class BaseTheme {
   // - Image object
   // - string with "glyphicon-" prefix for glyphicon
   // - string with text to display (probably emoji)
-  successIcon = "glyphicon-ok";
-  errorIcon = "glyphicon-remove";
+  successIcons = ["glyphicon-ok"];
+  errorIcons = ["glyphicon-remove"];
 
   // Conditional to decide whether to automatically apply this theme.
   // Will not guarantee application over higher priority themes.
@@ -62,7 +64,7 @@ class BaseTheme {
 
 class ChristmasTheme extends BaseTheme {
   static name = "christmas";
-  successIcon = "glyphicon-tree-conifer";
+  successIcons = ["glyphicon-tree-conifer"];
   snowflakes = ["❆", "❅"];
   defaultBackground = "#d42426";
   greenBg = "#18802b";
@@ -81,8 +83,8 @@ class ChristmasTheme extends BaseTheme {
 
 class ValentineTheme extends BaseTheme {
   static name = "valentine";
-  successIcon = "💖";
-  errorIcon = "💔";
+  successIcons = ["💖"];
+  errorIcons = ["💔"];
   snowflakes = ["❤", "💕", "❤", "💘", "😘", "❤", "💘", "❤", "❥", "☕"];
   defaultBackground = "#ffc0cb";
   successSounds = [
@@ -108,7 +110,7 @@ class SemlaTheme extends BaseTheme {
     super();
     const semla = new Image();
     semla.src = "images/semla.png";
-    this.successIcon = semla;
+    this.successIcons = [semla];
     this.snowflakes = [semla]; // TODO: alternating size??
   }
 
@@ -129,7 +131,7 @@ class KanelbulleTheme extends BaseTheme {
     super();
     const bulle = new Image();
     bulle.src = "images/kanelbulle.png";
-    this.successIcon = bulle;
+    this.successIcons = [bulle];
     this.snowflakes = [bulle];
   }
 
@@ -139,8 +141,64 @@ class KanelbulleTheme extends BaseTheme {
   }
 }
 
+class RecruitingTheme extends BaseTheme {
+  static name = "recruiting";
+
+  snowflakes = ["Sök", "Styrelsen"];
+  snowflakeSize = 0.4;
+
+  successSounds = [new Audio("sounds/cykelklocka.wav")];
+
+  defaultBackground = "#f70079";
+  defaultTextColor = "#00aae4";
+  infoTextColor = "#fff";
+
+  constructor() {
+    super();
+
+    const styrelsen = [
+      "Albin",
+      "Alma",
+      "Astapasta",
+      "Emil",
+      "Emma",
+      "Frida",
+      "Janne",
+      "Jesper",
+      "Josephine",
+      "Julia",
+      "Klara",
+      "Lasse",
+      "Lukas",
+      "LUKKEP",
+      "Nico",
+      "Oliver",
+      "Rosanna",
+      "Uno",
+    ];
+
+    const styrelsenImages = shuffle(styrelsen).map((name) => {
+      const person = new Image();
+      person.src = `images/styret-ht21/${name}.png`;
+      return person;
+    });
+
+    this.successIcons = styrelsenImages;
+  }
+
+  static shouldApplyToday() {
+    return false;
+  }
+}
+
 // Add any active themes to this list.
-const themes = [ChristmasTheme, ValentineTheme, SemlaTheme, KanelbulleTheme];
+const themes = [
+  ChristmasTheme,
+  ValentineTheme,
+  SemlaTheme,
+  KanelbulleTheme,
+  RecruitingTheme,
+];
 
 function selectTheme(override) {
   const OverrideTheme = themes.find((theme) => override === theme.name);
@@ -180,4 +238,13 @@ function getSemlaDay(year) {
   // Semmeldagen is 46 days before easter (which somehow means subtract 47 days)
   semlaDate.setDate(easterDate.getDate() - 47);
   return semlaDate;
+}
+
+function shuffle(arr) {
+  const newArr = arr.slice();
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const rand = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
+  }
+  return newArr;
 }

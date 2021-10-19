@@ -144,8 +144,8 @@ class KanelbulleTheme extends BaseTheme {
 class RecruitingTheme extends BaseTheme {
   static name = "recruiting";
 
-  snowflakes = ["Sök", "Styrelsen"];
-  snowflakeSize = 0.4;
+  snowflakes = ["Sök", "Baljanstyret"];
+  snowflakeSize = 0.5;
 
   successSounds = [new Audio("sounds/cykelklocka.wav")];
 
@@ -187,7 +187,8 @@ class RecruitingTheme extends BaseTheme {
   }
 
   static shouldApplyToday() {
-    return false;
+    const date = new Date();
+    return date.getMonth() === 9 && date.getFullYear() === 2021;
   }
 }
 

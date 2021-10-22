@@ -175,6 +175,9 @@ class RecruitingTheme extends BaseTheme {
       "Oliver",
       "Rosanna",
       "Uno",
+      "Henke",
+      "Filippa",
+      "Axel",
     ];
 
     const styrelsenImages = shuffle(styrelsen).map((name) => {

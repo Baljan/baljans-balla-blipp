@@ -194,6 +194,27 @@ class RecruitingTheme extends BaseTheme {
     return date.getMonth() === 9 && date.getFullYear() === 2021;
   }
 }
+class KaffekrokTheme extends BaseTheme {
+  static name = "kaffekrok";
+
+  constructor() {
+    super();
+
+    const img = new Image();
+    img.src = "images/kaffekrok.png";
+
+    this.successIcons = [img];
+  }
+
+  static shouldApplyToday() {
+    const date = new Date();
+    return (
+      date.getMonth() === 10 &&
+      date.getDate() === 18 &&
+      date.getFullYear() === 2021
+    );
+  }
+}
 
 // Add any active themes to this list.
 const themes = [
@@ -202,6 +223,7 @@ const themes = [
   SemlaTheme,
   KanelbulleTheme,
   RecruitingTheme,
+  KaffekrokTheme,
 ];
 
 function selectTheme(override) {

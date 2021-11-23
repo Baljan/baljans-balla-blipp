@@ -72,7 +72,7 @@ class ChristmasTheme extends BaseTheme {
   successTextColor = "#ffffff";
   errorTextColor = "#ffffff";
   infoTextColor = "rgba(240,240,240, 0.7)";
-  successSounds = [new Audio("sounds/christmas-success.wav")];
+  successSounds = [new Audio("sounds/christmas-success.wav"), new Audio("sounds/merry-christmas.mp3")];
 
   static shouldApplyToday() {
     const date = new Date();

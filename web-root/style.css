@@ -105,11 +105,18 @@ h1 {
   opacity: 1;
 }
 
-#github {
-  font-size: 16pt;
+#footer {
   position: absolute;
   left: 15px;
   bottom: 15px;
+  right: 15px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#github {
+  font-size: 16pt;
   color: var(--github-color);
 }
 #github img {
@@ -117,6 +124,31 @@ h1 {
 }
 #github span {
   vertical-align: text-top;
+}
+
+@keyframes rotating {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#loader {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 6px solid var(--github-color);
+  border-top: 6px solid transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: rotating 1.2s infinite linear;
+}
+
+#loader.loading {
+  /* 
+  delay makes it only come in if loading is slow
+  by putting it in .loading it only delays when class is added.
+  */
+  transition-delay: 0.5s;
+  opacity: 1;
 }
 
 /* customizable snowflake styling */

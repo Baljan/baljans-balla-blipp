@@ -40,6 +40,7 @@ const rfidForm = document.getElementById("form");
 const statusMessage = document.getElementById("status-message");
 const statusIcon = document.getElementById("status-icon");
 const snowflakes = document.getElementById("snowflakes");
+const loader = document.getElementById("loader");
 const root = document.documentElement;
 
 // Get random element from a list
@@ -73,6 +74,15 @@ window.addEventListener(
   },
   false
 );
+
+// update loading state
+function setLoading(state) {
+  if (state) {
+    loader.classList.add("loading");
+  } else {
+    loader.classList.remove("loading");
+  }
+}
 
 // Reset color variables for displaying default view
 function resetColors() {
@@ -140,7 +150,7 @@ rfidForm.addEventListener("submit", function (event) {
   // LiU-card number (or whatever user configured)
   const rfid = rfidInput.value;
 
-  // console.log("Sending blipp request for id: " + rfid);
+  setLoading(true);
 
   const token = Cookies.get("token");
   // Only send request in live environment.
@@ -217,8 +227,7 @@ function failedBlipp(data) {
 }
 
 function statusAnimation(options) {
-  // TODO: purpose of "easeOutCubic" vs no ease??
-  // should error be more aggressive?
+  setLoading(false);
 
   // Play status sound (and cancel previous playback)
   if (currentAudio && !currentAudio.isPaused) {

@@ -1,0 +1,36 @@
+.statusScreen {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-position: center;
+  background-size: cover;
+}
+
+.message {
+  margin: 2rem;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.icon {
+  position: relative;
+  height: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 15rem;
+  line-height: 1;
+}
+
+.icon > * {
+  max-height: 100%;
+  max-width: 400px;
+  display: block;
+}

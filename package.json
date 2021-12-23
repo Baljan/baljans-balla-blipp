@@ -1,0 +1,27 @@
+{
+  "name": "baljans-balla-blipp",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/js-cookie": "^3.0.1",
+    "axios": "^0.24.0",
+    "framer-motion": "^5.5.5",
+    "js-cookie": "^3.0.1",
+    "next": "12.0.7",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.2",
+    "@types/react": "17.0.37",
+    "eslint": "8.5.0",
+    "eslint-config-next": "12.0.7",
+    "typescript": "4.5.4"
+  }
+}

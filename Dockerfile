@@ -14,9 +14,8 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
 # Run nginx
-FROM nginx
+FROM nginx:stable-alpine AS server
 COPY --from=builder /app/out /usr/share/nginx/html
-COPY static-html-directory /usr/share/nginx/html
 
 # # Production image, copy all the files and run next
 # FROM node:alpine AS runner

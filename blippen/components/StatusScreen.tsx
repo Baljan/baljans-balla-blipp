@@ -27,9 +27,10 @@ export default function StatusScreen({
   }, [blippStatus]);
 
   return (
-    <AnimatePresence onExitComplete={onAnimationComplete}>
+    <AnimatePresence onExitComplete={onAnimationComplete} exitBeforeEnter>
       {show && blippStatus.show ? (
         <motion.div
+          key="screen"
           initial={{ translateY: "100%", scale: 0 }}
           animate={{ translateY: "0%", scale: 1 }}
           exit={{ translateY: "100%", scale: 0 }}
@@ -43,8 +44,10 @@ export default function StatusScreen({
           }}
         >
           <motion.div
+            key="icon"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
             transition={{ delay: 0.2 }}
             className={styles.icon}
           >
@@ -53,8 +56,10 @@ export default function StatusScreen({
               : blippStatus.theme.image}
           </motion.div>
           <motion.div
+            key="message"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
             transition={{ delay: 0.4 }}
             className={styles.message}
           >

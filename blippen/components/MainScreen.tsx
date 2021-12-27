@@ -36,12 +36,13 @@ export default React.memo(function MainScreen({
         <h1 className={styles.mainTitle} style={{ color: titleFontColor }}>
           Baljans Balla Blipp
         </h1>
-        <p className={styles.infoText} style={{ color: infoFontColor }}>
+        {/* TODO: decide whether to remove, if so remove related styles and theme data */}
+        {/* <p className={styles.infoText} style={{ color: infoFontColor }}>
           För att blippa måste du fylla i ditt LiU-kortnummer på baljan.org
         </p>
         <p className={styles.infoText} style={{ color: infoFontColor }}>
           Logga in och klicka på &quot;Fyll i kortnummer&quot; för instruktioner
-        </p>
+        </p> */}
       </div>
       <div className={styles.footer} style={{ color: footerFontColor }}>
         <div className={styles.github}>

@@ -9,6 +9,7 @@
   justify-content: space-around;
   -webkit-user-select: none;
   user-select: none;
+  pointer-events: none;
   cursor: default;
 }
 

@@ -10,11 +10,12 @@
   flex-direction: column;
   background-position: center;
   background-size: cover;
+  padding: 2rem;
 }
 
 .message {
-  margin: 2rem;
-  font-size: 4rem;
+  margin: 2rem 0;
+  font-size: 3rem;
   text-align: center;
 }
 

@@ -10,6 +10,7 @@ export type ApiResult =
   | {
       success: false;
       message: string;
+      signedRfid?: string;
     };
 
 export type BlippStatus =
@@ -24,7 +25,18 @@ export type BlippStatus =
       theme: StatusScreenTheme;
       message: ReactNode;
       duration: number;
+      signedRfid?: string;
     };
+
+export type RegisterCardState = {
+  show(signedRfid: string): void;
+  status: "hidden" | "shown" | "dismissed";
+  remainingTime: number;
+  extendTime(seconds: number): void;
+  close(): void;
+  reset(): void;
+  value: string;
+};
 
 export interface StatusScreenTheme {
   backgroundColor: string;

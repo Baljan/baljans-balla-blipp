@@ -11,7 +11,6 @@ export function useBlippApi(theme: Theme, testing: boolean) {
 
   const doBlipp = useCallback(
     async (val: string) => {
-      console.log("doing blipp");
       setBlippStatus({
         show: false,
         loading: true,
@@ -40,7 +39,10 @@ export function useBlippApi(theme: Theme, testing: boolean) {
           success: false,
           theme: theme.errorScreen(),
           message: res.message,
-          duration: ANIMATION_DURATION,
+          duration: res.signedRfid
+            ? ANIMATION_DURATION * 2
+            : ANIMATION_DURATION,
+          signedRfid: res.signedRfid,
         });
       }
     },
@@ -48,7 +50,6 @@ export function useBlippApi(theme: Theme, testing: boolean) {
   );
 
   const resetBlippStatus = useCallback(() => {
-    console.log("reset");
     setBlippStatus({ show: false, loading: false });
   }, []);
 

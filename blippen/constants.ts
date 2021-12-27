@@ -6,8 +6,10 @@ export const TOKEN_KEY_LS = "token";
 const BLIPP_API_DOMAIN = process.env.NEXT_PUBLIC_BLIPP_API
 const BLIPP_API_PATH = "/baljan/do-blipp";
 
-export const BLIPP_API_URL = `${BLIPP_API_DOMAIN}${BLIPP_API_PATH}`;
+const CARD_REGISTER_PATH = "/baljan/card-id/";
 
+export const BLIPP_API_URL = `${BLIPP_API_DOMAIN}${BLIPP_API_PATH}`;
+export const CARD_REGISTER_URL = `${BLIPP_API_DOMAIN}${CARD_REGISTER_PATH}`;
 
 export const ANIMATION_DURATION = 2500
 

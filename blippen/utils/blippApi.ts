@@ -48,14 +48,21 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
     })
     .catch((e) => {
       let message = "Ett fel inträffade";
+      let signedRfid: string | undefined = undefined;
       if (!e.response) {
         message = "Nätverksfel";
-      } else if (typeof e.response?.data?.message === "string") {
-        message = e.response.data.message;
+      } else {
+        if (typeof e.response?.data?.message === "string") {
+          message = e.response.data.message;
+        }
+        if (typeof e.response?.data?.signed_rfid === "string") {
+          signedRfid = e.response.data.signed_rfid;
+        }
       }
       const apiRes: ApiResult = {
         success: false,
         message,
+        signedRfid,
       };
       return Promise.resolve(apiRes);
     });

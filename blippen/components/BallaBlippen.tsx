@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BlippStatus, Theme } from "../utils/types";
+import { Theme } from "../utils/types";
 import { useBlippApi } from "../utils/useBlippApi";
+import useRegisterCard from "../utils/useRegisterCard";
 import styles from "./BallaBlippen.module.css";
 import MainScreen from "./MainScreen";
+import RegisterCard from "./RegisterCard";
 import Snowfall from "./Snowfall";
 import StatusScreen from "./StatusScreen";
 
@@ -20,6 +22,8 @@ export default function BallaBlippen({ theme, testing }: Props) {
     theme,
     testing
   );
+
+  const registerCardState = useRegisterCard();
 
   // Handle the automatic focus of the input field
   const onRefChange = useCallback((node: HTMLInputElement) => {
@@ -45,14 +49,18 @@ export default function BallaBlippen({ theme, testing }: Props) {
   // Handle blipp queue
   useEffect(() => {
     const readyToBlipp =
-      !blippStatus.show && !blippStatus.loading && queue.length > 0;
+      !blippStatus.show &&
+      !blippStatus.loading &&
+      registerCardState.status !== "shown" &&
+      queue.length > 0;
     if (readyToBlipp) {
       const [current, ...rest] = queue;
+      registerCardState.reset();
       setQueue(rest);
 
       doBlipp(current);
     }
-  }, [queue, blippStatus, doBlipp]);
+  }, [queue, blippStatus, doBlipp, registerCardState]);
 
   return (
     <div
@@ -100,6 +108,11 @@ export default function BallaBlippen({ theme, testing }: Props) {
       />
 
       <Snowfall theme={theme} />
+
+      <RegisterCard
+        blippStatus={blippStatus}
+        registerCardState={registerCardState}
+      />
     </div>
   );
 }

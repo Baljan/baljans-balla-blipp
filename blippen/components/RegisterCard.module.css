@@ -1,0 +1,100 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  pointer-events: none;
+}
+.container > * {
+  pointer-events: auto;
+}
+
+.button {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.button,
+.qrView {
+  margin: auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: #333;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.qrView {
+  max-width: 400px;
+  box-sizing: content-box;
+}
+
+.titleRow {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleRow .close {
+  height: 3rem;
+  width: 3rem;
+  background-color: #ddd;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.qrCode {
+  width: 100%;
+}
+
+.bottomRow {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.helpText {
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+}
+
+.countdown {
+  grid-column: 2;
+  grid-row: 1/3;
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: #ddd;
+}
+
+.countdown .number {
+  font-size: 2.5rem;
+  top: 0.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  position: absolute;
+}
+
+.countdown .moreTime {
+  font-size: 1.25rem;
+  text-align: center;
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+}

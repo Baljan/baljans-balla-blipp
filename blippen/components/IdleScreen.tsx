@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Theme } from "../utils/types";
-import styles from "./MainScreen.module.css";
+import styles from "./IdleScreen.module.css";
 
 type Props = {
   theme: Theme;
@@ -9,7 +9,7 @@ type Props = {
   testing: boolean;
 };
 
-export default React.memo(function MainScreen({
+export default React.memo(function IdleScreen({
   theme,
   loading,
   testing,

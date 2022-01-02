@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Theme } from "../utils/types";
 import { useBlippApi } from "../utils/useBlippApi";
 import useRegisterCard from "../utils/useRegisterCard";
-import styles from "./BallaBlippen.module.css";
-import MainScreen from "./MainScreen";
+import IdleScreen from "./IdleScreen";
 import RegisterCard from "./RegisterCard";
 import Snowfall from "./Snowfall";
 import StatusScreen from "./StatusScreen";
@@ -14,9 +13,8 @@ type Props = {
 };
 
 export default function BallaBlippen({ theme, testing }: Props) {
-  // const [rfidInput, setRfidInput] = useState<HTMLInputElement | null>(null);
   const [queue, setQueue] = useState<string[]>([]);
-  const rfid = useRef("");
+  const rfid = useRef(""); // Save as ref to not rerender on every change.
 
   const { blippStatus, doBlipp, resetBlippStatus } = useBlippApi(
     theme,
@@ -25,21 +23,7 @@ export default function BallaBlippen({ theme, testing }: Props) {
 
   const registerCardState = useRegisterCard();
 
-  // // Handle the automatic focus of the input field
-  // const onRefChange = useCallback((node: HTMLInputElement) => {
-  //   if (node === null) {
-  //     // DOM node referenced by ref has been unmounted
-  //     setRfidInput(null);
-  //     console.log("unfocus");
-  //   } else {
-  //     // DOM node referenced by ref has changed and exists
-  //     node.focus();
-  //     console.log("focus");
-
-  //     setRfidInput(node);
-  //   }
-  // }, []);
-
+  // Read from blipp reader and add to queue.
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
@@ -54,16 +38,6 @@ export default function BallaBlippen({ theme, testing }: Props) {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);
-
-  // useEffect(() => {
-  //   const onFocus = () => {
-  //     rfidInput?.focus();
-  //   };
-  //   window.addEventListener("focus", onFocus);
-  //   return () => {
-  //     window.removeEventListener("focus", onFocus);
-  //   };
-  // }, [rfidInput]);
 
   // Handle blipp queue
   useEffect(() => {
@@ -82,42 +56,8 @@ export default function BallaBlippen({ theme, testing }: Props) {
   }, [queue, blippStatus, doBlipp, registerCardState]);
 
   return (
-    <div
-    // onClick={() => {
-    //   rfidInput?.focus();
-    // }}
-    >
-      {/* Hidden form for reading input from keyboard emulated device */}
-      {/* <form
-        id="form" // To work in the blipp app
-        className={styles.form}
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (rfidInput) {
-            // rfidInput is "uncontrolled" to keep up with the speed of the rfid reader.
-            const rfid = rfidInput.value;
-            setQueue((prev) => [...prev, rfid]);
-            rfidInput.value = "";
-          }
-        }}
-      >
-        <input
-          id="rfid" // To work in the blipp app
-          ref={onRefChange}
-          onBlur={(e) => {
-            // Refocus input on blur
-            e.target.focus();
-          }}
-          onLoad={(e) => {
-            e.currentTarget.focus();
-          }}
-          type="text"
-          name="rfid"
-          autoComplete="off"
-        />
-      </form> */}
-
-      <MainScreen
+    <div>
+      <IdleScreen
         theme={theme}
         loading={blippStatus.loading}
         testing={testing}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import BlippAudio from "../utils/blippAudio";
 import { Theme } from "../utils/types";
 import { useBlippApi } from "../utils/useBlippApi";
 import useRegisterCard from "../utils/useRegisterCard";
@@ -27,6 +28,10 @@ export default function BallaBlippen({ theme, testing }: Props) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
+        // Audio needs to be initialized by user interaction.
+        // Will initialize each audio file only once.
+        BlippAudio.initAll();
+
         setQueue((prev) => [...prev, rfid.current]);
         rfid.current = "";
       } else {

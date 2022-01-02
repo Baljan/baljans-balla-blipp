@@ -11,7 +11,7 @@ const CARD_REGISTER_PATH = "/baljan/card-id/";
 export const BLIPP_API_URL = `${BLIPP_API_DOMAIN}${BLIPP_API_PATH}`;
 export const CARD_REGISTER_URL = `${BLIPP_API_DOMAIN}${CARD_REGISTER_PATH}`;
 
-export const ANIMATION_DURATION = 2500
+export const ANIMATION_DURATION = 3000;
 
 export enum BaljanColors {
   DarkBlue = "#2f308c",

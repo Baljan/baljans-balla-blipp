@@ -14,7 +14,6 @@ type Props = {
 };
 
 export default function BallaBlippen({ theme, testing }: Props) {
-  const [rfid, setRfid] = useState("");
   const [rfidInput, setRfidInput] = useState<HTMLInputElement | null>(null);
   const [queue, setQueue] = useState<string[]>([]);
 
@@ -74,17 +73,17 @@ export default function BallaBlippen({ theme, testing }: Props) {
         className={styles.form}
         onSubmit={(e) => {
           e.preventDefault();
-          setQueue((prev) => [...prev, rfid]);
-          setRfid("");
+          if (rfidInput) {
+            // rfidInput is "uncontrolled" to keep up with the speed of the rfid reader.
+            const rfid = rfidInput.value;
+            setQueue((prev) => [...prev, rfid]);
+            rfidInput.value = "";
+          }
         }}
       >
         <input
           id="rfid" // To work in the blipp app
           ref={onRefChange}
-          value={rfid}
-          onChange={(e) => {
-            setRfid(e.target.value);
-          }}
           onBlur={(e) => {
             // Refocus input on blur
             e.target.focus();

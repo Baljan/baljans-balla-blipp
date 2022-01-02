@@ -38,7 +38,7 @@ export function useBlippApi(theme: Theme, testing: boolean) {
           show: true,
           success: false,
           theme: theme.errorScreen(),
-          message: res.message,
+          message: `${res.message} (${val})`,
           duration: res.signedRfid
             ? ANIMATION_DURATION * 2
             : ANIMATION_DURATION,

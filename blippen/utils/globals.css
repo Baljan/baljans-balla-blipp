@@ -10,6 +10,8 @@ body {
 body {
   font-family: "Lobster", cursive;
   -webkit-appearance: none !important;
+  overscroll-behavior-y: none;
+  background-color: black;
 }
 
 * {

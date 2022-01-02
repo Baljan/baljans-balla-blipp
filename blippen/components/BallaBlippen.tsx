@@ -70,6 +70,7 @@ export default function BallaBlippen({ theme, testing }: Props) {
     >
       {/* Hidden form for reading input from keyboard emulated device */}
       <form
+        id="form" // To work in the blipp app
         className={styles.form}
         onSubmit={(e) => {
           e.preventDefault();
@@ -78,6 +79,7 @@ export default function BallaBlippen({ theme, testing }: Props) {
         }}
       >
         <input
+          id="rfid" // To work in the blipp app
           ref={onRefChange}
           value={rfid}
           onChange={(e) => {

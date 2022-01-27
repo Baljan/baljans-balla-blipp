@@ -4,9 +4,9 @@ export const TOKEN_KEY_LS = "token";
 
 // Blipp API is different in dev and prod environments.
 const BLIPP_API_DOMAIN = process.env.NEXT_PUBLIC_BLIPP_API
-const BLIPP_API_PATH = "/baljan/do-blipp";
+const BLIPP_API_PATH = "/do-blipp";
 
-const CARD_REGISTER_PATH = "/baljan/card-id/";
+const CARD_REGISTER_PATH = "/card-id/";
 
 export const BLIPP_API_URL = `${BLIPP_API_DOMAIN}${BLIPP_API_PATH}`;
 export const CARD_REGISTER_URL = `${BLIPP_API_DOMAIN}${CARD_REGISTER_PATH}`;

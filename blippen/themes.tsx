@@ -73,7 +73,6 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/lasse2.mp3"),
         new BlippAudio("/sounds/lasse3.mp3"),
         new BlippAudio("/sounds/lass4.mp3"),
-        new BlippAudio("/sounds/agge.mp3"),
         new BlippAudio("/sounds/emma.mp3"),
         new BlippAudio("/sounds/baljan.mp3"),
       ],

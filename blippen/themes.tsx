@@ -211,6 +211,28 @@ const themes: Theme[] = [
   },
 
   // ---
+  // Dumb turtle theme
+  // ---
+  {
+    name: "turtle",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 1 &&
+        date.getDate() === 4 &&
+        date.getFullYear() === 2022
+      );
+    },
+
+    mainScreen: singleMainScreen(),
+    successScreen: singleSuccessScreen({
+      image: "🐢",
+      sound: new BlippAudio("/sounds/funnyturtle.mp3"),
+    }),
+    errorScreen: singleErrorScreen(),
+  },
+
+  // ---
   // Default theme
   // ---
   // Should always be last to not override other themes

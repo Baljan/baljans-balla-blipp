@@ -142,7 +142,12 @@ const themes: Theme[] = [
     name: "recruiting",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getMonth() === 9 && date.getFullYear() === 2021;
+      return (
+        date.getMonth() === 2 &&
+        date.getDate() > 13 &&
+        date.getDate() < 26 &&
+        date.getFullYear() === 2022
+      );
     },
 
     mainScreen: singleMainScreen({
@@ -151,7 +156,9 @@ const themes: Theme[] = [
     }),
 
     successScreen: randomizedSuccessScreen({
-      backgroundImage: [`linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`],
+      backgroundImage: [
+        `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
+      ],
       sound: [new BlippAudio("/sounds/cykelklocka.wav")],
       image: [
         new BlippImage("/images/styret-vt22/Astrid.png"),

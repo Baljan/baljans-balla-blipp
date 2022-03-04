@@ -2,7 +2,7 @@ import React from "react";
 import { FaTree } from "react-icons/fa";
 import BlippAudio from "./utils/blippAudio";
 import BlippImage from "./utils/blippImage";
-import { BaljanColors } from "./constants";
+import { BaljanColors, OtherColors } from "./constants";
 import {
   alternatingSnowfall,
   randomizedSuccessScreen,
@@ -144,40 +144,36 @@ const themes: Theme[] = [
       const date = new Date();
       return date.getMonth() === 9 && date.getFullYear() === 2021;
     },
-    // snowflakes = ["Sök", "Baljanstyret"];
-    // snowflakeSize = 0.5;
 
     mainScreen: singleMainScreen({
-      backgroundImage:
-        "linear-gradient(180deg,rgba(255, 195, 0, 1) 0%, #e6008b 100%)", //"#f70079";
-      titleFontColor: BaljanColors.White,
+      backgroundImage: `linear-gradient(0deg, #ffb380 0%, ${BaljanColors.BrightBlue} 150%)`,
       infoFontColor: BaljanColors.White,
     }),
 
     successScreen: randomizedSuccessScreen({
+      backgroundImage: [`linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`],
       sound: [new BlippAudio("/sounds/cykelklocka.wav")],
       image: [
-        new BlippImage("/images/styret-ht21/Albin.png"),
-        new BlippImage("/images/styret-ht21/Alma.png"),
-        new BlippImage("/images/styret-ht21/Astapasta.png"),
-        new BlippImage("/images/styret-ht21/Emil.png"),
-        new BlippImage("/images/styret-ht21/Emma.png"),
-        new BlippImage("/images/styret-ht21/Frida.png"),
-        new BlippImage("/images/styret-ht21/Janne.png"),
-        new BlippImage("/images/styret-ht21/Jesper.png"),
-        new BlippImage("/images/styret-ht21/Josephine.png"),
-        new BlippImage("/images/styret-ht21/Julia.png"),
-        new BlippImage("/images/styret-ht21/Klara.png"),
-        new BlippImage("/images/styret-ht21/Lasse.png"),
-        new BlippImage("/images/styret-ht21/Lukas.png"),
-        new BlippImage("/images/styret-ht21/LUKKEP.png"),
-        new BlippImage("/images/styret-ht21/Nico.png"),
-        new BlippImage("/images/styret-ht21/Oliver.png"),
-        new BlippImage("/images/styret-ht21/Rosanna.png"),
-        new BlippImage("/images/styret-ht21/Uno.png"),
-        new BlippImage("/images/styret-ht21/Henke.png"),
-        new BlippImage("/images/styret-ht21/Filippa.png"),
-        new BlippImage("/images/styret-ht21/Axel.png"),
+        new BlippImage("/images/styret-vt22/Astrid.png"),
+        new BlippImage("/images/styret-vt22/Emma.png"),
+        new BlippImage("/images/styret-vt22/Frida.png"),
+        new BlippImage("/images/styret-vt22/Hanna.png"),
+        new BlippImage("/images/styret-vt22/Jesper.png"),
+        new BlippImage("/images/styret-vt22/Julia.png"),
+        new BlippImage("/images/styret-vt22/LukkeP.png"),
+        new BlippImage("/images/styret-vt22/Nico.png"),
+        new BlippImage("/images/styret-vt22/Risanna.png"),
+        new BlippImage("/images/styret-vt22/Emil.png"),
+        new BlippImage("/images/styret-vt22/Filippa.png"),
+        new BlippImage("/images/styret-vt22/Gartz.png"),
+        new BlippImage("/images/styret-vt22/Henke.png"),
+        new BlippImage("/images/styret-vt22/Jossan.png"),
+        new BlippImage("/images/styret-vt22/KlaraK.png"),
+        new BlippImage("/images/styret-vt22/LasseKlara.png"),
+        new BlippImage("/images/styret-vt22/LukasB.png"),
+        new BlippImage("/images/styret-vt22/Matilda.png"),
+        new BlippImage("/images/styret-vt22/Oliver.png"),
+        new BlippImage("/images/styret-vt22/Unn.png"),
       ],
     }),
 

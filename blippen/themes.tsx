@@ -159,7 +159,12 @@ const themes: Theme[] = [
       backgroundImage: [
         `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
       ],
-      sound: [new BlippAudio("/sounds/cykelklocka.wav")],
+      sound: [new BlippAudio("/sounds/cykelklocka.wav"),
+              new BlippAudio("/sounds/recruiting/alice.m4a"),
+              new BlippAudio("/sounds/recruiting/alla.mp3"),
+              new BlippAudio("/sounds/recruiting/song.m4a"),
+              new BlippAudio("/sounds/recruiting/dante.m4a")],
+
       image: [
         new BlippImage("/images/styret-vt22/Astrid.png"),
         new BlippImage("/images/styret-vt22/Emma.png"),

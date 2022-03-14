@@ -162,7 +162,6 @@ const themes: Theme[] = [
       sound: [new BlippAudio("/sounds/cykelklocka.wav"),
               new BlippAudio("/sounds/recruiting/alice.m4a"),
               new BlippAudio("/sounds/recruiting/alla.mp3"),
-              new BlippAudio("/sounds/recruiting/song.m4a"),
               new BlippAudio("/sounds/recruiting/dante.m4a")],
 
       image: [

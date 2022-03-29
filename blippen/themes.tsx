@@ -237,15 +237,18 @@ const themes: Theme[] = [
       image: [
       new BlippImage("/images/easter/jesus.png"),
       new BlippImage("/images/easter/nico-tema.png"),
+      new BlippImage("/images/easter/Fridis-2.png"),
+      new BlippImage("/images/easter/jesustwo.png"),
       new BlippImage("/images/easter/bunny.png")],
       sound: [
         new BlippAudio("/sounds/easter/jesusdog.m4a"),
         new BlippAudio("/sounds/easter/tredjedagen.m4a"),
         new BlippAudio("/sounds/easter/nicokyckling.m4a"),
+        new BlippAudio("/sounds/easter/holyMusic.mp3"),
         
       ],
       backgroundImage:["url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)"],
-      /*backgroundImage: ["#ffc0cb, url(/images/easter/sunshine.svg)"],*/
+      fontColor:[BaljanColors.Magenta]
       
     }),
     errorScreen: singleErrorScreen({ image: "💔" }),

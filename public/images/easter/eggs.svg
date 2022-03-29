@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <pattern id="pattern" width="142" height="82" patternUnits="userSpaceOnUse">
+        <path d="M9 41a16 16 0 1 0 32 0a16 25 0 1 0 -32 0M80 0a16 16 0 1 0 32 0m0 82a16 25 0 1 0 -32 0"/>
+    </pattern>
+    <filter id="filter">
+        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="5"/>
+        <feColorMatrix values="1 0 0 -1 1
+                               0 1 0 -.6 .6
+                               0 0 1 -.02 .02
+                               0 0 0 0 1"/>
+        <feComposite in2="SourceGraphic" operator="atop"/>
+    </filter>
+    <rect width="100%" height="100%" fill="url(#pattern)" filter="url(#filter)"/>
+</svg>

@@ -5,6 +5,7 @@ import BlippImage from "./utils/blippImage";
 import { BaljanColors, OtherColors } from "./constants";
 import {
   alternatingSnowfall,
+  alternatingSuccessScreen,
   randomizedSuccessScreen,
   singleErrorScreen,
   singleMainScreen,
@@ -159,10 +160,12 @@ const themes: Theme[] = [
       backgroundImage: [
         `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
       ],
-      sound: [new BlippAudio("/sounds/cykelklocka.wav"),
-              new BlippAudio("/sounds/recruiting/alice.m4a"),
-              new BlippAudio("/sounds/recruiting/alla.mp3"),
-              new BlippAudio("/sounds/recruiting/dante.m4a")],
+      sound: [
+        new BlippAudio("/sounds/cykelklocka.wav"),
+        new BlippAudio("/sounds/recruiting/alice.m4a"),
+        new BlippAudio("/sounds/recruiting/alla.mp3"),
+        new BlippAudio("/sounds/recruiting/dante.m4a"),
+      ],
 
       image: [
         new BlippImage("/images/styret-vt22/Astrid.png"),
@@ -222,36 +225,37 @@ const themes: Theme[] = [
       const date = new Date();
       const easterDay = getEaster(date.getFullYear());
       const weekBfEaster = getEaster(date.getFullYear());
-      weekBfEaster.setDate(weekBfEaster.getDate()-8);
+      weekBfEaster.setDate(weekBfEaster.getDate() - 8);
 
-      return (
-       date < easterDay && date > weekBfEaster
-      );
+      return date < easterDay && date > weekBfEaster;
     },
 
     mainScreen: singleMainScreen({
       backgroundColor: "#ffc0cb",
-      backgroundImage: "url(/images/easter/eggs.svg), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
+      backgroundImage:
+        "url(/images/easter/eggs.svg), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
     }),
-    successScreen: randomizedSuccessScreen({
+    successScreen: alternatingSuccessScreen({
       image: [
-      new BlippImage("/images/easter/jesus.png"),
-      new BlippImage("/images/easter/nico-tema.png"),
-      new BlippImage("/images/easter/Fridis-2.png"),
-      new BlippImage("/images/easter/jesustwo.png"),
-      new BlippImage("/images/easter/bunny.png")],
+        new BlippImage("/images/easter/jesus.png"),
+        new BlippImage("/images/easter/jesustwo.png"),
+        new BlippImage("/images/easter/nico-tema.png"),
+        new BlippImage("/images/easter/Fridis-2.png"),
+        new BlippImage("/images/easter/bunny.png"),
+      ],
       sound: [
         new BlippAudio("/sounds/easter/jesusdog.m4a"),
         new BlippAudio("/sounds/easter/tredjedagen.m4a"),
         new BlippAudio("/sounds/easter/nicokyckling.m4a"),
         new BlippAudio("/sounds/easter/holyMusic.mp3"),
-        
+        new BlippAudio("/sounds/easter/holyMusic.mp3"),
       ],
-      backgroundImage:["url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)"],
-      fontColor:[BaljanColors.Magenta]
-      
+      backgroundImage: [
+        "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
+      ],
+      fontColor: [BaljanColors.Magenta],
     }),
-    errorScreen: singleErrorScreen({ image: "💔" }),
+    errorScreen: singleErrorScreen({ image: "🍗" }),
     snowfall: alternatingSnowfall({
       content: ["🙏", "☕", "🐔", "🐤", "🐣", "🍗"],
       size: 1,
@@ -279,7 +283,7 @@ const themes: Theme[] = [
     }),
     errorScreen: singleErrorScreen(),
   },
-  
+
   // ---
   // Default theme
   // ---
@@ -305,5 +309,4 @@ export function selectTheme(override?: string): Theme {
   return (
     themes.find((theme) => theme.shouldApplyToday()) ?? themes[themes.length]
   );
-  
 }

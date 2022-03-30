@@ -15,7 +15,13 @@ type MultiProperty<T> = {
   [Property in keyof T]: T[Property][];
 };
 
-const defaultMainScreen: MainScreenTheme = {
+type ChooserContext = Readonly<{
+  blippCounter: number;
+}>;
+
+type ChooserFunction = <T>(list: T[], context: ChooserContext) => T;
+
+const defaultMainScreen: Readonly<MainScreenTheme> = {
   backgroundColor: BaljanColors.BrightBlue,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
@@ -24,7 +30,7 @@ const defaultMainScreen: MainScreenTheme = {
   footerFontColor: OtherColors.DarkGray,
 };
 
-const defaultSuccessScreen: StatusScreenTheme = {
+const defaultSuccessScreen: Readonly<StatusScreenTheme> = {
   sound: new BlippAudio("/sounds/success.wav"),
   backgroundColor: OtherColors.DarkGreen,
   backgroundImage: "none",
@@ -33,7 +39,7 @@ const defaultSuccessScreen: StatusScreenTheme = {
   image: <FaCheck />,
 };
 
-const defaultErrorScreen: StatusScreenTheme = {
+const defaultErrorScreen: Readonly<StatusScreenTheme> = {
   sound: new BlippAudio("/sounds/error.wav"),
   backgroundColor: OtherColors.DarkRed,
   backgroundImage: "none",
@@ -58,45 +64,76 @@ export function singleErrorScreen(
   return () => Object.assign({}, defaultErrorScreen, options);
 }
 
-const randomizedStatusScreen = (defaults: StatusScreenTheme) =>
-  function (
+const multiStatusScreen = (
+  defaults: StatusScreenTheme,
+  chooser: ChooserFunction
+) => {
+  let blippCounter = 1;
+
+  return function (
     options: Partial<MultiProperty<StatusScreenTheme>> = {}
   ): StatusScreenSelector {
     return () => {
       const selectedOptions: Partial<StatusScreenTheme> = {};
 
+      const chooserContext: ChooserContext = { blippCounter };
+
       if (options.backgroundColor?.length)
-        selectedOptions.backgroundColor = getRandomElement(
-          options.backgroundColor
+        selectedOptions.backgroundColor = chooser(
+          options.backgroundColor,
+          chooserContext
         );
 
       if (options.backgroundImage?.length)
-        selectedOptions.backgroundImage = getRandomElement(
-          options.backgroundImage
+        selectedOptions.backgroundImage = chooser(
+          options.backgroundImage,
+          chooserContext
         );
 
       if (options.backgroundBlendMode?.length)
-        selectedOptions.backgroundBlendMode = getRandomElement(
-          options.backgroundBlendMode
+        selectedOptions.backgroundBlendMode = chooser(
+          options.backgroundBlendMode,
+          chooserContext
         );
 
       if (options.fontColor?.length)
-        selectedOptions.fontColor = getRandomElement(options.fontColor);
+        selectedOptions.fontColor = chooser(options.fontColor, chooserContext);
 
       if (options.image?.length)
-        selectedOptions.image = getRandomElement(options.image);
+        selectedOptions.image = chooser(options.image, chooserContext);
 
       if (options.sound?.length)
-        selectedOptions.sound = getRandomElement(options.sound);
+        selectedOptions.sound = chooser(options.sound, chooserContext);
+
+      blippCounter++;
 
       return Object.assign({}, defaults, selectedOptions);
     };
   };
+};
 
-export const randomizedSuccessScreen =
-  randomizedStatusScreen(defaultSuccessScreen);
+const alternatingChooser: ChooserFunction = (list, context) => list[context.blippCounter % list.length] 
 
-export const randomizedErrorScreen = randomizedStatusScreen(defaultErrorScreen);
+export const alternatingSuccessScreen = multiStatusScreen(
+  defaultSuccessScreen,
+  alternatingChooser
+)
+
+export const alternatingErrorScreen = multiStatusScreen(
+  defaultErrorScreen,
+  alternatingChooser
+)
+
+export const randomizedSuccessScreen = multiStatusScreen(
+  defaultSuccessScreen,
+  getRandomElement
+);
+
+export const randomizedErrorScreen = multiStatusScreen(
+  defaultErrorScreen,
+  getRandomElement
+);
+
 
 // TODO: improve snowfall customization
 export const alternatingSnowfall =

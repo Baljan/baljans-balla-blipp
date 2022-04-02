@@ -31,9 +31,9 @@ export default function StatusScreen({
       {show && blippStatus.show ? (
         <motion.div
           key="screen"
-          initial={{ translateY: "100%", scale: 0 }}
-          animate={{ translateY: "0%", scale: 1 }}
-          exit={{ translateY: "100%", scale: 0 }}
+          initial={{ transformPerspective: "400px", rotateX: "40deg", translateY: "120%", scale: 0 }}
+          animate={{ transformPerspective: "400px", rotateX: "0deg", translateY: "0%", scale: 1 }}
+          exit={{ transformPerspective: "400px", rotateX: "40deg", translateY: "120%", scale: 0 }}
           transition={{ type: "tween", delayChildren: 0.5 }}
           className={styles.statusScreen}
           style={{

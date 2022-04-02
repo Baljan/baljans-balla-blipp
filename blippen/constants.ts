@@ -1,4 +1,3 @@
-export const TOKEN_KEY_COOKIE = "token";
 export const TOKEN_KEY_LS = "token";
 
 

@@ -8,10 +8,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/js-cookie": "^3.0.1",
     "axios": "^0.26.1",
     "framer-motion": "^6.2.8",
-    "js-cookie": "^3.0.1",
     "next": "12.1.4",
     "qrcode.react": "^3.0.1",
     "react": "18.0.0",

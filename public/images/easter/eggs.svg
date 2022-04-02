@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg">
-    <pattern id="pattern" width="142" height="82" patternUnits="userSpaceOnUse">
+    <pattern id="pattern" width="142" height="82" patternTransform="scale(1.85)" patternUnits="userSpaceOnUse">
         <path d="M9 41a16 16 0 1 0 32 0a16 25 0 1 0 -32 0M80 0a16 16 0 1 0 32 0m0 82a16 25 0 1 0 -32 0"/>
     </pattern>
     <filter id="filter">

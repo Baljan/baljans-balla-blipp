@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import QRCode from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { BlippStatus, RegisterCardState } from "../utils/types";
@@ -79,9 +79,8 @@ export default function RegisterCard({
                     }}
                   />
                 </div>
-                <QRCode
+                <QRCodeCanvas
                   value={registerCardState.value}
-                  className={styles.qrCode}
                   size={400}
                 />
                 <div className={styles.bottomRow}>

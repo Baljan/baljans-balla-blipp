@@ -56,10 +56,6 @@
   border-radius: 50%;
 }
 
-.qrCode {
-  width: 100%;
-}
-
 .bottomRow {
   margin-top: 1rem;
   display: grid;

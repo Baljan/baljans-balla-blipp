@@ -4,12 +4,10 @@ import BlippAudio from "./utils/blippAudio";
 import BlippImage from "./utils/blippImage";
 import { BaljanColors, OtherColors } from "./constants";
 import {
-  alternatingSnowfall,
-  alternatingSuccessScreen,
-  randomizedSuccessScreen,
-  singleErrorScreen,
-  singleMainScreen,
-  singleSuccessScreen,
+  makeSnowfall,
+  makeErrorScreen,
+  makeSuccessScreen,
+  makeMainScreen,
 } from "./utils/themeHelpers";
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
@@ -27,25 +25,25 @@ const themes: Theme[] = [
       const date = new Date();
       return date.getMonth() === 11; // 11 means december (January is 0)
     },
-    mainScreen: singleMainScreen({
+    mainScreen: makeMainScreen({
       backgroundColor: "#d42426",
       titleFontColor: BaljanColors.White,
       infoFontColor: "rgba(240,240,240, 0.7)",
     }),
-    successScreen: randomizedSuccessScreen({
-      image: [<FaTree key="dummy" />],
-      backgroundColor: ["#18802b"],
-      fontColor: [BaljanColors.White],
+    successScreen: makeSuccessScreen({
+      image: <FaTree key="dummy" />,
+      backgroundColor: "#18802b",
+      fontColor: BaljanColors.White,
       sound: [
         new BlippAudio("/sounds/christmas-success.wav"),
         new BlippAudio("/sounds/merry-christmas.mp3"),
       ],
     }),
-    errorScreen: singleErrorScreen({
+    errorScreen: makeErrorScreen({
       fontColor: BaljanColors.White,
     }),
 
-    snowfall: alternatingSnowfall({
+    snowfall: makeSnowfall({
       content: ["❆", "❅"],
       size: 1,
     }),
@@ -62,13 +60,13 @@ const themes: Theme[] = [
       return date.getMonth() === 1 && date.getDate() === 14;
     },
 
-    mainScreen: singleMainScreen({
+    mainScreen: makeMainScreen({
       backgroundColor: "#ffc0cb",
       backgroundImage: "url(/images/kyss.jpg)",
       backgroundBlendMode: "soft-light",
     }),
-    successScreen: randomizedSuccessScreen({
-      image: ["💖"],
+    successScreen: makeSuccessScreen({
+      image: "💖",
       sound: [
         new BlippAudio("/sounds/valentine/lasse1.mp3"),
         new BlippAudio("/sounds/valentine/lasse2.mp3"),
@@ -79,8 +77,8 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/valentine/nico.mp3"),
       ],
     }),
-    errorScreen: singleErrorScreen({ image: "💔" }),
-    snowfall: alternatingSnowfall({
+    errorScreen: makeErrorScreen({ image: "💔" }),
+    snowfall: makeSnowfall({
       content: ["❤", "💕", "❤", "💘", "😘", "❤", "💘", "❤", "❥", "☕"],
       size: 1,
     }),
@@ -100,18 +98,18 @@ const themes: Theme[] = [
         date.getDate() === semlaDay.getDate()
       );
     },
-    successScreen: singleSuccessScreen({
+    successScreen: makeSuccessScreen({
       image: new BlippImage("/images/semla.png"),
     }),
 
-    mainScreen: singleMainScreen({
+    mainScreen: makeMainScreen({
       infoFontColor: BaljanColors.White,
       footerFontColor: BaljanColors.White,
       backgroundColor: BaljanColors.DarkBlue,
       backgroundImage: "url(/images/semlor.jpg)",
       backgroundBlendMode: "soft-light",
     }),
-    errorScreen: singleErrorScreen(),
+    errorScreen: makeErrorScreen(),
   },
 
   // ---
@@ -123,14 +121,14 @@ const themes: Theme[] = [
       const date = new Date();
       return date.getMonth() === 9 && date.getDate() === 4;
     },
-    successScreen: singleSuccessScreen({
+    successScreen: makeSuccessScreen({
       image: new BlippImage("/images/kanelbulle.png"),
     }),
 
-    mainScreen: singleMainScreen(),
-    errorScreen: singleErrorScreen(),
+    mainScreen: makeMainScreen(),
+    errorScreen: makeErrorScreen(),
 
-    snowfall: alternatingSnowfall({
+    snowfall: makeSnowfall({
       content: [new BlippImage("/images/kanelbulle.png")],
       size: 0.8,
     }),
@@ -151,15 +149,13 @@ const themes: Theme[] = [
       );
     },
 
-    mainScreen: singleMainScreen({
+    mainScreen: makeMainScreen({
       backgroundImage: `linear-gradient(0deg, #ffb380 0%, ${BaljanColors.BrightBlue} 150%)`,
       infoFontColor: BaljanColors.White,
     }),
 
-    successScreen: randomizedSuccessScreen({
-      backgroundImage: [
-        `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
-      ],
+    successScreen: makeSuccessScreen({
+      backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
       sound: [
         new BlippAudio("/sounds/cykelklocka.wav"),
         new BlippAudio("/sounds/recruiting/alice.m4a"),
@@ -191,9 +187,9 @@ const themes: Theme[] = [
       ],
     }),
 
-    errorScreen: singleErrorScreen(),
+    errorScreen: makeErrorScreen(),
 
-    snowfall: alternatingSnowfall({
+    snowfall: makeSnowfall({
       content: ["Sök", "Baljanstyret"],
       size: 0.5,
     }),
@@ -213,11 +209,11 @@ const themes: Theme[] = [
       );
     },
 
-    mainScreen: singleMainScreen(),
-    successScreen: singleSuccessScreen({
+    mainScreen: makeMainScreen(),
+    successScreen: makeSuccessScreen({
       image: new BlippImage("/images/kaffekrok.png"),
     }),
-    errorScreen: singleErrorScreen(),
+    errorScreen: makeErrorScreen(),
   },
   {
     name: "easter",
@@ -230,33 +226,35 @@ const themes: Theme[] = [
       return date < easterDay && date > weekBfEaster;
     },
 
-    mainScreen: singleMainScreen({
+    mainScreen: makeMainScreen({
       backgroundColor: "#ffc0cb",
       backgroundImage:
         "url(/images/easter/eggs.svg), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
     }),
-    successScreen: alternatingSuccessScreen({
-      image: [
-        new BlippImage("/images/easter/jesus.png"),
-        new BlippImage("/images/easter/jesustwo.png"),
-        new BlippImage("/images/easter/nico-tema.png"),
-        new BlippImage("/images/easter/Fridis-2.png"),
-        new BlippImage("/images/easter/bunny.png"),
-      ],
-      sound: [
-        new BlippAudio("/sounds/easter/jesusdog.m4a"),
-        new BlippAudio("/sounds/easter/tredjedagen.m4a"),
-        new BlippAudio("/sounds/easter/nicokyckling.m4a"),
-        new BlippAudio("/sounds/easter/holyMusic.mp3"),
-        new BlippAudio("/sounds/easter/holyMusic.mp3"),
-      ],
-      backgroundImage: [
-        "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
-      ],
-      fontColor: [BaljanColors.Magenta],
-    }),
-    errorScreen: singleErrorScreen({ image: "🍗" }),
-    snowfall: alternatingSnowfall({
+    successScreen: makeSuccessScreen(
+      {
+        image: [
+          new BlippImage("/images/easter/jesus.png"),
+          new BlippImage("/images/easter/jesustwo.png"),
+          new BlippImage("/images/easter/nico-tema.png"),
+          new BlippImage("/images/easter/Fridis-2.png"),
+          new BlippImage("/images/easter/bunny.png"),
+        ],
+        sound: [
+          new BlippAudio("/sounds/easter/jesusdog.m4a"),
+          new BlippAudio("/sounds/easter/tredjedagen.m4a"),
+          new BlippAudio("/sounds/easter/nicokyckling.m4a"),
+          new BlippAudio("/sounds/easter/holyMusic.mp3"),
+          new BlippAudio("/sounds/easter/holyMusic.mp3"),
+        ],
+        backgroundImage:
+          "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
+        fontColor: BaljanColors.Magenta,
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen({ image: "🍗" }),
+    snowfall: makeSnowfall({
       content: ["🙏", "☕", "🐔", "🐤", "🐣", "🍗"],
       size: 1,
     }),
@@ -276,12 +274,12 @@ const themes: Theme[] = [
       );
     },
 
-    mainScreen: singleMainScreen(),
-    successScreen: singleSuccessScreen({
+    mainScreen: makeMainScreen(),
+    successScreen: makeSuccessScreen({
       image: "🐢",
       sound: new BlippAudio("/sounds/funnyturtle.mp3"),
     }),
-    errorScreen: singleErrorScreen(),
+    errorScreen: makeErrorScreen(),
   },
 
   // ---
@@ -292,9 +290,9 @@ const themes: Theme[] = [
   {
     name: "default",
     shouldApplyToday: () => true,
-    mainScreen: singleMainScreen(),
-    successScreen: singleSuccessScreen(),
-    errorScreen: singleErrorScreen(),
+    mainScreen: makeMainScreen(),
+    successScreen: makeSuccessScreen(),
+    errorScreen: makeErrorScreen(),
   },
 ];
 

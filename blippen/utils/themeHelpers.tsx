@@ -10,16 +10,45 @@ import {
 } from "./types";
 import { getRandomElement } from "./utils";
 
-// Convert all object properties to arrays of the same type.
+// ---
+// Types
+// Only touch if you know what you are doing.
+// ---
+
 type MultiProperty<T> = {
-  [Property in keyof T]: T[Property][];
+  // Convert all object properties to arrays of the same type.
+  [Property in keyof T]: T[Property] | T[Property][];
 };
 
-type ChooserContext = Readonly<{
+type MultiChooserContext = Readonly<{
   blippCounter: number;
 }>;
 
-type ChooserFunction = <T>(list: T[], context: ChooserContext) => T;
+type StatusScreenThemeOverrides = Partial<MultiProperty<StatusScreenTheme>>;
+
+type GetOne = <K extends keyof StatusScreenTheme, O>(
+  key: K
+) => O;
+
+type MultiStrategy = "random" | "alternating";
+type MultiChooserFunction = <T>(list: T[], context: MultiChooserContext) => T;
+type MultiChooserFunctions = Record<MultiStrategy, MultiChooserFunction>;
+
+// ---
+// Configure strategies of how to choose between multiple items
+// ---
+
+const alternatingChooser: MultiChooserFunction = (list, context) =>
+  list[context.blippCounter % list.length];
+
+const multiChooserFunctions: MultiChooserFunctions = {
+  random: getRandomElement,
+  alternating: alternatingChooser,
+};
+
+// ---
+// Default values
+// ---
 
 const defaultMainScreen: Readonly<MainScreenTheme> = {
   backgroundColor: BaljanColors.BrightBlue,
@@ -48,95 +77,62 @@ const defaultErrorScreen: Readonly<StatusScreenTheme> = {
   image: <FaTimes />,
 };
 
-export function singleMainScreen(
-  options: Partial<MainScreenTheme> = {}
-): MainScreenSelector {
-  return () => Object.assign({}, defaultMainScreen, options);
-}
-export function singleSuccessScreen(
-  options: Partial<StatusScreenTheme> = {}
-): StatusScreenSelector {
-  return () => Object.assign({}, defaultSuccessScreen, options);
-}
-export function singleErrorScreen(
-  options: Partial<StatusScreenTheme> = {}
-): StatusScreenSelector {
-  return () => Object.assign({}, defaultErrorScreen, options);
-}
+// ---
+// Status screen factory
+// ---
 
-const multiStatusScreen = (
-  defaults: StatusScreenTheme,
-  chooser: ChooserFunction
-) => {
-  let blippCounter = 1;
-
+// Internal function to create a status screen
+// Called later to create separate default values for success and error.
+const makeStatusScreen = (defaults: StatusScreenTheme) => {
+  // Return a function to make a status screen factory
   return function (
-    options: Partial<MultiProperty<StatusScreenTheme>> = {}
+    overrides: StatusScreenThemeOverrides = {},
+    multiStrategy: MultiStrategy = "random"
   ): StatusScreenSelector {
+    let blippCounter = 1;
+
+    // Gets one of the configured overrides according to the strategy
+    const getOne: GetOne = (key) => {
+      const override = overrides[key];
+      if (override instanceof Array && override.length)
+        return multiChooserFunctions[multiStrategy](override, { blippCounter });
+      if (!(override instanceof Array) && override !== undefined) {
+        return override;
+      }
+      return defaults[key];
+    };
+
+    // Return a function which should be called each time a status screen should be shown
     return () => {
-      const selectedOptions: Partial<StatusScreenTheme> = {};
-
-      const chooserContext: ChooserContext = { blippCounter };
-
-      if (options.backgroundColor?.length)
-        selectedOptions.backgroundColor = chooser(
-          options.backgroundColor,
-          chooserContext
-        );
-
-      if (options.backgroundImage?.length)
-        selectedOptions.backgroundImage = chooser(
-          options.backgroundImage,
-          chooserContext
-        );
-
-      if (options.backgroundBlendMode?.length)
-        selectedOptions.backgroundBlendMode = chooser(
-          options.backgroundBlendMode,
-          chooserContext
-        );
-
-      if (options.fontColor?.length)
-        selectedOptions.fontColor = chooser(options.fontColor, chooserContext);
-
-      if (options.image?.length)
-        selectedOptions.image = chooser(options.image, chooserContext);
-
-      if (options.sound?.length)
-        selectedOptions.sound = chooser(options.sound, chooserContext);
-
       blippCounter++;
-
-      return Object.assign({}, defaults, selectedOptions);
+      return {
+        backgroundBlendMode: getOne("backgroundBlendMode"),
+        backgroundColor: getOne("backgroundColor"),
+        backgroundImage: getOne("backgroundImage"),
+        fontColor: getOne("fontColor"),
+        image: getOne("image"),
+        sound: getOne("sound"),
+      };
     };
   };
 };
 
-const alternatingChooser: ChooserFunction = (list, context) => list[context.blippCounter % list.length] 
+// ---
+// Exports
+// ---
 
-export const alternatingSuccessScreen = multiStatusScreen(
-  defaultSuccessScreen,
-  alternatingChooser
-)
+export const makeSuccessScreen = makeStatusScreen(defaultSuccessScreen);
 
-export const alternatingErrorScreen = multiStatusScreen(
-  defaultErrorScreen,
-  alternatingChooser
-)
+export const makeErrorScreen = makeStatusScreen(defaultErrorScreen);
 
-export const randomizedSuccessScreen = multiStatusScreen(
-  defaultSuccessScreen,
-  getRandomElement
-);
-
-export const randomizedErrorScreen = multiStatusScreen(
-  defaultErrorScreen,
-  getRandomElement
-);
-
+export function makeMainScreen(
+  overrides: Partial<MainScreenTheme> = {}
+): MainScreenSelector {
+  return () => ({ ...defaultMainScreen, ...overrides });
+}
 
 // TODO: improve snowfall customization
-export const alternatingSnowfall =
+export const makeSnowfall =
   (options: { size: number; content: ReactNode[] }) => () => ({
     count: 10,
     getFlake: (i: number) => ({

@@ -239,13 +239,17 @@ const themes: Theme[] = [
           new BlippImage("/images/easter/nico-tema.png"),
           new BlippImage("/images/easter/Fridis-2.png"),
           new BlippImage("/images/easter/bunny.png"),
+          new BlippImage("/images/easter/oliverJesus.png"),
+          new BlippImage("/images/easter/chicken.png"),
         ],
         sound: [
-          new BlippAudio("/sounds/easter/jesusdog.m4a"),
+          new BlippAudio("/sounds/easter/lukas.m4a"),
           new BlippAudio("/sounds/easter/tredjedagen.m4a"),
           new BlippAudio("/sounds/easter/nicokyckling.m4a"),
           new BlippAudio("/sounds/easter/holyMusic.mp3"),
-          new BlippAudio("/sounds/easter/holyMusic.mp3"),
+          new BlippAudio("/sounds/easter/Mouth.m4a"),
+          new BlippAudio("/sounds/easter/jesusdog.m4a"),
+          new BlippAudio("/sounds/easter/noLimit.m4a"),
         ],
         backgroundImage:
           "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
@@ -255,7 +259,7 @@ const themes: Theme[] = [
     ),
     errorScreen: makeErrorScreen({ image: "🍗" }),
     snowfall: makeSnowfall({
-      content: ["🙏", "☕", "🐔", "🐤", "🐣", "🍗"],
+      content: ["🙏", "☕", "🐔", "🐤", "🐣", "🍗", new BlippImage("/images/easter/must.png")],
       size: 1,
     }),
   },

@@ -34,6 +34,7 @@ export default class BlippAudio {
         BlippAudio.lastPlayedAudio.currentTime = 0;
       }
       BlippAudio.lastPlayedAudio = this.htmlAudio;
+      this.htmlAudio.currentTime = 0.01;
       this.htmlAudio.play();
     }
   }

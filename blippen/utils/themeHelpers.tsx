@@ -26,9 +26,7 @@ type MultiChooserContext = Readonly<{
 
 type StatusScreenThemeOverrides = Partial<MultiProperty<StatusScreenTheme>>;
 
-type GetOne = <K extends keyof StatusScreenTheme, O>(
-  key: K
-) => O;
+type GetOne = <K extends keyof StatusScreenTheme, O>(key: K) => O;
 
 type MultiStrategy = "random" | "alternating";
 type MultiChooserFunction = <T>(list: T[], context: MultiChooserContext) => T;
@@ -133,8 +131,10 @@ export function makeMainScreen(
 
 // TODO: improve snowfall customization
 export const makeSnowfall =
-  (options: { size: number; content: ReactNode[] }) => () => ({
+  (options: { size: number; reverse?: boolean; content: ReactNode[] }) =>
+  () => ({
     count: 10,
+    reverse: options.reverse,
     getFlake: (i: number) => ({
       size: options.size,
       speed: 1,

@@ -35,7 +35,11 @@ export default React.memo(function Snowfall({ theme }: Props) {
         } as React.CSSProperties;
         return (
           <div key={i} className={styles.snowflake} style={flakeVariables}>
-            <div>
+            <div
+              style={{
+                animationDirection: snowfall.reverse ? "reverse" : "normal",
+              }}
+            >
               {content instanceof BlippImage ? content.getReactNode() : content}
             </div>
           </div>

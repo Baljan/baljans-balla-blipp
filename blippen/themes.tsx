@@ -215,6 +215,10 @@ const themes: Theme[] = [
     }),
     errorScreen: makeErrorScreen(),
   },
+
+  // ---
+  // Easter
+  // ---
   {
     name: "easter",
     shouldApplyToday: () => {
@@ -259,7 +263,15 @@ const themes: Theme[] = [
     ),
     errorScreen: makeErrorScreen({ image: "🍗" }),
     snowfall: makeSnowfall({
-      content: ["🙏", "☕", "🐔", "🐤", "🐣", "🍗", new BlippImage("/images/easter/must.png")],
+      content: [
+        "🙏",
+        "☕",
+        "🐔",
+        "🐤",
+        "🐣",
+        "🍗",
+        new BlippImage("/images/easter/must.png"),
+      ],
       size: 1,
     }),
   },
@@ -284,6 +296,44 @@ const themes: Theme[] = [
       sound: new BlippAudio("/sounds/funnyturtle.mp3"),
     }),
     errorScreen: makeErrorScreen(),
+  },
+
+  // ---
+  // Baljan 35
+  // ---
+  {
+    name: "baljan35",
+    shouldApplyToday: () => {
+      return false; // TODO: decide
+    },
+
+    mainScreen: makeMainScreen({
+      titleFontColor: BaljanColors.Magenta,
+      backgroundColor: "rgb(255, 182, 0)",
+    }),
+    successScreen: makeSuccessScreen( {
+      image: [
+        "🥂",
+        "🎉",
+        "🥳",
+        "🥳",
+        "😁"
+      ],
+      sound: [
+        new BlippAudio("/sounds/baljan35/cheers.mp3"),
+        new BlippAudio("/sounds/baljan35/fireworks.mp3"),
+        new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
+        new BlippAudio("/sounds/baljan35/longhorn.mp3"),
+        new BlippAudio("/sounds/baljan35/woohoo.mp3"),
+      ],
+    },
+    "alternating"),
+    errorScreen: makeErrorScreen({}),
+    snowfall: makeSnowfall({
+      content: ["🎈"],
+      reverse: true,
+      size: 1,
+    }),
   },
 
   // ---

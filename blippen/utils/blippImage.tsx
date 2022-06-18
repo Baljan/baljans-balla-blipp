@@ -12,7 +12,7 @@ export default class BlippImage {
   }
 
   getReactNode(): ReactNode {
-    // eslint-disable-next-line @next/next/no-img-element
+
     return <img src={this.url} alt="" />;
   }
 }

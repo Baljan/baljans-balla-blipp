@@ -21,6 +21,7 @@ export default React.memo(function IdleScreen({
     infoFontColor,
     titleFontColor,
     footerFontColor,
+    infoText,
   } = useMemo(() => theme.mainScreen(), [theme]);
 
   return (
@@ -37,12 +38,11 @@ export default React.memo(function IdleScreen({
           Baljans Balla Blipp
         </h1>
         {/* TODO: decide whether to remove, if so remove related styles and theme data */}
-        {/* <p className={styles.infoText} style={{ color: infoFontColor }}>
-          För att blippa måste du fylla i ditt LiU-kortnummer på baljan.org
-        </p>
-        <p className={styles.infoText} style={{ color: infoFontColor }}>
-          Logga in och klicka på &quot;Fyll i kortnummer&quot; för instruktioner
-        </p> */}
+        {infoText ? (
+          <p className={styles.infoText} style={{ color: infoFontColor }}>
+            {infoText}
+          </p>
+        ) : null}
       </div>
       <div className={styles.footer} style={{ color: footerFontColor }}>
         <div className={styles.github}>

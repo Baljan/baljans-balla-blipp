@@ -310,6 +310,7 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       titleFontColor: BaljanColors.Magenta,
       backgroundColor: "rgb(255, 182, 0)",
+      // infoText: "X dagar kvar"
     }),
     successScreen: makeSuccessScreen( {
       image: [

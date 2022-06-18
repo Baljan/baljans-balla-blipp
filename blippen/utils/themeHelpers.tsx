@@ -55,6 +55,7 @@ const defaultMainScreen: Readonly<MainScreenTheme> = {
   titleFontColor: BaljanColors.Magenta,
   infoFontColor: OtherColors.DarkGray,
   footerFontColor: OtherColors.DarkGray,
+  infoText: "",
 };
 
 const defaultSuccessScreen: Readonly<StatusScreenTheme> = {
@@ -134,7 +135,7 @@ export const makeSnowfall =
   (options: { size: number; reverse?: boolean; content: ReactNode[] }) =>
   () => ({
     count: 10,
-    reverse: options.reverse,
+    reverse: options.reverse ?? false,
     getFlake: (i: number) => ({
       size: options.size,
       speed: 1,

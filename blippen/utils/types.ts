@@ -54,6 +54,7 @@ export interface MainScreenTheme {
   titleFontColor: string;
   infoFontColor: string;
   footerFontColor: string;
+  infoText: string;
 }
 
 export interface Snowflake {
@@ -65,7 +66,7 @@ export interface Snowflake {
 export interface Snowfall {
   getFlake: (i: number) => Snowflake;
   count: number;
-  reverse?: boolean;
+  reverse: boolean;
 }
 
 export type MainScreenSelector = () => MainScreenTheme;

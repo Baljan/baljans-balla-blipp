@@ -312,23 +312,19 @@ const themes: Theme[] = [
       backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
     }),
-    successScreen: makeSuccessScreen( {
-      image: [
-        "🥂",
-        "🎉",
-        "🥳",
-        "🥳",
-        "😁"
-      ],
-      sound: [
-        new BlippAudio("/sounds/baljan35/cheers.mp3"),
-        new BlippAudio("/sounds/baljan35/fireworks.mp3"),
-        new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
-        new BlippAudio("/sounds/baljan35/longhorn.mp3"),
-        new BlippAudio("/sounds/baljan35/woohoo.mp3"),
-      ],
-    },
-    "alternating"),
+    successScreen: makeSuccessScreen(
+      {
+        image: ["🥂", "🎉", "🥳", "🥳", "😁"],
+        sound: [
+          new BlippAudio("/sounds/baljan35/cheers.mp3"),
+          new BlippAudio("/sounds/baljan35/fireworks.mp3"),
+          new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
+          new BlippAudio("/sounds/baljan35/longhorn.mp3"),
+          new BlippAudio("/sounds/baljan35/woohoo.mp3"),
+        ],
+      },
+      "alternating"
+    ),
     errorScreen: makeErrorScreen({}),
     snowfall: makeSnowfall({
       content: ["🎈"],

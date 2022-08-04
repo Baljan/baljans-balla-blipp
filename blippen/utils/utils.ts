@@ -1,6 +1,6 @@
 // Utility function to get easter day
 export function getEaster(year: number) {
-  var f = Math.floor,
+  const f = Math.floor,
     // Golden Number - 1
     G = year % 19,
     C = f(year / 100),

@@ -330,6 +330,7 @@ const themes: Theme[] = [
       content: ["🎈"],
       reverse: true,
       size: 1,
+      randomHue: true,
     }),
   },
 

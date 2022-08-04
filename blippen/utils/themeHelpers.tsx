@@ -30,7 +30,9 @@ type GetOne = <K extends keyof StatusScreenTheme, O>(key: K) => O;
 
 type MultiStrategy = "random" | "alternating";
 type MultiChooserFunction = <T>(list: T[], context: MultiChooserContext) => T;
-type MultiChooserFunctions = Record<MultiStrategy, MultiChooserFunction>;
+type MultiChooserFunctions = Readonly<{
+  [K in MultiStrategy]: MultiChooserFunction;
+}>;
 
 // ---
 // Configure strategies of how to choose between multiple items
@@ -93,8 +95,9 @@ const makeStatusScreen = (defaults: StatusScreenTheme) => {
     // Gets one of the configured overrides according to the strategy
     const getOne: GetOne = (key) => {
       const override = overrides[key];
+      const multiChooser = multiChooserFunctions[multiStrategy];
       if (override instanceof Array && override.length)
-        return multiChooserFunctions[multiStrategy](override, { blippCounter });
+        return multiChooser(override, { blippCounter });
       if (!(override instanceof Array) && override !== undefined) {
         return override;
       }
@@ -132,10 +135,16 @@ export function makeMainScreen(
 
 // TODO: improve snowfall customization
 export const makeSnowfall =
-  (options: { size: number; reverse?: boolean; content: ReactNode[] }) =>
+  (options: {
+    size: number;
+    reverse?: boolean;
+    content: ReactNode[];
+    randomHue?: boolean;
+  }) =>
   () => ({
     count: 10,
     reverse: options.reverse ?? false,
+    randomHue: options.randomHue ?? false,
     getFlake: (i: number) => ({
       size: options.size,
       speed: 1,

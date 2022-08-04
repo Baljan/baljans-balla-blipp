@@ -19,14 +19,14 @@ export function setToken(isPWA: boolean) {
 }
 
 export async function sendBlipp(input: string): Promise<ApiResult> {
-  const token = localStorage.getItem(TOKEN_KEY_LS);
+  const token = localStorage.getItem(TOKEN_KEY_LS) ?? "";
 
   const bodyFormData = new FormData();
   bodyFormData.append("id", input);
   return axios
     .post(BLIPP_API_URL, bodyFormData, {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
       },
     })

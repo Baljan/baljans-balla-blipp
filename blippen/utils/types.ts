@@ -67,6 +67,7 @@ export interface Snowfall {
   getFlake: (i: number) => Snowflake;
   count: number;
   reverse: boolean;
+  randomHue: boolean;
 }
 
 export type MainScreenSelector = () => MainScreenTheme;

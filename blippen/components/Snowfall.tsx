@@ -26,18 +26,24 @@ export default React.memo(function Snowfall({ theme }: Props) {
         const shakeSpeed = getRandomNumberBetween(2.5, 3.5) / speed;
         const fallDelay = getRandomNumberBetween(0, fallSpeed);
         const shakeDelay = getRandomNumberBetween(0, shakeSpeed);
+        const hueRotate = getRandomNumberBetween(0, 360);
         const flakeVariables = {
           "--snowflake-size": size,
           "--shake-speed": `${shakeSpeed}s`,
           "--shake-delay": `-${shakeDelay}s`, // Negative delays for instant start.
           "--fall-speed": `${fallSpeed}s`,
           "--fall-delay": `-${fallDelay}s`,
+          "--hue-rotate": `${hueRotate}deg`,
         } as React.CSSProperties;
         return (
           <div key={i} className={styles.snowflake} style={flakeVariables}>
             <div
               style={{
                 animationDirection: snowfall.reverse ? "reverse" : "normal",
+
+                filter: snowfall.randomHue
+                  ? "hue-rotate(var(--hue-rotate))"
+                  : "none",
               }}
             >
               {content instanceof BlippImage ? content.getReactNode() : content}

@@ -33,11 +33,21 @@
   border-radius: 1rem;
   color: #333;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
 }
 
 .qrView {
   max-width: 400px;
   box-sizing: content-box;
+}
+
+.smallText {
+  font-size: 0.6em;
+  color: #666;
+  font-family: "Nunito", sans-serif;
 }
 
 .titleRow {
@@ -54,6 +64,7 @@
   background-color: #ddd;
   padding: 0.5rem;
   border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .bottomRow {
@@ -76,6 +87,7 @@
   height: 6rem;
   border-radius: 50%;
   background-color: #ddd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .countdown .number {

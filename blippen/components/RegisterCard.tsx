@@ -47,12 +47,21 @@ export default function RegisterCard({
               layoutId="cool"
             >
               <motion.div
-                layoutId="buttontext"
+                layoutId="buttontext1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className={styles.smallText}
+              >
+                Ingen kö?
+              </motion.div>
+              <motion.div
+                layoutId="buttontext2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                Ingen kö? Klicka här för att registrera ditt kort.
+                Klicka för att koppla ditt blippkort
               </motion.div>
             </motion.div>
           ) : null}
@@ -79,10 +88,7 @@ export default function RegisterCard({
                     }}
                   />
                 </div>
-                <QRCodeCanvas
-                  value={registerCardState.value}
-                  size={400}
-                />
+                <QRCodeCanvas value={registerCardState.value} size={400} />
                 <div className={styles.bottomRow}>
                   <p className={styles.helpText}>
                     Skanna QR-koden för att fortsätta.

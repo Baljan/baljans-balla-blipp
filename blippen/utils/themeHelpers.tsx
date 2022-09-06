@@ -58,6 +58,7 @@ const defaultMainScreen: Readonly<MainScreenTheme> = {
   infoFontColor: OtherColors.DarkGray,
   footerFontColor: OtherColors.DarkGray,
   infoText: "",
+  showTitle: true
 };
 
 const defaultSuccessScreen: Readonly<StatusScreenTheme> = {

@@ -22,6 +22,7 @@ export default React.memo(function IdleScreen({
     titleFontColor,
     footerFontColor,
     infoText,
+    showTitle
   } = useMemo(() => theme.mainScreen(), [theme]);
 
   return (
@@ -34,9 +35,12 @@ export default React.memo(function IdleScreen({
           backgroundBlendMode: backgroundBlendMode,
         }}
       >
+        { showTitle ? (
         <h1 className={styles.mainTitle} style={{ color: titleFontColor }}>
           Baljans Balla Blipp
         </h1>
+
+        ) : null}
         {/* TODO: decide whether to remove, if so remove related styles and theme data */}
         {infoText ? (
           <p className={styles.infoText} style={{ color: infoFontColor }}>

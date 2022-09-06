@@ -11,6 +11,7 @@ import {
 } from "./utils/themeHelpers";
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
+import { serialize } from "v8";
 
 // TODO: improve BlippImage preload to only load selected theme
 
@@ -304,13 +305,22 @@ const themes: Theme[] = [
   {
     name: "baljan35",
     shouldApplyToday: () => {
-      return false; // TODO: decide
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getFullYear() === 2022 &&
+        date.getDate() > 17 &&
+        date.getDate() < 25
+      );
     },
 
     mainScreen: makeMainScreen({
       titleFontColor: BaljanColors.Magenta,
-      backgroundColor: "rgb(255, 182, 0)",
+      //backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
+      showTitle: false,
+      backgroundImage:
+          "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
     }),
     successScreen: makeSuccessScreen(
       {

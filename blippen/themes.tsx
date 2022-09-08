@@ -318,9 +318,9 @@ const themes: Theme[] = [
       titleFontColor: BaljanColors.Magenta,
       //backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
-      showTitle: false,
+      title: "",
       backgroundImage:
-          "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
+        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
     }),
     successScreen: makeSuccessScreen(
       {
@@ -342,6 +342,23 @@ const themes: Theme[] = [
       size: 1,
       randomHue: true,
     }),
+  },
+
+  // ---
+  // Lättöl theme
+  // ---
+  {
+    name: "lattol",
+    shouldApplyToday: () => false,
+
+    mainScreen: makeMainScreen({
+      title: "Blippa Lättöl 1kr!",
+    }),
+    successScreen: makeSuccessScreen({
+      image: new BlippImage("/images/lattol.png"),
+      // sound: new BlippAudio("/sounds/funnyturtle.mp3"),
+    }),
+    errorScreen: makeErrorScreen(),
   },
 
   // ---

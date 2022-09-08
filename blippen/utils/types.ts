@@ -55,7 +55,7 @@ export interface MainScreenTheme {
   infoFontColor: string;
   footerFontColor: string;
   infoText: string;
-  showTitle: boolean;
+  title: string;
 }
 
 export interface Snowflake {

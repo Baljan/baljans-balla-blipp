@@ -58,7 +58,7 @@ const defaultMainScreen: Readonly<MainScreenTheme> = {
   infoFontColor: OtherColors.DarkGray,
   footerFontColor: OtherColors.DarkGray,
   infoText: "",
-  showTitle: true
+  title: "Baljans Balla Blipp",
 };
 
 const defaultSuccessScreen: Readonly<StatusScreenTheme> = {

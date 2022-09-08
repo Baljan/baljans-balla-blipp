@@ -318,9 +318,10 @@ const themes: Theme[] = [
       titleFontColor: BaljanColors.Magenta,
       //backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
+      
       title: "",
       backgroundImage:
-        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
+          "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
     }),
     successScreen: makeSuccessScreen(
       {
@@ -344,7 +345,7 @@ const themes: Theme[] = [
     }),
   },
 
-  // ---
+// ---
   // Lättöl theme
   // ---
   {
@@ -361,6 +362,36 @@ const themes: Theme[] = [
     errorScreen: makeErrorScreen(),
   },
 
+  // Queen theme
+  // ---
+  {
+    name: "queen",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getDate() === 9 &&
+        date.getFullYear() === 2022
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      title: "",
+      titleFontColor: BaljanColors.White,
+      backgroundImage:
+          "url(/images/queen/ukEliza.jpg)"
+    }),
+    successScreen: makeSuccessScreen({
+      image: new BlippImage("/images/queen/tea.png"),
+    }),
+    errorScreen: makeErrorScreen(),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/queen/corgi.png"),
+      ],
+      size: 1,
+    }),
+  },
   // ---
   // Default theme
   // ---

@@ -11,15 +11,21 @@ import StatusScreen from "./StatusScreen";
 type Props = {
   theme: Theme;
   testing: boolean;
+  setThemeOverride: (name: string) => void;
 };
 
-export default function BallaBlippen({ theme, testing }: Props) {
+export default function BallaBlippen({
+  theme,
+  testing,
+  setThemeOverride,
+}: Props) {
   const [queue, setQueue] = useState<string[]>([]);
   const rfid = useRef(""); // Save as ref to not rerender on every change.
 
   const { blippStatus, doBlipp, resetBlippStatus } = useBlippApi(
     theme,
-    testing
+    testing,
+    setThemeOverride
   );
 
   const registerCardState = useRegisterCard();

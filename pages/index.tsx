@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { setToken } from "../blippen/utils/blippApi";
 import { selectTheme } from "../blippen/themes";
 
@@ -21,9 +21,12 @@ const Home: NextPage = () => {
   const isPWA = query.pwa !== undefined;
   const isTestingEnvironment = query.testing !== undefined;
 
-  const themeOverride = Array.isArray(query.theme)
+  const themeOverrideQueryParams = Array.isArray(query.theme)
     ? query.theme[0]
     : query.theme;
+
+  const [themeOverrideRemote, setThemeOverrideRemote] = useState("");
+  const themeOverride = themeOverrideRemote || themeOverrideQueryParams;
   const theme = selectTheme(themeOverride);
 
   useEffect(() => setToken(isPWA), [isPWA]);
@@ -51,7 +54,11 @@ const Home: NextPage = () => {
         />
         <title>Baljans Balla Blipp</title>
       </Head>
-      <BallaBlippen theme={theme} testing={isTestingEnvironment} />
+      <BallaBlippen
+        theme={theme}
+        setThemeOverride={setThemeOverrideRemote}
+        testing={isTestingEnvironment}
+      />
     </>
   );
 };

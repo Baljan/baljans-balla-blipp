@@ -11,7 +11,6 @@ import {
 } from "./utils/themeHelpers";
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
-import { serialize } from "v8";
 
 // TODO: improve BlippImage preload to only load selected theme
 

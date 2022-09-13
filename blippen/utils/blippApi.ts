@@ -36,6 +36,7 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
         success: true,
         balance: res.data.balance as number | "unlimited",
         paid: res.data.paid as number,
+        themeOverride: res.data.theme_override ?? undefined,
       };
 
       return Promise.resolve(apiRes);
@@ -72,6 +73,7 @@ export async function mockBlipp(input: string): Promise<ApiResult> {
       success: true,
       paid: 0,
       balance: "unlimited",
+      themeOverride: "",
     };
   }
   return {

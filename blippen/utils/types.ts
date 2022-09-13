@@ -6,6 +6,7 @@ export type ApiResult =
       success: true;
       paid: number;
       balance: number | "unlimited";
+      themeOverride: string;
     }
   | {
       success: false;

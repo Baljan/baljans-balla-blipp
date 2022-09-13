@@ -3,7 +3,11 @@ import { ANIMATION_DURATION } from "../constants";
 import { mockBlipp, sendBlipp } from "./blippApi";
 import { BlippStatus, Theme } from "./types";
 
-export function useBlippApi(theme: Theme, testing: boolean) {
+export function useBlippApi(
+  theme: Theme,
+  testing: boolean,
+  setThemeOverride: (name: string) => void
+) {
   const [blippStatus, setBlippStatus] = useState<BlippStatus>({
     show: false,
     loading: false,
@@ -32,6 +36,7 @@ export function useBlippApi(theme: Theme, testing: boolean) {
           ),
           duration: ANIMATION_DURATION,
         });
+        setThemeOverride(res.themeOverride);
       } else {
         setBlippStatus({
           loading: false,

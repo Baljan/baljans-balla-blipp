@@ -391,6 +391,33 @@ const themes: Theme[] = [
       size: 1,
     }),
   },
+  // kafferepet theme
+  // ---
+  {
+    name: "kafferepet",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getDate() === 16 &&
+        date.getFullYear() === 2022
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      title: "KaffeRepet!",
+      titleFontColor: BaljanColors.DarkBlue,
+      backgroundImage:
+          "linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
+    }),
+    successScreen: makeSuccessScreen({
+    }),
+    errorScreen: makeErrorScreen(),
+    snowfall: makeSnowfall({
+      content: [new BlippImage("/images/kafferepet/cm.png"), "❤", "☕", new BlippImage("/images/kafferepet/baljanlo.png")],
+      size: 1.5,
+    }),
+  },
   // ---
   // Default theme
   // ---

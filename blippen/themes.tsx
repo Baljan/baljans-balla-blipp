@@ -405,10 +405,10 @@ const themes: Theme[] = [
     },
 
     mainScreen: makeMainScreen({
-      title: "KaffeRepet!",
+      title: "",
       titleFontColor: BaljanColors.DarkBlue,
       backgroundImage:
-          "linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
+          "url(/images/kafferepet/Baljan.png), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
     }),
     successScreen: makeSuccessScreen({
     }),

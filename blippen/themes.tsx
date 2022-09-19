@@ -356,7 +356,10 @@ const themes: Theme[] = [
     }),
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/lattol.png"),
-      // sound: new BlippAudio("/sounds/funnyturtle.mp3"),
+      sound: [
+        new BlippAudio("/sounds/lattol/oppna.m4a"),
+      ],
+      // sound: new BlippAudio("/sounds/funnyturtle.m"),
     }),
     errorScreen: makeErrorScreen(),
   },

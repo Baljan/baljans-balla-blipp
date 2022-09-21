@@ -422,6 +422,46 @@ const themes: Theme[] = [
     }),
   },
   // ---
+  // Baljan 35 x brandon
+  // ---
+  {
+    name: "frepub",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getFullYear() === 2022 &&
+        date.getDate() == 23 
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      titleFontColor: BaljanColors.Magenta,
+      //backgroundColor: "rgb(255, 182, 0)",
+      // infoText: "X dagar kvar"
+      
+      title: "",
+      backgroundImage:
+          "url(/images/frepub/frepub.png)"
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundImage:
+          "linear-gradient(-45deg, rgba(0, 0, 0), rgba(67, 160, 71), rgba(225, 225, 0), rgba(255, 182, 193)",
+      image: new BlippImage("/images/lattol.png"),
+      sound: [
+        new BlippAudio("/sounds/lattol/oppna.m4a"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({}),
+    snowfall: makeSnowfall({
+      content: ["🎈"],
+      reverse: true,
+      size: 1,
+      randomHue: true,
+    }),
+  },
+
+  // ---
   // Default theme
   // ---
   // Should always be last to not override other themes

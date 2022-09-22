@@ -454,8 +454,8 @@ const themes: Theme[] = [
     }),
     errorScreen: makeErrorScreen({}),
     snowfall: makeSnowfall({
-      content:[new BlippImage("/images/frepub/danne.png")],
-      size: 2,
+      content:[new BlippImage("/images/frepub/danne.png"), new BlippImage("/images/frepub/kille1.png"), new BlippImage("/images/frepub/kille2.png"), new BlippImage("/images/frepub/kille3.png"), new BlippImage("/images/frepub/kille4.png")],
+      size: 3,
       randomHue: true,
     }),
   },

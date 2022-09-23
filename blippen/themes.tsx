@@ -309,7 +309,7 @@ const themes: Theme[] = [
         date.getMonth() === 8 &&
         date.getFullYear() === 2022 &&
         date.getDate() > 17 &&
-        date.getDate() < 25
+        date.getDate() < 22
       );
     },
 

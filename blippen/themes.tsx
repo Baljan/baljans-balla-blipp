@@ -123,14 +123,17 @@ const themes: Theme[] = [
     },
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/kanelbulle.png"),
+      sound: [new BlippAudio("/sounds/Kanelbulle/swedishfika.mp3")],
     }),
 
-    mainScreen: makeMainScreen(),
+    mainScreen: makeMainScreen({
+      title: "Baljans balla bullar",
+    }),
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
       content: [new BlippImage("/images/kanelbulle.png")],
-      size: 0.8,
+      size: 2,
     }),
   },
 
@@ -317,10 +320,10 @@ const themes: Theme[] = [
       titleFontColor: BaljanColors.Magenta,
       //backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
-      
+
       title: "",
       backgroundImage:
-          "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
+        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
     }),
     successScreen: makeSuccessScreen(
       {
@@ -344,7 +347,7 @@ const themes: Theme[] = [
     }),
   },
 
-// ---
+  // ---
   // Lättöl theme
   // ---
   {
@@ -356,9 +359,7 @@ const themes: Theme[] = [
     }),
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/lattol.png"),
-      sound: [
-        new BlippAudio("/sounds/lattol/oppna.m4a"),
-      ],
+      sound: [new BlippAudio("/sounds/lattol/oppna.m4a")],
       // sound: new BlippAudio("/sounds/funnyturtle.m"),
     }),
     errorScreen: makeErrorScreen(),
@@ -380,17 +381,14 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.White,
-      backgroundImage:
-          "url(/images/queen/ukEliza.jpg)"
+      backgroundImage: "url(/images/queen/ukEliza.jpg)",
     }),
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/queen/tea.png"),
     }),
     errorScreen: makeErrorScreen(),
     snowfall: makeSnowfall({
-      content: [
-        new BlippImage("/images/queen/corgi.png"),
-      ],
+      content: [new BlippImage("/images/queen/corgi.png")],
       size: 1,
     }),
   },
@@ -411,13 +409,17 @@ const themes: Theme[] = [
       title: "",
       titleFontColor: BaljanColors.DarkBlue,
       backgroundImage:
-          "url(/images/kafferepet/Baljan.png), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
+        "url(/images/kafferepet/Baljan.png), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
     }),
-    successScreen: makeSuccessScreen({
-    }),
+    successScreen: makeSuccessScreen({}),
     errorScreen: makeErrorScreen(),
     snowfall: makeSnowfall({
-      content: [new BlippImage("/images/kafferepet/cm.png"), "❤", "☕", new BlippImage("/images/kafferepet/baljanlo.png")],
+      content: [
+        new BlippImage("/images/kafferepet/cm.png"),
+        "❤",
+        "☕",
+        new BlippImage("/images/kafferepet/baljanlo.png"),
+      ],
       size: 1.5,
     }),
   },
@@ -431,7 +433,7 @@ const themes: Theme[] = [
       return (
         date.getMonth() === 8 &&
         date.getFullYear() === 2022 &&
-        date.getDate() == 23 
+        date.getDate() == 23
       );
     },
 
@@ -439,22 +441,25 @@ const themes: Theme[] = [
       titleFontColor: BaljanColors.Magenta,
       //backgroundColor: "rgb(255, 182, 0)",
       // infoText: "X dagar kvar"
-      
+
       title: "",
-      backgroundImage:
-          "url(/images/frepub/frepub.png)"
+      backgroundImage: "url(/images/frepub/frepub.png)",
     }),
     successScreen: makeSuccessScreen({
       backgroundImage:
-          "linear-gradient(-45deg, rgba(0, 0, 0), rgba(67, 160, 71), rgba(225, 225, 0), rgba(255, 182, 193)",
+        "linear-gradient(-45deg, rgba(0, 0, 0), rgba(67, 160, 71), rgba(225, 225, 0), rgba(255, 182, 193)",
       image: new BlippImage("/images/lattol.png"),
-      sound: [
-        new BlippAudio("/sounds/lattol/oppna.m4a"),
-      ],
+      sound: [new BlippAudio("/sounds/lattol/oppna.m4a")],
     }),
     errorScreen: makeErrorScreen({}),
     snowfall: makeSnowfall({
-      content:[new BlippImage("/images/frepub/danne.png"), new BlippImage("/images/frepub/kille1.png"), new BlippImage("/images/frepub/kille2.png"), new BlippImage("/images/frepub/kille3.png"), new BlippImage("/images/frepub/kille4.png")],
+      content: [
+        new BlippImage("/images/frepub/danne.png"),
+        new BlippImage("/images/frepub/kille1.png"),
+        new BlippImage("/images/frepub/kille2.png"),
+        new BlippImage("/images/frepub/kille3.png"),
+        new BlippImage("/images/frepub/kille4.png"),
+      ],
       size: 3,
       randomHue: true,
     }),

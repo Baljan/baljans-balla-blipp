@@ -145,48 +145,57 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getMonth() === 2 &&
-        date.getDate() > 13 &&
-        date.getDate() < 26 &&
+        date.getMonth() === 9 &&
+        date.getDate() > 18 &&
+        date.getDate() < 29 &&
         date.getFullYear() === 2022
       );
     },
 
     mainScreen: makeMainScreen({
-      backgroundImage: `linear-gradient(0deg, #ffb380 0%, ${BaljanColors.BrightBlue} 150%)`,
+      backgroundImage: `linear-gradient(0deg, ${BaljanColors.BrightBlue} 0%, ${BaljanColors.DarkBlue} 100%)`,
       infoFontColor: BaljanColors.White,
     }),
 
     successScreen: makeSuccessScreen({
       backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
       sound: [
-        new BlippAudio("/sounds/cykelklocka.wav"),
+        new BlippAudio("/sounds/funny-sounds/cykelklocka.wav"),
         new BlippAudio("/sounds/recruiting/alice.m4a"),
         new BlippAudio("/sounds/recruiting/alla.mp3"),
         new BlippAudio("/sounds/recruiting/dante.m4a"),
+        new BlippAudio("/sounds/recruiting/filip.mp3"),
+        new BlippAudio("/sounds/funny-sounds/wow.mp3"),
+        new BlippAudio("/sounds/funny-sounds/hurra.mp3"),
+        new BlippAudio("/sounds/funny-sounds/giggle.mp3"),
+        new BlippAudio("/sounds/funny-sounds/clownhorn.wav"),
+        new BlippAudio("/sounds/funny-sounds/clownsqueky.wav"),
+        new BlippAudio("/sounds/funny-sounds/kid.wav"),
+        new BlippAudio("/sounds/funny-sounds/kiss.wav"),
+        new BlippAudio("/sounds/funny-sounds/wopi.mp3"),
       ],
 
       image: [
-        new BlippImage("/images/styret-vt22/Astrid.png"),
-        new BlippImage("/images/styret-vt22/Emma.png"),
-        new BlippImage("/images/styret-vt22/Frida.png"),
-        new BlippImage("/images/styret-vt22/Hanna.png"),
-        new BlippImage("/images/styret-vt22/Jesper.png"),
-        new BlippImage("/images/styret-vt22/Julia.png"),
-        new BlippImage("/images/styret-vt22/LukkeP.png"),
-        new BlippImage("/images/styret-vt22/Nico.png"),
-        new BlippImage("/images/styret-vt22/Risanna.png"),
-        new BlippImage("/images/styret-vt22/Emil.png"),
-        new BlippImage("/images/styret-vt22/Filippa.png"),
-        new BlippImage("/images/styret-vt22/Gartz.png"),
-        new BlippImage("/images/styret-vt22/Henke.png"),
-        new BlippImage("/images/styret-vt22/Jossan.png"),
-        new BlippImage("/images/styret-vt22/KlaraK.png"),
-        new BlippImage("/images/styret-vt22/LasseKlara.png"),
-        new BlippImage("/images/styret-vt22/LukasB.png"),
-        new BlippImage("/images/styret-vt22/Matilda.png"),
-        new BlippImage("/images/styret-vt22/Oliver.png"),
-        new BlippImage("/images/styret-vt22/Unn.png"),
+        new BlippImage("/images/styret-ht22/astrid.png"),
+        new BlippImage("/images/styret-ht22/emil.png"),
+        new BlippImage("/images/styret-ht22/emma.png"),
+        new BlippImage("/images/styret-ht22/gartz.png"),
+        new BlippImage("/images/styret-ht22/hanna.png"),
+        new BlippImage("/images/styret-ht22/inge.png"),
+        new BlippImage("/images/styret-ht22/jesper.png"),
+        new BlippImage("/images/styret-ht22/julia.png"),
+        new BlippImage("/images/styret-ht22/klara.png"),
+        new BlippImage("/images/styret-ht22/klittan.png"),
+        new BlippImage("/images/styret-ht22/lukas.png"),
+        new BlippImage("/images/styret-ht22/lukasb.png"),
+        new BlippImage("/images/styret-ht22/matilda.png"),
+        new BlippImage("/images/styret-ht22/molly.png"),
+        new BlippImage("/images/styret-ht22/nico.png"),
+        new BlippImage("/images/styret-ht22/oliver.png"),
+        new BlippImage("/images/styret-ht22/otto.png"),
+        new BlippImage("/images/styret-ht22/rosanna.png"),
+        new BlippImage("/images/styret-ht22/unn.png"),
+        new BlippImage("/images/styret-ht22/vincent.png"),
       ],
     }),
 

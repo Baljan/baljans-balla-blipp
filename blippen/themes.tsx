@@ -326,7 +326,8 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.White,
-      backgroundImage: "url(/images/VSR/heroes/Logga.png)",
+      backgroundImage:
+        "url(/images/VSR/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
     }),
     successScreen: makeSuccessScreen({
       backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
@@ -344,7 +345,6 @@ const themes: Theme[] = [
         new BlippImage("/images/VSR/heroes/hero11.png"),
         new BlippImage("/images/VSR/heroes/hero12.png"),
       ],
-      size: 40,
       sound: [
         new BlippAudio("/sounds/VSR/pow.mp3"),
         new BlippAudio("/sounds/VSR/trans.mp3"),

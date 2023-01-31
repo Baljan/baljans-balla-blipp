@@ -323,13 +323,13 @@ const themes: Theme[] = [
         date.getFullYear() === 2023
       );
     },
-
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.White,
       backgroundImage: "url(/images/VSR/heroes/Logga.png)",
     }),
     successScreen: makeSuccessScreen({
+      backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
       image: [
         new BlippImage("/images/VSR/heroes/hero1.png"),
         new BlippImage("/images/VSR/heroes/hero2.png"),
@@ -344,11 +344,12 @@ const themes: Theme[] = [
         new BlippImage("/images/VSR/heroes/hero11.png"),
         new BlippImage("/images/VSR/heroes/hero12.png"),
       ],
+      size: 40,
       sound: [
-        new BlippAudio("/sounds/pow.mp3"),
-        new BlippAudio("/sounds/trans.mp3"),
-        new BlippAudio("/sounds/slap.mp3"),
-        new BlippAudio("/sounds/bonk.mp3"),
+        new BlippAudio("/sounds/VSR/pow.mp3"),
+        new BlippAudio("/sounds/VSR/trans.mp3"),
+        new BlippAudio("/sounds/VSR/slap.mp3"),
+        new BlippAudio("/sounds/VSR/bonk.mp3"),
       ],
     }),
     errorScreen: makeErrorScreen({
@@ -369,7 +370,7 @@ const themes: Theme[] = [
         new BlippImage("/images/VSR/pow/wow.png"),
         new BlippImage("/images/VSR/pow/zap.png"),
       ],
-      size: 3,
+      size: 2,
       randomHue: true,
     }),
   },
@@ -496,6 +497,7 @@ const themes: Theme[] = [
       size: 1.5,
     }),
   },
+
   // ---
   // Baljan 35 x brandon
   // ---

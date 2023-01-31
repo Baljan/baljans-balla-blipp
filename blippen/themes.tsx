@@ -329,29 +329,32 @@ const themes: Theme[] = [
       backgroundImage:
         "url(/images/VSR/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
     }),
-    successScreen: makeSuccessScreen({
-      backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
-      image: [
-        new BlippImage("/images/VSR/heroes/hero1.png"),
-        new BlippImage("/images/VSR/heroes/hero2.png"),
-        new BlippImage("/images/VSR/heroes/hero3.png"),
-        new BlippImage("/images/VSR/heroes/hero4.png"),
-        new BlippImage("/images/VSR/heroes/hero5.png"),
-        new BlippImage("/images/VSR/heroes/hero6.png"),
-        new BlippImage("/images/VSR/heroes/hero7.png"),
-        new BlippImage("/images/VSR/heroes/hero8.png"),
-        new BlippImage("/images/VSR/heroes/hero9.png"),
-        new BlippImage("/images/VSR/heroes/hero10.png"),
-        new BlippImage("/images/VSR/heroes/hero11.png"),
-        new BlippImage("/images/VSR/heroes/hero12.png"),
-      ],
-      sound: [
-        new BlippAudio("/sounds/VSR/pow.mp3"),
-        new BlippAudio("/sounds/VSR/trans.mp3"),
-        new BlippAudio("/sounds/VSR/slap.mp3"),
-        new BlippAudio("/sounds/VSR/bonk.mp3"),
-      ],
-    }),
+    successScreen: makeSuccessScreen(
+      {
+        backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
+        image: [
+          new BlippImage("/images/VSR/heroes/hero1.png"),
+          new BlippImage("/images/VSR/heroes/hero2.png"),
+          new BlippImage("/images/VSR/heroes/hero3.png"),
+          new BlippImage("/images/VSR/heroes/hero4.png"),
+          new BlippImage("/images/VSR/heroes/hero5.png"),
+          new BlippImage("/images/VSR/heroes/hero6.png"),
+          new BlippImage("/images/VSR/heroes/hero7.png"),
+          new BlippImage("/images/VSR/heroes/hero8.png"),
+          new BlippImage("/images/VSR/heroes/hero9.png"),
+          new BlippImage("/images/VSR/heroes/hero10.png"),
+          new BlippImage("/images/VSR/heroes/hero11.png"),
+          new BlippImage("/images/VSR/heroes/hero12.png"),
+        ],
+        sound: [
+          new BlippAudio("/sounds/VSR/pow.mp3"),
+          new BlippAudio("/sounds/VSR/trans.mp3"),
+          new BlippAudio("/sounds/VSR/slap.mp3"),
+          new BlippAudio("/sounds/VSR/bonk.mp3"),
+        ],
+      },
+      "alternating"
+    ),
     errorScreen: makeErrorScreen({
       //image: new BlippImage("/images/VSR/evil1"),
       sound: [

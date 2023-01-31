@@ -309,6 +309,70 @@ const themes: Theme[] = [
     }),
     errorScreen: makeErrorScreen(),
   },
+  //---
+  // VSR 2023
+  //---
+
+  {
+    name: "VSR2023",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 1 &&
+        date.getDate() === 2 &&
+        date.getFullYear() === 2023
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      title: "",
+      titleFontColor: BaljanColors.White,
+      backgroundImage: "url(/images/VSR/heroes/Logga.png)",
+    }),
+    successScreen: makeSuccessScreen({
+      image: [
+        new BlippImage("/images/VSR/heroes/hero1.png"),
+        new BlippImage("/images/VSR/heroes/hero2.png"),
+        new BlippImage("/images/VSR/heroes/hero3.png"),
+        new BlippImage("/images/VSR/heroes/hero4.png"),
+        new BlippImage("/images/VSR/heroes/hero5.png"),
+        new BlippImage("/images/VSR/heroes/hero6.png"),
+        new BlippImage("/images/VSR/heroes/hero7.png"),
+        new BlippImage("/images/VSR/heroes/hero8.png"),
+        new BlippImage("/images/VSR/heroes/hero9.png"),
+        new BlippImage("/images/VSR/heroes/hero10.png"),
+        new BlippImage("/images/VSR/heroes/hero11.png"),
+        new BlippImage("/images/VSR/heroes/hero12.png"),
+      ],
+      sound: [
+        new BlippAudio("/sounds/pow.mp3"),
+        new BlippAudio("/sounds/trans.mp3"),
+        new BlippAudio("/sounds/slap.mp3"),
+        new BlippAudio("/sounds/bonk.mp3"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({
+      //image: new BlippImage("/images/VSR/evil1"),
+      sound: [
+        new BlippAudio("/sounds/VSR/evil1.mp3"),
+        new BlippAudio("/sounds/VSR/evil2.mp3"),
+      ],
+    }),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/VSR/pow/boom.png"),
+        new BlippImage("/images/VSR/pow/boom1.png"),
+        new BlippImage("/images/VSR/pow/kapow.png"),
+        new BlippImage("/images/VSR/pow/poof.png"),
+        new BlippImage("/images/VSR/pow/pow1.png"),
+        new BlippImage("/images/VSR/pow/pow2.png"),
+        new BlippImage("/images/VSR/pow/wow.png"),
+        new BlippImage("/images/VSR/pow/zap.png"),
+      ],
+      size: 3,
+      randomHue: true,
+    }),
+  },
 
   // ---
   // Baljan 35

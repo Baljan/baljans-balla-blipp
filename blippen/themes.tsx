@@ -319,7 +319,7 @@ const themes: Theme[] = [
       const date = new Date();
       return (
         date.getMonth() === 1 &&
-        date.getDate() === 2 &&
+        date.getDate() === 3 &&
         date.getFullYear() === 2023
       );
     },

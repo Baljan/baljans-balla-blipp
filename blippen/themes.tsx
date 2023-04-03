@@ -145,10 +145,10 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getMonth() === 9 &&
-        date.getDate() > 18 &&
-        date.getDate() < 29 &&
-        date.getFullYear() === 2022
+        date.getMonth() === 3 &&
+        date.getDate() > 2 &&
+        date.getDate() < 9 &&
+        date.getFullYear() === 2023
       );
     },
 
@@ -171,31 +171,32 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/funny-sounds/clownhorn.wav"),
         new BlippAudio("/sounds/funny-sounds/clownsqueky.wav"),
         new BlippAudio("/sounds/funny-sounds/kid.wav"),
-        new BlippAudio("/sounds/funny-sounds/kiss.wav"),
         new BlippAudio("/sounds/funny-sounds/wopi.mp3"),
+        new BlippAudio("/sounds/baljan35/woohoo.mp3"),
       ],
 
       image: [
-        new BlippImage("/images/styret-ht22/astrid.png"),
-        new BlippImage("/images/styret-ht22/emil.png"),
-        new BlippImage("/images/styret-ht22/emma.png"),
-        new BlippImage("/images/styret-ht22/gartz.png"),
-        new BlippImage("/images/styret-ht22/hanna.png"),
-        new BlippImage("/images/styret-ht22/inge.png"),
-        new BlippImage("/images/styret-ht22/jesper.png"),
-        new BlippImage("/images/styret-ht22/julia.png"),
-        new BlippImage("/images/styret-ht22/klara.png"),
-        new BlippImage("/images/styret-ht22/klittan.png"),
-        new BlippImage("/images/styret-ht22/lukas.png"),
-        new BlippImage("/images/styret-ht22/lukasb.png"),
-        new BlippImage("/images/styret-ht22/matilda.png"),
-        new BlippImage("/images/styret-ht22/molly.png"),
-        new BlippImage("/images/styret-ht22/nico.png"),
-        new BlippImage("/images/styret-ht22/oliver.png"),
-        new BlippImage("/images/styret-ht22/otto.png"),
-        new BlippImage("/images/styret-ht22/rosanna.png"),
-        new BlippImage("/images/styret-ht22/unn.png"),
-        new BlippImage("/images/styret-ht22/vincent.png"),
+        new BlippImage("/images/styret-vt23/astrid2.png"),
+        new BlippImage("/images/styret-vt23/emil.png"),
+        new BlippImage("/images/styret-vt23/emma.png"),
+        new BlippImage("/images/styret-vt23/erik.png"),
+        new BlippImage("/images/styret-vt23/filip2.png"),
+        new BlippImage("/images/styret-vt23/frida2.png"),
+        new BlippImage("/images/styret-vt23/hlj.png"),
+        new BlippImage("/images/styret-vt23/inge.png"),
+        new BlippImage("/images/styret-vt23/jesper.png"),
+        new BlippImage("/images/styret-vt23/john2.png"),
+        new BlippImage("/images/styret-vt23/jossan2.png"),
+        new BlippImage("/images/styret-vt23/jullan.png"),
+        new BlippImage("/images/styret-vt23/molly.png"),
+        new BlippImage("/images/styret-vt23/og.png"),
+        new BlippImage("/images/styret-vt23/nico.png"),
+        new BlippImage("/images/styret-vt23/oliver.png"),
+        new BlippImage("/images/styret-vt23/otto.png"),
+        new BlippImage("/images/styret-vt23/rosanna.png"),
+        new BlippImage("/images/styret-vt23/unnbonk.png"),
+        new BlippImage("/images/styret-vt23/shakira.png"),
+        new BlippImage("/images/styret-vt23/vincent.png"),
       ],
     }),
 
@@ -231,62 +232,62 @@ const themes: Theme[] = [
   // ---
   // Easter
   // ---
-  {
-    name: "easter",
-    shouldApplyToday: () => {
-      const date = new Date();
-      const easterDay = getEaster(date.getFullYear());
-      const weekBfEaster = getEaster(date.getFullYear());
-      weekBfEaster.setDate(weekBfEaster.getDate() - 8);
+  // {
+  //   name: "easter",
+  //   shouldApplyToday: () => {
+  //     const date = new Date();
+  //     const easterDay = getEaster(date.getFullYear());
+  //     const weekBfEaster = getEaster(date.getFullYear());
+  //     weekBfEaster.setDate(weekBfEaster.getDate() - 8);
 
-      return date < easterDay && date > weekBfEaster;
-    },
+  //     return date < easterDay && date > weekBfEaster;
+  //   },
 
-    mainScreen: makeMainScreen({
-      backgroundColor: "#ffc0cb",
-      backgroundImage:
-        "url(/images/easter/eggs.svg), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
-    }),
-    successScreen: makeSuccessScreen(
-      {
-        image: [
-          new BlippImage("/images/easter/jesus.png"),
-          new BlippImage("/images/easter/jesustwo.png"),
-          new BlippImage("/images/easter/nico-tema.png"),
-          new BlippImage("/images/easter/Fridis-2.png"),
-          new BlippImage("/images/easter/bunny.png"),
-          new BlippImage("/images/easter/oliverJesus.png"),
-          new BlippImage("/images/easter/chicken.png"),
-        ],
-        sound: [
-          new BlippAudio("/sounds/easter/lukas.m4a"),
-          new BlippAudio("/sounds/easter/tredjedagen.m4a"),
-          new BlippAudio("/sounds/easter/nicokyckling.m4a"),
-          new BlippAudio("/sounds/easter/holyMusic.mp3"),
-          new BlippAudio("/sounds/easter/Mouth.mp3"),
-          new BlippAudio("/sounds/easter/jesusdog.m4a"),
-          new BlippAudio("/sounds/easter/noLimit.mp3"),
-        ],
-        backgroundImage:
-          "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
-        fontColor: BaljanColors.Magenta,
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen({ image: "🍗" }),
-    snowfall: makeSnowfall({
-      content: [
-        "🙏",
-        "☕",
-        "🐔",
-        "🐤",
-        "🐣",
-        "🍗",
-        new BlippImage("/images/easter/must.png"),
-      ],
-      size: 1,
-    }),
-  },
+  //   mainScreen: makeMainScreen({
+  //     backgroundColor: "#ffc0cb",
+  //     backgroundImage:
+  //       "url(/images/easter/eggs.svg), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
+  //   }),
+  //   successScreen: makeSuccessScreen(
+  //     {
+  //       image: [
+  //         new BlippImage("/images/easter/jesus.png"),
+  //         new BlippImage("/images/easter/jesustwo.png"),
+  //         new BlippImage("/images/easter/nico-tema.png"),
+  //         new BlippImage("/images/easter/Fridis-2.png"),
+  //         new BlippImage("/images/easter/bunny.png"),
+  //         new BlippImage("/images/easter/oliverJesus.png"),
+  //         new BlippImage("/images/easter/chicken.png"),
+  //       ],
+  //       sound: [
+  //         new BlippAudio("/sounds/easter/lukas.m4a"),
+  //         new BlippAudio("/sounds/easter/tredjedagen.m4a"),
+  //         new BlippAudio("/sounds/easter/nicokyckling.m4a"),
+  //         new BlippAudio("/sounds/easter/holyMusic.mp3"),
+  //         new BlippAudio("/sounds/easter/Mouth.mp3"),
+  //         new BlippAudio("/sounds/easter/jesusdog.m4a"),
+  //         new BlippAudio("/sounds/easter/noLimit.mp3"),
+  //       ],
+  //       backgroundImage:
+  //         "url(/images/easter/sunshine.png), linear-gradient(-45deg, rgba(249,206,238,1) 0%, rgba(224,205,255,1) 25%, rgba(193,240,251,1) 50%, rgba(220,249,168,1) 75%, rgba(255,235,175,1) 100%)",
+  //       fontColor: BaljanColors.Magenta,
+  //     },
+  //     "alternating"
+  //   ),
+  //   errorScreen: makeErrorScreen({ image: "🍗" }),
+  //   snowfall: makeSnowfall({
+  //     content: [
+  //       "🙏",
+  //       "☕",
+  //       "🐔",
+  //       "🐤",
+  //       "🐣",
+  //       "🍗",
+  //       new BlippImage("/images/easter/must.png"),
+  //     ],
+  //     size: 1,
+  //   }),
+  // },
 
   // ---
   // Dumb turtle theme

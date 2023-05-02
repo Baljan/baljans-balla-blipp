@@ -380,6 +380,55 @@ const themes: Theme[] = [
   },
 
   // ---
+  // UK 2023
+  // ---
+  {
+    name: "UK2023",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 4 &&
+        date.getDate() > 1 &&
+        date.getDate() < 6 &&
+        date.getFullYear() === 2023
+      );
+    },
+    mainScreen: makeMainScreen({
+      title: "",
+      titleFontColor: BaljanColors.White,
+      backgroundImage:
+        "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
+    }),
+
+    
+    successScreen: makeSuccessScreen(
+      {
+        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
+        image: [
+          new BlippImage("/images/UK/cm-loggo.png"),
+        ],
+        sound: [
+          new BlippAudio("/sounds/UK/tagga.mp3"),
+          new BlippAudio("/sounds/UK/kicka-i-huvve.mp3"),
+          new BlippAudio("/sounds/UK/tagga.mp3"),
+          new BlippAudio("/sounds/UK/eee_aaa.mp3"),
+          new BlippAudio("/sounds/UK/va_som_jag.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen(),
+    
+    snowfall: makeSnowfall({
+      content: ["TAGGA", 
+                "TAGGA", 
+                "UK",
+                ],
+      size: 0.8,
+    }),
+  },
+
+  // ---
   // Baljan 35
   // ---
   {

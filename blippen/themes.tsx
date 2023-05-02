@@ -388,7 +388,7 @@ const themes: Theme[] = [
       const date = new Date();
       return (
         date.getMonth() === 4 &&
-        date.getDate() > 1 &&
+        date.getDate() > 2 &&
         date.getDate() < 6 &&
         date.getFullYear() === 2023
       );
@@ -399,13 +399,15 @@ const themes: Theme[] = [
       backgroundImage:
         "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
     }),
+   
 
     
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
+        
         image: [
-          new BlippImage("/images/UK/cm-loggo.png"),
+          new BlippImage("/images/UK/cm_text.png")
         ],
         sound: [
           new BlippAudio("/sounds/UK/tagga.mp3"),

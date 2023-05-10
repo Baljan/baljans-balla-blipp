@@ -324,12 +324,16 @@ const themes: Theme[] = [
         date.getFullYear() === 2023
       );
     },
+    
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.White,
       backgroundImage:
         "url(/images/VSR/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
-    }),
+    }), 
+
+ 
+    
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
@@ -387,9 +391,9 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getMonth() === 4 &&
+        date.getMonth() === 7 &&
         date.getDate() > 2 &&
-        date.getDate() < 6 &&
+        date.getDate() < 7 &&
         date.getFullYear() === 2023
       );
     },
@@ -428,6 +432,114 @@ const themes: Theme[] = [
                 ],
       size: 0.8,
     }),
+  },
+
+  // ---
+  // Baljan 35
+  // ---
+  {
+    name: "baljan35",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getFullYear() === 2022 &&
+        date.getDate() > 17 &&
+        date.getDate() < 22
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      titleFontColor: BaljanColors.Magenta,
+      //backgroundColor: "rgb(255, 182, 0)",
+      // infoText: "X dagar kvar"
+
+      title: "",
+      backgroundImage:
+        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
+    }),
+    successScreen: makeSuccessScreen(
+      {
+        image: ["🥂", "🎉", "🥳", "🥳", "😁"],
+        sound: [
+          new BlippAudio("/sounds/baljan35/cheers.mp3"),
+          new BlippAudio("/sounds/baljan35/fireworks.mp3"),
+          new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
+          new BlippAudio("/sounds/baljan35/longhorn.mp3"),
+          new BlippAudio("/sounds/baljan35/woohoo.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen({}),
+    snowfall: makeSnowfall({
+      content: ["🎈"],
+      reverse: true,
+      size: 1,
+      randomHue: true,
+    }),
+  },
+
+  // ---
+  // Chokladbollens dag
+  // ---
+  {
+    name: "chokladboll",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 7 &&
+        date.getDate() > 2 &&
+        date.getDate() < 7 &&
+        date.getFullYear() === 2023
+      );
+    },
+    mainScreen: makeMainScreen({
+      title: "Chokladbollens dag",
+      titleFontColor: BaljanColors.White,
+     
+    }),
+   
+
+    
+    successScreen: makeSuccessScreen(
+      {
+        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
+        
+        image: [
+          new BlippImage("/images/chokladboll/delicatoboll.png")
+        ],
+        sound: [
+          new BlippAudio("/sounds/chokladbollens dag/first.mp3"),
+          new BlippAudio("/sounds/success.wav"),
+          new BlippAudio("/sounds/chokladbollens dag/davidtackar.mp3"),
+          new BlippAudio("/sounds/success.wav"),
+       
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen(),
+    
+    snowfall: makeSnowfall({
+      
+      content: [
+        
+        new BlippImage("/images/chokladboll/emilMumsar.png"),
+        new BlippImage("/images/chokladboll/gott.png"),
+        new BlippImage("/images/chokladboll/pärlboll.png"),
+        new BlippImage("/images/chokladboll/juanitaChokladbollStor.png"),
+        new BlippImage("/images/chokladboll/gigantiskOliver.png"),
+        new BlippImage("/images/chokladboll/styrelseChokladboll.png"),
+        new BlippImage("/images/chokladboll/styrelseChokladboll2.png"),
+        new BlippImage("/images/chokladboll/delicatoboll.png"),
+
+                ],
+      size: 1.0,
+    }),
+    
+    
+    
   },
 
   // ---

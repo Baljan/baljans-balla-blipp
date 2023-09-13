@@ -132,8 +132,59 @@ const themes: Theme[] = [
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
-      content: [new BlippImage("/images/kanelbulle.png")],
+      content: [new BlippImage("/images/bakelser/kanelbulle.png")],
       size: 2,
+    }),
+  },
+
+  // ---
+  // Chokladbollens dag
+  // ---
+  {
+    name: "chokladboll",
+    shouldApplyToday: () => {
+
+      const date = new Date();
+      return (
+        date.getMonth() === 4 &&
+        date.getDate() === 11 &&
+        date.getFullYear() === 2023
+      );
+    },
+    mainScreen: makeMainScreen({
+      title: "Chokladbollens dag",
+      titleFontColor: BaljanColors.White,
+    }),
+    successScreen: makeSuccessScreen(
+      {
+        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
+
+        image: [
+          new BlippImage("/images/chokladboll/delicatoboll.png")
+        ],
+        sound: [
+          new BlippAudio("/sounds/chokladbollens dag/first.mp3"),
+          new BlippAudio("/sounds/success.wav"),
+          new BlippAudio("/sounds/chokladbollens dag/davidtackar.mp3"),
+          new BlippAudio("/sounds/success.wav"),
+
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen(),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/chokladboll/emilMumsar.png"),
+        new BlippImage("/images/chokladboll/gott.png"),
+        new BlippImage("/images/chokladboll/pärlboll.png"),
+        new BlippImage("/images/chokladboll/juanitaChokladbollStor.png"),
+        new BlippImage("/images/chokladboll/gigantiskOliver.png"),
+        new BlippImage("/images/chokladboll/styrelseChokladboll.png"),
+        new BlippImage("/images/chokladboll/styrelseChokladboll2.png"),
+        new BlippImage("/images/chokladboll/delicatoboll.png"),
+                ],
+      size: 1.0,
     }),
   },
 
@@ -332,8 +383,6 @@ const themes: Theme[] = [
         "url(/images/VSR/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
     }), 
 
- 
-    
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
@@ -379,6 +428,55 @@ const themes: Theme[] = [
       ],
       size: 2,
       randomHue: true,
+    }),
+  },
+
+   // ---
+  // UK 2023
+  // ---
+  {
+    name: "UK2023",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 7 &&
+        date.getDate() > 2 &&
+        date.getDate() < 7 &&
+        date.getFullYear() === 2023
+      );
+    },
+    mainScreen: makeMainScreen({
+      title: "",
+      titleFontColor: BaljanColors.White,
+      backgroundImage:
+        "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
+    }),
+
+    successScreen: makeSuccessScreen(
+      {
+        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
+
+        image: [
+          new BlippImage("/images/UK/cm_text.png")
+        ],
+        sound: [
+          new BlippAudio("/sounds/UK/tagga.mp3"),
+          new BlippAudio("/sounds/UK/kicka-i-huvve.mp3"),
+          new BlippAudio("/sounds/UK/tagga.mp3"),
+          new BlippAudio("/sounds/UK/eee_aaa.mp3"),
+          new BlippAudio("/sounds/UK/va_som_jag.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen(),
+
+    snowfall: makeSnowfall({
+      content: ["TAGGA", 
+                "TAGGA", 
+                "UK",
+                ],
+      size: 0.8,
     }),
   },
 

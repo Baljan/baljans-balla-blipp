@@ -35,8 +35,8 @@ const themes: Theme[] = [
       backgroundColor: "#18802b",
       fontColor: BaljanColors.White,
       sound: [
-        new BlippAudio("/sounds/christmas-success.wav"),
-        new BlippAudio("/sounds/merry-christmas.mp3"),
+        new BlippAudio("/sounds/christmas/christmas-success.wav"),
+        new BlippAudio("/sounds/christmas/merry-christmas.mp3"),
       ],
     }),
     errorScreen: makeErrorScreen({
@@ -62,7 +62,7 @@ const themes: Theme[] = [
 
     mainScreen: makeMainScreen({
       backgroundColor: "#ffc0cb",
-      backgroundImage: "url(/images/kyss.jpg)",
+      backgroundImage: "url(/images/valentine/kyss.jpg)",
       backgroundBlendMode: "soft-light",
     }),
     successScreen: makeSuccessScreen({
@@ -99,14 +99,14 @@ const themes: Theme[] = [
       );
     },
     successScreen: makeSuccessScreen({
-      image: new BlippImage("/images/semla.png"),
+      image: new BlippImage("/images/bakelser/semla.png"),
     }),
 
     mainScreen: makeMainScreen({
       infoFontColor: BaljanColors.White,
       footerFontColor: BaljanColors.White,
       backgroundColor: BaljanColors.DarkBlue,
-      backgroundImage: "url(/images/semlor.jpg)",
+      backgroundImage: "url(/images/bakelser/semlor.jpg)",
       backgroundBlendMode: "soft-light",
     }),
     errorScreen: makeErrorScreen(),
@@ -122,7 +122,7 @@ const themes: Theme[] = [
       return date.getMonth() === 9 && date.getDate() === 4;
     },
     successScreen: makeSuccessScreen({
-      image: new BlippImage("/images/kanelbulle.png"),
+      image: new BlippImage("/images/bakelser/kanelbulle.png"),
       sound: [new BlippAudio("/sounds/Kanelbulle/swedishfika.mp3")],
     }),
 
@@ -306,7 +306,7 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen(),
     successScreen: makeSuccessScreen({
       image: "🐢",
-      sound: new BlippAudio("/sounds/funnyturtle.mp3"),
+      sound: new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
     }),
     errorScreen: makeErrorScreen(),
   },
@@ -361,7 +361,6 @@ const themes: Theme[] = [
       "alternating"
     ),
     errorScreen: makeErrorScreen({
-      //image: new BlippImage("/images/VSR/evil1"),
       sound: [
         new BlippAudio("/sounds/VSR/evil1.mp3"),
         new BlippAudio("/sounds/VSR/evil2.mp3"),
@@ -384,211 +383,6 @@ const themes: Theme[] = [
   },
 
   // ---
-  // UK 2023
-  // ---
-  {
-    name: "UK2023",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 7 &&
-        date.getDate() > 2 &&
-        date.getDate() < 7 &&
-        date.getFullYear() === 2023
-      );
-    },
-    mainScreen: makeMainScreen({
-      title: "",
-      titleFontColor: BaljanColors.White,
-      backgroundImage:
-        "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
-    }),
-   
-
-    
-    successScreen: makeSuccessScreen(
-      {
-        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
-        
-        image: [
-          new BlippImage("/images/UK/cm_text.png")
-        ],
-        sound: [
-          new BlippAudio("/sounds/UK/tagga.mp3"),
-          new BlippAudio("/sounds/UK/kicka-i-huvve.mp3"),
-          new BlippAudio("/sounds/UK/tagga.mp3"),
-          new BlippAudio("/sounds/UK/eee_aaa.mp3"),
-          new BlippAudio("/sounds/UK/va_som_jag.mp3"),
-        ],
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen(),
-    
-    snowfall: makeSnowfall({
-      content: ["TAGGA", 
-                "TAGGA", 
-                "UK",
-                ],
-      size: 0.8,
-    }),
-  },
-
-  // ---
-  // Baljan 35
-  // ---
-  {
-    name: "baljan35",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getFullYear() === 2022 &&
-        date.getDate() > 17 &&
-        date.getDate() < 22
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      titleFontColor: BaljanColors.Magenta,
-      //backgroundColor: "rgb(255, 182, 0)",
-      // infoText: "X dagar kvar"
-
-      title: "",
-      backgroundImage:
-        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
-    }),
-    successScreen: makeSuccessScreen(
-      {
-        image: ["🥂", "🎉", "🥳", "🥳", "😁"],
-        sound: [
-          new BlippAudio("/sounds/baljan35/cheers.mp3"),
-          new BlippAudio("/sounds/baljan35/fireworks.mp3"),
-          new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
-          new BlippAudio("/sounds/baljan35/longhorn.mp3"),
-          new BlippAudio("/sounds/baljan35/woohoo.mp3"),
-        ],
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen({}),
-    snowfall: makeSnowfall({
-      content: ["🎈"],
-      reverse: true,
-      size: 1,
-      randomHue: true,
-    }),
-  },
-
-  // ---
-  // Chokladbollens dag
-  // ---
-  {
-    name: "chokladboll",
-    shouldApplyToday: () => {
-      
-      const date = new Date();
-      return (
-        date.getMonth() === 4 &&
-        date.getDate() === 11 &&
-        date.getFullYear() === 2023
-      );
-    },
-    mainScreen: makeMainScreen({
-      title: "Chokladbollens dag",
-      titleFontColor: BaljanColors.White,
-     
-    }),
-   
-
-    
-    successScreen: makeSuccessScreen(
-      {
-        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
-        
-        image: [
-          new BlippImage("/images/chokladboll/delicatoboll.png")
-        ],
-        sound: [
-          new BlippAudio("/sounds/chokladbollens dag/first.mp3"),
-          new BlippAudio("/sounds/success.wav"),
-          new BlippAudio("/sounds/chokladbollens dag/davidtackar.mp3"),
-          new BlippAudio("/sounds/success.wav"),
-       
-        ],
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen(),
-    
-    snowfall: makeSnowfall({
-      
-      content: [
-        
-        new BlippImage("/images/chokladboll/emilMumsar.png"),
-        new BlippImage("/images/chokladboll/gott.png"),
-        new BlippImage("/images/chokladboll/pärlboll.png"),
-        new BlippImage("/images/chokladboll/juanitaChokladbollStor.png"),
-        new BlippImage("/images/chokladboll/gigantiskOliver.png"),
-        new BlippImage("/images/chokladboll/styrelseChokladboll.png"),
-        new BlippImage("/images/chokladboll/styrelseChokladboll2.png"),
-        new BlippImage("/images/chokladboll/delicatoboll.png"),
-
-                ],
-      size: 1.0,
-    }),
-    
-    
-    
-  },
-
-  // ---
-  // Baljan 35
-  // ---
-  {
-    name: "baljan35",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getFullYear() === 2022 &&
-        date.getDate() > 17 &&
-        date.getDate() < 22
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      titleFontColor: BaljanColors.Magenta,
-      //backgroundColor: "rgb(255, 182, 0)",
-      // infoText: "X dagar kvar"
-
-      title: "",
-      backgroundImage:
-        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
-    }),
-    successScreen: makeSuccessScreen(
-      {
-        image: ["🥂", "🎉", "🥳", "🥳", "😁"],
-        sound: [
-          new BlippAudio("/sounds/baljan35/cheers.mp3"),
-          new BlippAudio("/sounds/baljan35/fireworks.mp3"),
-          new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
-          new BlippAudio("/sounds/baljan35/longhorn.mp3"),
-          new BlippAudio("/sounds/baljan35/woohoo.mp3"),
-        ],
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen({}),
-    snowfall: makeSnowfall({
-      content: ["🎈"],
-      reverse: true,
-      size: 1,
-      randomHue: true,
-    }),
-  },
-
-  // ---
   // Lättöl theme
   // ---
   {
@@ -606,33 +400,6 @@ const themes: Theme[] = [
     errorScreen: makeErrorScreen(),
   },
 
-  // Queen theme
-  // ---
-  {
-    name: "queen",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getDate() === 9 &&
-        date.getFullYear() === 2022
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      title: "",
-      titleFontColor: BaljanColors.White,
-      backgroundImage: "url(/images/queen/ukEliza.jpg)",
-    }),
-    successScreen: makeSuccessScreen({
-      image: new BlippImage("/images/queen/tea.png"),
-    }),
-    errorScreen: makeErrorScreen(),
-    snowfall: makeSnowfall({
-      content: [new BlippImage("/images/queen/corgi.png")],
-      size: 1,
-    }),
-  },
   // kafferepet theme
   // ---
   {
@@ -641,8 +408,8 @@ const themes: Theme[] = [
       const date = new Date();
       return (
         date.getMonth() === 8 &&
-        date.getDate() === 16 &&
-        date.getFullYear() === 2022
+        date.getDate() === 15 &&
+        date.getFullYear() === 2023
       );
     },
 
@@ -650,10 +417,21 @@ const themes: Theme[] = [
       title: "",
       titleFontColor: BaljanColors.DarkBlue,
       backgroundImage:
-        "url(/images/kafferepet/Baljan.png), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
+        "url(/images/kafferepet/Kafferepbaljan.jpg), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
     }),
-    successScreen: makeSuccessScreen({}),
-    errorScreen: makeErrorScreen(),
+    successScreen: makeSuccessScreen({
+      sound: [
+        new BlippAudio("/sounds/CM/howdy.mp3"),
+        new BlippAudio("/sounds/CM/dra.mp3"),
+        new BlippAudio("/sounds/CM/cowboy.mp3"),
+        new BlippAudio("/sounds/CM/taggaDraget.mp3"),
+        new BlippAudio("/sounds/CM/yee-haw.mp3"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({
+      image: [new BlippImage("/images/kafferepet/wanted.png")],
+      sound: [new BlippAudio("/sounds/CM/prison.mp3")],
+    }),
     snowfall: makeSnowfall({
       content: [
         new BlippImage("/images/kafferepet/cm.png"),
@@ -661,49 +439,7 @@ const themes: Theme[] = [
         "☕",
         new BlippImage("/images/kafferepet/baljanlo.png"),
       ],
-      size: 1.5,
-    }),
-  },
-
-  // ---
-  // Baljan 35 x brandon
-  // ---
-  {
-    name: "frepub",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getFullYear() === 2022 &&
-        date.getDate() == 23
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      titleFontColor: BaljanColors.Magenta,
-      //backgroundColor: "rgb(255, 182, 0)",
-      // infoText: "X dagar kvar"
-
-      title: "",
-      backgroundImage: "url(/images/frepub/frepub.png)",
-    }),
-    successScreen: makeSuccessScreen({
-      backgroundImage:
-        "linear-gradient(-45deg, rgba(0, 0, 0), rgba(67, 160, 71), rgba(225, 225, 0), rgba(255, 182, 193)",
-      image: new BlippImage("/images/lattol.png"),
-      sound: [new BlippAudio("/sounds/lattol/oppna.m4a")],
-    }),
-    errorScreen: makeErrorScreen({}),
-    snowfall: makeSnowfall({
-      content: [
-        new BlippImage("/images/frepub/danne.png"),
-        new BlippImage("/images/frepub/kille1.png"),
-        new BlippImage("/images/frepub/kille2.png"),
-        new BlippImage("/images/frepub/kille3.png"),
-        new BlippImage("/images/frepub/kille4.png"),
-      ],
-      size: 3,
-      randomHue: true,
+      size: 1,
     }),
   },
 

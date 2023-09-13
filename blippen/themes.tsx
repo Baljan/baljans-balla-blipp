@@ -379,52 +379,6 @@ const themes: Theme[] = [
   },
 
   // ---
-  // Baljan 35
-  // ---
-  {
-    name: "baljan35",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getFullYear() === 2022 &&
-        date.getDate() > 17 &&
-        date.getDate() < 22
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      titleFontColor: BaljanColors.Magenta,
-      //backgroundColor: "rgb(255, 182, 0)",
-      // infoText: "X dagar kvar"
-
-      title: "",
-      backgroundImage:
-        "url(/images/baljan35/logga.png), linear-gradient(-45deg, rgba(255, 182, 193) 40%, rgba(134,207,240) 60%",
-    }),
-    successScreen: makeSuccessScreen(
-      {
-        image: ["🥂", "🎉", "🥳", "🥳", "😁"],
-        sound: [
-          new BlippAudio("/sounds/baljan35/cheers.mp3"),
-          new BlippAudio("/sounds/baljan35/fireworks.mp3"),
-          new BlippAudio("/sounds/baljan35/shorthorn.mp3"),
-          new BlippAudio("/sounds/baljan35/longhorn.mp3"),
-          new BlippAudio("/sounds/baljan35/woohoo.mp3"),
-        ],
-      },
-      "alternating"
-    ),
-    errorScreen: makeErrorScreen({}),
-    snowfall: makeSnowfall({
-      content: ["🎈"],
-      reverse: true,
-      size: 1,
-      randomHue: true,
-    }),
-  },
-
-  // ---
   // Lättöl theme
   // ---
   {
@@ -442,33 +396,6 @@ const themes: Theme[] = [
     errorScreen: makeErrorScreen(),
   },
 
-  // Queen theme
-  // ---
-  {
-    name: "queen",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getDate() === 9 &&
-        date.getFullYear() === 2022
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      title: "",
-      titleFontColor: BaljanColors.White,
-      backgroundImage: "url(/images/queen/ukEliza.jpg)",
-    }),
-    successScreen: makeSuccessScreen({
-      image: new BlippImage("/images/queen/tea.png"),
-    }),
-    errorScreen: makeErrorScreen(),
-    snowfall: makeSnowfall({
-      content: [new BlippImage("/images/queen/corgi.png")],
-      size: 1,
-    }),
-  },
   // kafferepet theme
   // ---
   {
@@ -498,48 +425,6 @@ const themes: Theme[] = [
         new BlippImage("/images/kafferepet/baljanlo.png"),
       ],
       size: 1.5,
-    }),
-  },
-
-  // ---
-  // Baljan 35 x brandon
-  // ---
-  {
-    name: "frepub",
-    shouldApplyToday: () => {
-      const date = new Date();
-      return (
-        date.getMonth() === 8 &&
-        date.getFullYear() === 2022 &&
-        date.getDate() == 23
-      );
-    },
-
-    mainScreen: makeMainScreen({
-      titleFontColor: BaljanColors.Magenta,
-      //backgroundColor: "rgb(255, 182, 0)",
-      // infoText: "X dagar kvar"
-
-      title: "",
-      backgroundImage: "url(/images/frepub/frepub.png)",
-    }),
-    successScreen: makeSuccessScreen({
-      backgroundImage:
-        "linear-gradient(-45deg, rgba(0, 0, 0), rgba(67, 160, 71), rgba(225, 225, 0), rgba(255, 182, 193)",
-      image: new BlippImage("/images/lattol.png"),
-      sound: [new BlippAudio("/sounds/lattol/oppna.m4a")],
-    }),
-    errorScreen: makeErrorScreen({}),
-    snowfall: makeSnowfall({
-      content: [
-        new BlippImage("/images/frepub/danne.png"),
-        new BlippImage("/images/frepub/kille1.png"),
-        new BlippImage("/images/frepub/kille2.png"),
-        new BlippImage("/images/frepub/kille3.png"),
-        new BlippImage("/images/frepub/kille4.png"),
-      ],
-      size: 3,
-      randomHue: true,
     }),
   },
 

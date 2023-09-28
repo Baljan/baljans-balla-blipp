@@ -567,8 +567,8 @@ const themes: Theme[] = [
               new BlippAudio("/sounds/kaffetsdag/kaffe5.mp3"),
               new BlippAudio("/sounds/kaffetsdag/kaffe6.mp3"),
               new BlippAudio("/sounds/kaffetsdag/kaffe7.mp3")],
-  
-    }),
+    }, "alternating"
+    ),
     errorScreen: makeErrorScreen(),
   },
 

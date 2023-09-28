@@ -558,9 +558,16 @@ const themes: Theme[] = [
       title: "Kaffets dag, halvet priset!!"
     }),
     successScreen: makeSuccessScreen({
-
-      image: "☕",
-      sound: new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
+      image: [new BlippImage("☕")],
+      sound: [new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe1.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe3.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe4.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe5.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe6.mp3"),
+              new BlippAudio("/sounds/kaffetsdag/kaffe7.mp3")],
+  
     }),
     errorScreen: makeErrorScreen(),
   },

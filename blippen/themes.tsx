@@ -540,6 +540,34 @@ const themes: Theme[] = [
       size: 1,
     }),
   },
+    // ---
+  // Dumb coffee theme
+  // ---
+  {
+    name: "coffe",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 8 &&
+        date.getDate() === 28 &&
+        date.getFullYear() === 2023
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      title: "Halva Priset!!!!"
+    }),
+    successScreen: makeSuccessScreen({
+
+      image: "☕",
+      sound: new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
+    }),
+    errorScreen: makeErrorScreen(),
+  },
+
+
+  //
+
 
   // ---
   // Default theme

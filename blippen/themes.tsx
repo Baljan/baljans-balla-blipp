@@ -558,7 +558,7 @@ const themes: Theme[] = [
       title: "Kaffets dag, halvet priset!!"
     }),
     successScreen: makeSuccessScreen({
-      image: [new BlippImage("☕")],
+      image: "☕",
       sound: [new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
               new BlippAudio("/sounds/kaffetsdag/kaffe1.mp3"),
               new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),

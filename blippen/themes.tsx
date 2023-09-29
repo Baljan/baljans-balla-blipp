@@ -549,7 +549,7 @@ const themes: Theme[] = [
       const date = new Date();
       return (
         date.getMonth() === 8 &&
-        date.getDate() === 28 &&
+        date.getDate() === 29 &&
         date.getFullYear() === 2023
       );
     },

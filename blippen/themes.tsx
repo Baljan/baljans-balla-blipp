@@ -575,6 +575,7 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       title: " ",
       backgroundImage: "url(/images/player.png",
+      backgroundColor: "#00000",
     }),
     errorScreen: makeErrorScreen(),
   },

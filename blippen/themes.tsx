@@ -568,7 +568,9 @@ const themes: Theme[] = [
     name: "player",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getMonth() === 11 && date.getDate() === 2;
+      return (
+        date.getMonth() === 10 && date.getDate() > 23 && date.getDate() < 28
+      );
     },
     successScreen: makeSuccessScreen({}),
 

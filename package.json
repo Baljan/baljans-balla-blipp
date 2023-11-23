@@ -10,7 +10,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
-    "axios": "^0.26.1",
+    "axios": "^1.6.0",
     "framer-motion": "^6.2.8",
     "next": "12.1.4",
     "qrcode.react": "^3.0.1",

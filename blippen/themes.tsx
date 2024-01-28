@@ -24,8 +24,8 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return  date.getFullYear() == 2024 && 
-              date.getMonth() == 1 &&
-              date.getDate() <= 1;
+              date.getMonth() < 2 &&
+              date.getDate() <= 31;
     },
     mainScreen: makeMainScreen({
       title: "",

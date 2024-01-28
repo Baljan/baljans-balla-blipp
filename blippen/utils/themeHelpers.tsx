@@ -137,18 +137,20 @@ export function makeMainScreen(
 // TODO: improve snowfall customization
 export const makeSnowfall =
   (options: {
-    size: number;
+    size?: number;
     reverse?: boolean;
     content: ReactNode[];
     randomHue?: boolean;
+    count?: number;
+    speed?: number;
   }) =>
   () => ({
-    count: 10,
+    count: options.count ?? 10,
     reverse: options.reverse ?? false,
     randomHue: options.randomHue ?? false,
     getFlake: (i: number) => ({
-      size: options.size,
-      speed: 1,
+      size: options.size ?? 2,
+      speed: options.speed ?? 1,
       content: options.content[i % options.content.length],
     }),
   });

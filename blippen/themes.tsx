@@ -17,6 +17,66 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 // Add any themes to this list.
 const themes: Theme[] = [
   // ---
+  // VSR 2024
+  // ---
+  {
+    name: "VSR2024",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return  date.getFullYear() == 2024 && 
+              date.getMonth() == 1 &&
+              date.getDate() <= 1;
+    },
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundColor: "#000000",
+      backgroundImage: "url(/images/VSR2024/VSRtillbaljan2.png)",
+      infoFontColor: "rgba(240,240,240, 0.7)",
+    }),
+    successScreen: makeSuccessScreen({
+      image: [
+        new BlippImage("images/VSR2024/arryn.png"),
+        new BlippImage("images/VSR2024/baratheon.png"),
+        new BlippImage("images/VSR2024/greyjoy.png"),
+        new BlippImage("images/VSR2024/lannister.png"),
+        new BlippImage("images/VSR2024/mormont.png"),
+        new BlippImage("images/VSR2024/stark.png"),
+        new BlippImage("images/VSR2024/targaryen.png")
+      ],
+      backgroundColor: "#011910",
+      fontColor: BaljanColors.White,
+      sound: [
+        new BlippAudio("/sounds/VSR2024/Hodor.mp4"),
+        new BlippAudio("/sounds/VSR2024/Dracarys.mp4"),
+        new BlippAudio("/sounds/VSR2024/Fire cannot kill a dragon.mp4"),
+        new BlippAudio("/sounds/VSR2024/Lannister sends their regards.mp4"),
+        new BlippAudio("/sounds/VSR2024/The things I do for love.mp4"),
+        new BlippAudio("/sounds/VSR2024/Where's the god.mp4"),
+        new BlippAudio("/sounds/VSR2024/Winter is Coming.mp4"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({
+      sound: [
+        new BlippAudio("/sounds/VSR2024/A lannister always pays his debts.mp4")
+      ]
+    }),
+
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("images/VSR2024/baljanregn-01.png"),
+        new BlippImage("images/VSR2024/baljanregn-02.png"),
+        new BlippImage("images/VSR2024/baljanregn-03.png"),
+        new BlippImage("images/VSR2024/baljanregn-04.png"),
+        new BlippImage("images/VSR2024/baljanregn-05.png"),
+        new BlippImage("images/VSR2024/baljanregn-06.png"),
+      ],
+      size: 3,
+      reverse: true,
+      count: 4,
+    }),
+  },
+
+  // ---
   // Christmas
   // ---
   {
@@ -376,51 +436,51 @@ const themes: Theme[] = [
       title: "",
       titleFontColor: BaljanColors.White,
       backgroundImage:
-        "url(/images/VSR/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
+        "url(/images/VSR2023/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
     }),
 
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
         image: [
-          new BlippImage("/images/VSR/heroes/hero1.png"),
-          new BlippImage("/images/VSR/heroes/hero2.png"),
-          new BlippImage("/images/VSR/heroes/hero3.png"),
-          new BlippImage("/images/VSR/heroes/hero4.png"),
-          new BlippImage("/images/VSR/heroes/hero5.png"),
-          new BlippImage("/images/VSR/heroes/hero6.png"),
-          new BlippImage("/images/VSR/heroes/hero7.png"),
-          new BlippImage("/images/VSR/heroes/hero8.png"),
-          new BlippImage("/images/VSR/heroes/hero9.png"),
-          new BlippImage("/images/VSR/heroes/hero10.png"),
-          new BlippImage("/images/VSR/heroes/hero11.png"),
-          new BlippImage("/images/VSR/heroes/hero12.png"),
+          new BlippImage("/images/VSR2023/heroes/hero1.png"),
+          new BlippImage("/images/VSR2023/heroes/hero2.png"),
+          new BlippImage("/images/VSR2023/heroes/hero3.png"),
+          new BlippImage("/images/VSR2023/heroes/hero4.png"),
+          new BlippImage("/images/VSR2023/heroes/hero5.png"),
+          new BlippImage("/images/VSR2023/heroes/hero6.png"),
+          new BlippImage("/images/VSR2023/heroes/hero7.png"),
+          new BlippImage("/images/VSR2023/heroes/hero8.png"),
+          new BlippImage("/images/VSR2023/heroes/hero9.png"),
+          new BlippImage("/images/VSR2023/heroes/hero10.png"),
+          new BlippImage("/images/VSR2023/heroes/hero11.png"),
+          new BlippImage("/images/VSR2023/heroes/hero12.png"),
         ],
         sound: [
-          new BlippAudio("/sounds/VSR/pow.mp3"),
-          new BlippAudio("/sounds/VSR/trans.mp3"),
-          new BlippAudio("/sounds/VSR/slap.mp3"),
-          new BlippAudio("/sounds/VSR/bonk.mp3"),
+          new BlippAudio("/sounds/VSR2023/pow.mp3"),
+          new BlippAudio("/sounds/VSR2023/trans.mp3"),
+          new BlippAudio("/sounds/VSR2023/slap.mp3"),
+          new BlippAudio("/sounds/VSR2023/bonk.mp3"),
         ],
       },
       "alternating"
     ),
     errorScreen: makeErrorScreen({
       sound: [
-        new BlippAudio("/sounds/VSR/evil1.mp3"),
-        new BlippAudio("/sounds/VSR/evil2.mp3"),
+        new BlippAudio("/sounds/VSR2023/evil1.mp3"),
+        new BlippAudio("/sounds/VSR2023/evil2.mp3"),
       ],
     }),
     snowfall: makeSnowfall({
       content: [
-        new BlippImage("/images/VSR/pow/boom.png"),
-        new BlippImage("/images/VSR/pow/boom1.png"),
-        new BlippImage("/images/VSR/pow/kapow.png"),
-        new BlippImage("/images/VSR/pow/poof.png"),
-        new BlippImage("/images/VSR/pow/pow1.png"),
-        new BlippImage("/images/VSR/pow/pow2.png"),
-        new BlippImage("/images/VSR/pow/wow.png"),
-        new BlippImage("/images/VSR/pow/zap.png"),
+        new BlippImage("/images/VSR2023/pow/boom.png"),
+        new BlippImage("/images/VSR2023/pow/boom1.png"),
+        new BlippImage("/images/VSR2023/pow/kapow.png"),
+        new BlippImage("/images/VSR2023/pow/poof.png"),
+        new BlippImage("/images/VSR2023/pow/pow1.png"),
+        new BlippImage("/images/VSR2023/pow/pow2.png"),
+        new BlippImage("/images/VSR2023/pow/wow.png"),
+        new BlippImage("/images/VSR2023/pow/zap.png"),
       ],
       size: 2,
       randomHue: true,

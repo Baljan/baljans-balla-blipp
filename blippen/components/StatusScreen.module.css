@@ -21,7 +21,7 @@
 
 .icon {
   position: relative;
-  height: 18rem;
+  height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@
 }
 
 .icon > * {
-  max-height: 100%;
-  max-width: 400px;
+  max-height: 150%;
+  max-width: 600px;
   display: block;
 }

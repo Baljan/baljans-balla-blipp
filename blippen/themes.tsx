@@ -30,7 +30,7 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       title: "",
       backgroundColor: "#000000",
-      backgroundImage: "url(/images/VSR2024/VSR.png)",
+      backgroundImage: "url(/images/VSR2024/VSR3.png)",
       infoFontColor: "rgba(240,240,240, 0.7)",
     }),
     successScreen: makeSuccessScreen({
@@ -43,6 +43,7 @@ const themes: Theme[] = [
         new BlippImage("images/VSR2024/stark.png"),
         new BlippImage("images/VSR2024/targaryen.png")
       ],
+
       backgroundColor: "#011910",
       fontColor: BaljanColors.White,
       sound: [

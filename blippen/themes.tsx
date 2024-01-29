@@ -30,7 +30,7 @@ const themes: Theme[] = [
     mainScreen: makeMainScreen({
       title: "",
       backgroundColor: "#000000",
-      backgroundImage: "url(/images/VSR2024/VSRtillbaljan2.png)",
+      backgroundImage: "url(/images/VSR2024/VSR2.png)",
       infoFontColor: "rgba(240,240,240, 0.7)",
     }),
     successScreen: makeSuccessScreen({

@@ -47,18 +47,18 @@ const themes: Theme[] = [
       backgroundColor: "#011910",
       fontColor: BaljanColors.White,
       sound: [
-        new BlippAudio("/sounds/VSR2024/Hodor.mp4"),
-        new BlippAudio("/sounds/VSR2024/Dracarys.mp4"),
-        new BlippAudio("/sounds/VSR2024/Fire cannot kill a dragon.mp4"),
-        new BlippAudio("/sounds/VSR2024/Lannister sends their regards.mp4"),
-        new BlippAudio("/sounds/VSR2024/The things I do for love.mp4"),
-        new BlippAudio("/sounds/VSR2024/Where's the god.mp4"),
-        new BlippAudio("/sounds/VSR2024/Winter is Coming.mp4"),
+        new BlippAudio("/sounds/VSR2024/Hodor.mp3"),
+        new BlippAudio("/sounds/VSR2024/Dracarys.mp3"),
+        new BlippAudio("/sounds/VSR2024/Fire-cannot-kill-a-dragon.mp3"),
+        new BlippAudio("/sounds/VSR2024/Lannister-sends-their-regards.mp3"),
+        new BlippAudio("/sounds/VSR2024/The-things-I-do-for-love.mp3"),
+        new BlippAudio("/sounds/VSR2024/Wheres-the-god.mp3"),
+        new BlippAudio("/sounds/VSR2024/Winter-is-Coming.mp3"),
       ],
     }),
     errorScreen: makeErrorScreen({
       sound: [
-        new BlippAudio("/sounds/VSR2024/A lannister always pays his debts.mp4")
+        new BlippAudio("/sounds/VSR2024/A-lannister-always-pays-his-debts.mp3")
       ]
     }),
 

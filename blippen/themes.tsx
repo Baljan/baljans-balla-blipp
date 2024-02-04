@@ -24,8 +24,8 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return  date.getFullYear() == 2024 && 
-              date.getMonth() < 2 &&
-              date.getDate() <= 31;
+              date.getMonth() == 2 &&
+              date.getDate() == 2;
     },
     mainScreen: makeMainScreen({
       title: "",
@@ -186,7 +186,6 @@ const themes: Theme[] = [
       image: new BlippImage("/images/bakelser/kanelbulle.png"),
       sound: [new BlippAudio("/sounds/Kanelbulle/swedishfika.mp3")],
     }),
-
     mainScreen: makeMainScreen({
       title: "Baljans balla bullar",
     }),

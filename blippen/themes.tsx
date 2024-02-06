@@ -19,6 +19,7 @@ const themes: Theme[] = [
   // ---
   // VSR 2024
   // ---
+  /* Deleted sounds, can be found in google drive 
   {
     name: "VSR2024",
     shouldApplyToday: () => {
@@ -76,6 +77,7 @@ const themes: Theme[] = [
       count: 4,
     }),
   },
+  *////
 
   // ---
   // Christmas
@@ -420,7 +422,7 @@ const themes: Theme[] = [
   //---
   // VSR 2023
   //---
-
+/* Deleted sounds, can be found in google drive
   {
     name: "VSR2023",
     shouldApplyToday: () => {
@@ -486,7 +488,7 @@ const themes: Theme[] = [
       randomHue: true,
     }),
   },
-
+*/
   // ---
   // UK 2023
   // ---

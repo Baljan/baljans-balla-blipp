@@ -125,11 +125,11 @@ const themes: Theme[] = [
 
     mainScreen: makeMainScreen({
       backgroundColor: "#ffc0cb",
-      backgroundImage: "url(/images/valentine/kyss.jpg)",
+      backgroundImage: "url(/images/valentine/baljan2.png)",
       backgroundBlendMode: "soft-light",
     }),
     successScreen: makeSuccessScreen({
-      image: "💖",
+      image: "❤️",
       sound: [
         new BlippAudio("/sounds/valentine/lasse1.mp3"),
         new BlippAudio("/sounds/valentine/lasse2.mp3"),
@@ -140,9 +140,10 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/valentine/nico.mp3"),
       ],
     }),
-    errorScreen: makeErrorScreen({ image: "💔" }),
+    errorScreen: makeErrorScreen({ image: "😒" }),
     snowfall: makeSnowfall({
-      content: ["❤", "💕", "❤", "💘", "😘", "❤", "💘", "❤", "❥", "☕"],
+      content: [ "☕", "❤️"],
+      reverse: true,
       size: 1,
     }),
   },
@@ -421,7 +422,7 @@ const themes: Theme[] = [
   },
   //---
   // VSR 2023
-  //---
+  //---7
 /* Deleted sounds, can be found in google drive
   {
     name: "VSR2023",

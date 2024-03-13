@@ -19,13 +19,14 @@ const themes: Theme[] = [
   // ---
   // VSR 2024
   // ---
+  /* Deleted sounds, can be found in google drive 
   {
     name: "VSR2024",
     shouldApplyToday: () => {
       const date = new Date();
       return  date.getFullYear() == 2024 && 
-              date.getMonth() < 2 &&
-              date.getDate() <= 31;
+              date.getMonth() == 2 &&
+              date.getDate() == 2;
     },
     mainScreen: makeMainScreen({
       title: "",
@@ -76,6 +77,7 @@ const themes: Theme[] = [
       count: 4,
     }),
   },
+  *////
 
   // ---
   // pi
@@ -146,11 +148,11 @@ const themes: Theme[] = [
 
     mainScreen: makeMainScreen({
       backgroundColor: "#ffc0cb",
-      backgroundImage: "url(/images/valentine/kyss.jpg)",
+      backgroundImage: "url(/images/valentine/baljan2.png)",
       backgroundBlendMode: "soft-light",
     }),
     successScreen: makeSuccessScreen({
-      image: "💖",
+      image: "❤️",
       sound: [
         new BlippAudio("/sounds/valentine/lasse1.mp3"),
         new BlippAudio("/sounds/valentine/lasse2.mp3"),
@@ -161,9 +163,10 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/valentine/nico.mp3"),
       ],
     }),
-    errorScreen: makeErrorScreen({ image: "💔" }),
+    errorScreen: makeErrorScreen({ image: "😒" }),
     snowfall: makeSnowfall({
-      content: ["❤", "💕", "❤", "💘", "😘", "❤", "💘", "❤", "❥", "☕"],
+      content: [ "☕", "❤️"],
+      reverse: true,
       size: 1,
     }),
   },
@@ -209,7 +212,6 @@ const themes: Theme[] = [
       image: new BlippImage("/images/bakelser/kanelbulle.png"),
       sound: [new BlippAudio("/sounds/Kanelbulle/swedishfika.mp3")],
     }),
-
     mainScreen: makeMainScreen({
       title: "Baljans balla bullar",
     }),
@@ -443,8 +445,8 @@ const themes: Theme[] = [
   },
   //---
   // VSR 2023
-  //---
-
+  //---7
+/* Deleted sounds, can be found in google drive
   {
     name: "VSR2023",
     shouldApplyToday: () => {
@@ -510,7 +512,7 @@ const themes: Theme[] = [
       randomHue: true,
     }),
   },
-
+*/
   // ---
   // UK 2023
   // ---

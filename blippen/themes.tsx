@@ -78,6 +78,29 @@ const themes: Theme[] = [
   },
 
   // ---
+  // pi
+  // ---
+  {
+    name: "pi",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return date.getMonth() === 2 && date.getDate() === 14;
+    },
+    successScreen: makeSuccessScreen({
+      image: ["π = 3.1415...","...9265...", "...3589...", "...7932...", "...3846...", "...2643...", "...3832...", "...7950...", "...2884...", "...1971...","...6939...","...9375...","...1058...","...2097...","...4944...","...5923...","...0781...","...6406..."],
+    }, "alternating"),
+
+    mainScreen: makeMainScreen(),
+    errorScreen: makeErrorScreen(),
+
+    snowfall: makeSnowfall({
+      content: [new BlippImage("images/bakelser/pie.png"), ],
+      size: 4,
+      count: 1,
+    }),
+  },
+
+  // ---
   // Christmas
   // ---
   {

@@ -118,7 +118,7 @@ const themes: Theme[] = [
     }),
     successScreen: makeSuccessScreen({
       sound: [
-        new BlippAudio("/sounds/M55/hurra.m4a"),
+        new BlippAudio("/sounds/M55/hurra.mp3"),
         new BlippAudio("/sounds/M55/celebrate.mp3"),
       ],    }, "alternating"),
 

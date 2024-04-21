@@ -88,6 +88,7 @@ const themes: Theme[] = [
       const date = new Date();
       return date.getMonth() === 2 && date.getDate() === 14;
     },
+    
     successScreen: makeSuccessScreen({
       image: ["π = 3.1415...","...9265...", "...3589...", "...7932...", "...3846...", "...2643...", "...3832...", "...7950...", "...2884...", "...1971...","...6939...","...9375...","...1058...","...2097...","...4944...","...5923...","...0781...","...6406..."],
     }, "alternating"),
@@ -102,6 +103,37 @@ const themes: Theme[] = [
     }),
   },
 
+  // ---
+  // Maskin 55
+  // ---
+  {
+    name: "M55",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return date.getMonth() === 3 && date.getDate() === 26;
+    },
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundImage: "url(/images/M55/M55.jpg)",
+    }),
+    successScreen: makeSuccessScreen({
+      sound: [
+        new BlippAudio("/sounds/M55/hurra.m4a"),
+        new BlippAudio("/sounds/M55/celebrate.mp3"),
+      ],    }, "alternating"),
+
+    errorScreen: makeErrorScreen(),
+
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("images/M55/red_ballon.png"),
+        new BlippImage("images/M55/yellow_ballon.png") ],
+      size: 1,
+      count: 10,
+      reverse: true,
+    }),
+    
+  },
   // ---
   // Christmas
   // ---

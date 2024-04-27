@@ -128,7 +128,7 @@ const themes: Theme[] = [
       content: [
         new BlippImage("images/M55/1000001181-removebg-preview.png"),
         new BlippImage("images/M55/1000001192-removebg-preview.png") ],
-      size: 4,
+      size: 8,
       count: 10,
       reverse: true,
     }),

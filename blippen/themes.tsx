@@ -126,7 +126,7 @@ const themes: Theme[] = [
 
     snowfall: makeSnowfall({
       content: [
-        new BlippImage("images/M551000001181-removebg-preview.png"),
+        new BlippImage("images/M55/1000001181-removebg-preview.png"),
         new BlippImage("images/M55/yellow_ballon.png") ],
       size: 1,
       count: 10,

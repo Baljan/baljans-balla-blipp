@@ -114,7 +114,7 @@ const themes: Theme[] = [
     },
     mainScreen: makeMainScreen({
       title: "",
-      backgroundImage: "url(/images/M55/M55.jpg)",
+      backgroundImage: "url(/images/M55/1000001186-removebg-preview.png)",
     }),
     successScreen: makeSuccessScreen({
       sound: [

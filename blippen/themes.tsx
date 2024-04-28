@@ -107,19 +107,22 @@ const themes: Theme[] = [
   // Maskin 55
   // ---
   {
-    name: "M55",
+    name: "Skifte2024",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getMonth() === 3 && date.getDate() === 26;
+      return date.getFullYear() === 2024 && date.getMonth() === 3 && date.getDate() === 29;
     },
     mainScreen: makeMainScreen({
-      title: "",
-      backgroundImage: "url(/images/M55/1000001186-removebg-preview.png)",
+      title: "Baljan on Camp",
+      backgroundImage: "url(/images/M55/both.png)",
     }),
     successScreen: makeSuccessScreen({
       sound: [
-        new BlippAudio("/sounds/M55/hurra.mp3"),
-        new BlippAudio("/sounds/M55/celebrate.mp3"),
+        new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),
+        new BlippAudio("/sounds/success.wav"),
+        new BlippAudio("/sounds/lattol/oppna.m4a"),
+        new BlippAudio("/sounds/success.wav"),
+
       ],    }, "alternating"),
 
     errorScreen: makeErrorScreen(),
@@ -128,7 +131,7 @@ const themes: Theme[] = [
       content: [
         new BlippImage("images/M55/1000001181-removebg-preview.png"),
         new BlippImage("images/M55/1000001192-removebg-preview.png") ],
-      size: 6,
+      size: 4,
       count: 10,
       reverse: true,
     }),

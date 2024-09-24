@@ -16,6 +16,50 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 
 // Add any themes to this list.
 const themes: Theme[] = [
+  /**
+   * LeMans 2024 - Festmaskineriet
+   */
+  {
+    name: "LeMans2024",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() == 2024 &&
+        date.getMonth() == 8 &&
+        Math.abs(date.getDate() - 26) <= 1
+      );
+    },
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundColor: "#325faa",
+      titleFontColor: BaljanColors.White,
+      backgroundImage: "url(/images/LeMans24/background.png)",
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundColor: "#325faa",
+      fontColor: BaljanColors.White,
+      sound: [
+        new BlippAudio("sounds/LeMans24/success-1.mp3"),
+        new BlippAudio("sounds/LeMans24/success-2.mp3"),
+        new BlippAudio("sounds/LeMans24/success-3.mp3"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundColor: "#F32900",
+      fontColor: BaljanColors.White,
+      sound: new BlippAudio("sounds/LeMans2024/fail-1.mp3"),
+    }),
+    snowfall: makeSnowfall({
+      size: 1,
+      content: [
+        new BlippImage("images/LeMans24/Beer.png"),
+        new BlippImage("images/LeMans24/Hat.png"),
+        new BlippImage("images/LeMans24/OrangeBoot.png"),
+        new BlippImage("images/LeMans24/Spotlight.png"),
+        new BlippImage("images/LeMans24/RedCar.png"),
+      ],
+    }),
+  },
   // ---
   // VSR 2024
   // ---
@@ -77,7 +121,7 @@ const themes: Theme[] = [
       count: 4,
     }),
   },
-  *////
+  */ ///
 
   // ---
   // pi
@@ -88,16 +132,38 @@ const themes: Theme[] = [
       const date = new Date();
       return date.getMonth() === 2 && date.getDate() === 14;
     },
-    
-    successScreen: makeSuccessScreen({
-      image: ["π = 3.1415...","...9265...", "...3589...", "...7932...", "...3846...", "...2643...", "...3832...", "...7950...", "...2884...", "...1971...","...6939...","...9375...","...1058...","...2097...","...4944...","...5923...","...0781...","...6406..."],
-    }, "alternating"),
+
+    successScreen: makeSuccessScreen(
+      {
+        image: [
+          "π = 3.1415...",
+          "...9265...",
+          "...3589...",
+          "...7932...",
+          "...3846...",
+          "...2643...",
+          "...3832...",
+          "...7950...",
+          "...2884...",
+          "...1971...",
+          "...6939...",
+          "...9375...",
+          "...1058...",
+          "...2097...",
+          "...4944...",
+          "...5923...",
+          "...0781...",
+          "...6406...",
+        ],
+      },
+      "alternating"
+    ),
 
     mainScreen: makeMainScreen(),
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
-      content: [new BlippImage("images/bakelser/pie.png"), ],
+      content: [new BlippImage("images/bakelser/pie.png")],
       size: 4,
       count: 1,
     }),
@@ -110,32 +176,39 @@ const themes: Theme[] = [
     name: "Skifte2024",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getFullYear() === 2024 && date.getMonth() === 3 && date.getDate() === 29;
+      return (
+        date.getFullYear() === 2024 &&
+        date.getMonth() === 3 &&
+        date.getDate() === 29
+      );
     },
     mainScreen: makeMainScreen({
       title: "Baljan on Camp",
       backgroundImage: "url(/images/M55/both.png)",
     }),
-    successScreen: makeSuccessScreen({
-      sound: [
-        new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),
-        new BlippAudio("/sounds/success.wav"),
-        new BlippAudio("/sounds/lattol/oppna.m4a"),
-        new BlippAudio("/sounds/success.wav"),
-
-      ],    }, "alternating"),
+    successScreen: makeSuccessScreen(
+      {
+        sound: [
+          new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),
+          new BlippAudio("/sounds/success.wav"),
+          new BlippAudio("/sounds/lattol/oppna.m4a"),
+          new BlippAudio("/sounds/success.wav"),
+        ],
+      },
+      "alternating"
+    ),
 
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
       content: [
         new BlippImage("images/M55/1000001181-removebg-preview.png"),
-        new BlippImage("images/M55/1000001192-removebg-preview.png") ],
+        new BlippImage("images/M55/1000001192-removebg-preview.png"),
+      ],
       size: 4,
       count: 10,
       reverse: true,
     }),
-    
   },
   // ---
   // Christmas
@@ -200,7 +273,7 @@ const themes: Theme[] = [
     }),
     errorScreen: makeErrorScreen({ image: "😒" }),
     snowfall: makeSnowfall({
-      content: [ "☕", "❤️"],
+      content: ["☕", "❤️"],
       reverse: true,
       size: 1,
     }),
@@ -481,7 +554,7 @@ const themes: Theme[] = [
   //---
   // VSR 2023
   //---7
-/* Deleted sounds, can be found in google drive
+  /* Deleted sounds, can be found in google drive
   {
     name: "VSR2023",
     shouldApplyToday: () => {

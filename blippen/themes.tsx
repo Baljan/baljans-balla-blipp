@@ -16,9 +16,52 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 
 // Add any themes to this list.
 const themes: Theme[] = [
+  // ---
+  // Baljans Jobbdag change date
+  // ---
+  {
+    name: "hardlabor",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() == 2024 &&
+        date.getMonth() == 9 &&
+        date.getDate() === 16
+      );
+    },
+
+    successScreen: makeSuccessScreen(
+      {
+        fontColor: BaljanColors.White,
+        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${BaljanColors.BrightBlue} 150%)`,
+        image: [
+          new BlippImage("/images/chokladboll/tray.png"),
+        ],
+        sound: [
+          new BlippAudio("/sounds/classy/jetaime.mp3"),
+          new BlippAudio("/sounds/classy/oui.mp3"),
+          new BlippAudio("/sounds/classy/rat.mp3"),
+          new BlippAudio("/sounds/classy/royal_cheese.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+
+    mainScreen: makeMainScreen({
+      title: "Cafe du Baljan",
+      backgroundColor: "#325faa",
+      titleFontColor: BaljanColors.White,
+      backgroundImage:  `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${BaljanColors.BrightBlue} 50%, rgba(0, 0, 0, 1) 100%)`,
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${OtherColors.DarkRed} 50%, rgba(0, 0, 0, 1) 100%)`,
+
+    }),
+  },
   /**
    * LeMans 2024 - Festmaskineriet
    */
+  /*
   {
     name: "LeMans2024",
     shouldApplyToday: () => {
@@ -60,6 +103,7 @@ const themes: Theme[] = [
       ],
     }),
   },
+  */
   // ---
   // VSR 2024
   // ---
@@ -170,8 +214,9 @@ const themes: Theme[] = [
   },
 
   // ---
-  // Maskin 55
+  // Skifte2024
   // ---
+  /*
   {
     name: "Skifte2024",
     shouldApplyToday: () => {
@@ -210,6 +255,7 @@ const themes: Theme[] = [
       reverse: true,
     }),
   },
+  */
   // ---
   // Christmas
   // ---
@@ -452,6 +498,7 @@ const themes: Theme[] = [
   // ---
   // Kaffekröken
   // ---
+  /*
   {
     name: "kaffekrok",
     shouldApplyToday: () => {
@@ -469,7 +516,7 @@ const themes: Theme[] = [
     }),
     errorScreen: makeErrorScreen(),
   },
-
+*/
   // ---
   // Easter
   // ---
@@ -624,6 +671,7 @@ const themes: Theme[] = [
   // ---
   // UK 2023
   // ---
+  /*
   {
     name: "UK2023",
     shouldApplyToday: () => {
@@ -664,7 +712,7 @@ const themes: Theme[] = [
       size: 0.8,
     }),
   },
-
+  */
   // ---
   // Lättöl theme
   // ---
@@ -685,6 +733,7 @@ const themes: Theme[] = [
 
   // kafferepet theme
   // ---
+  /*
   {
     name: "kafferepet",
     shouldApplyToday: () => {
@@ -725,6 +774,7 @@ const themes: Theme[] = [
       size: 1,
     }),
   },
+  */
   // ---
   // Dumb coffee theme
   // ---

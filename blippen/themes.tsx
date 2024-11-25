@@ -34,9 +34,7 @@ const themes: Theme[] = [
       {
         fontColor: BaljanColors.White,
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${BaljanColors.BrightBlue} 150%)`,
-        image: [
-          new BlippImage("/images/chokladboll/tray.png"),
-        ],
+        image: [new BlippImage("/images/chokladboll/tray.png")],
         sound: [
           new BlippAudio("/sounds/classy/jetaime.mp3"),
           new BlippAudio("/sounds/classy/oui.mp3"),
@@ -51,11 +49,10 @@ const themes: Theme[] = [
       title: "Cafe du Baljan",
       backgroundColor: "#325faa",
       titleFontColor: BaljanColors.White,
-      backgroundImage:  `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${BaljanColors.BrightBlue} 50%, rgba(0, 0, 0, 1) 100%)`,
+      backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${BaljanColors.BrightBlue} 50%, rgba(0, 0, 0, 1) 100%)`,
     }),
     errorScreen: makeErrorScreen({
       backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${OtherColors.DarkRed} 50%, rgba(0, 0, 0, 1) 100%)`,
-
     }),
   },
   /**
@@ -813,7 +810,10 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getMonth() === 10 && date.getDate() > 23 && date.getDate() < 28
+        date.getFullYear() == 2023 &&
+        date.getMonth() === 10 &&
+        date.getDate() > 23 &&
+        date.getDate() < 28
       );
     },
     successScreen: makeSuccessScreen({}),

@@ -104,12 +104,12 @@ const themes: Theme[] = [
   // ---
   // VSR 2024
   // ---
-  /* Deleted sounds, can be found in google drive 
+  /* Deleted sounds, can be found in google drive
   {
     name: "VSR2024",
     shouldApplyToday: () => {
       const date = new Date();
-      return  date.getFullYear() == 2024 && 
+      return  date.getFullYear() == 2024 &&
               date.getMonth() == 2 &&
               date.getDate() == 2;
     },
@@ -163,6 +163,38 @@ const themes: Theme[] = [
     }),
   },
   */ ///
+
+
+  // ---
+  // VSR 2025
+  // ---
+  {
+    name: "VSR2025",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return date.getFullYear() === 2025 &&
+         date.getMonth() === 1 && // February (0-based index, so January = 0, February = 1)
+         date.getDate() >= 4 &&
+         date.getDate() <= 6;
+    },
+
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundImage: "url(/images/VSR2025/VSR1.png)",
+    }),
+    successScreen: makeSuccessScreen({
+      fontColor: BaljanColors.Black,
+      image: new BlippImage("images/VSR2025/Empty.png"), // Used to remove checkmark
+      backgroundImage: "url(/images/VSR2025/VSR2.png)",
+      sound: new BlippAudio("/sounds/VSR2025/Gryffindor.m4a"),
+    }),
+    errorScreen: makeErrorScreen({
+      image: new BlippImage("images/VSR2025/Empty.png"), 
+      backgroundImage: "url(/images/VSR2025/VSR3.png)",
+      sound:
+        new BlippAudio("/sounds/VSR2025/Slytherin.m4a"),
+    }),
+  },
 
   // ---
   // pi

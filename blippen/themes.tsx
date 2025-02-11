@@ -24,9 +24,9 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getFullYear() == 2024 &&
-        date.getMonth() == 9 &&
-        date.getDate() === 16
+        date.getFullYear() == 2025 &&
+        date.getMonth() == 1 &&
+        date.getDate() === 12
       );
     },
 
@@ -168,6 +168,7 @@ const themes: Theme[] = [
   // ---
   // VSR 2025
   // ---
+  /*
   {
     name: "VSR2025",
     shouldApplyToday: () => {
@@ -194,7 +195,9 @@ const themes: Theme[] = [
       sound:
         new BlippAudio("/sounds/VSR2025/Slytherin.m4a"),
     }),
-  },
+ },
+  */  
+ 
 
   // ---
   // pi

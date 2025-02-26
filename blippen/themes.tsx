@@ -55,6 +55,45 @@ const themes: Theme[] = [
       backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${OtherColors.DarkRed} 50%, rgba(0, 0, 0, 1) 100%)`,
     }),
   },
+
+
+// ---
+  // Donken
+  // ---
+  {
+    name: "donken",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() == 2025 &&
+        date.getMonth() == 1 &&
+        date.getDate() === 26 &&
+        date.getHours() < 12
+      );
+    },
+
+    successScreen: makeSuccessScreen(
+      {
+        fontColor: BaljanColors.White,
+      //  backgroundImage: "url(/images/donken/bakgrund.jpg)",
+        sound: [
+          new BlippAudio("/sounds/donken/beep.mp3"),
+        ],
+      },
+    ),
+
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundColor: "#325faa",
+      titleFontColor: BaljanColors.White,
+      backgroundImage: "url(/images/donken/bakgrund.jpg)",
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${OtherColors.DarkRed} 50%, rgba(0, 0, 0, 1) 100%)`,
+    }),
+  },
+
+  
   /**
    * LeMans 2024 - Festmaskineriet
    */

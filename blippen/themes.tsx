@@ -17,15 +17,52 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 // Add any themes to this list.
 const themes: Theme[] = [
   // ---
-  // Baljans Jobbdag change date
+  // Punschrullens dag
   // ---
+  {
+    name: "dammsug",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() === 2025 &&
+        date.getMonth() === 2 &&
+        date.getDate() === 7
+      );
+    },
+
+    successScreen: makeSuccessScreen(
+      {
+        fontColor: BaljanColors.White,
+        image: [new BlippImage("/images/dammsug/punschrulle.png")],
+        sound: [
+          new BlippAudio("/sounds/dammsug/vacuum.wav"),
+          new BlippAudio("/sounds/dammsug/ingen_is.mp3"),
+          new BlippAudio("/sounds/dammsug/punschen_kommer.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+
+    mainScreen: makeMainScreen({
+      title: "Punschrullens Dag",
+      backgroundColor: BaljanColors.BrightBlue,
+      titleFontColor: BaljanColors.White,
+      backgroundImage: "url(/images/dammsug/kleggbert2.svg)",
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, ${OtherColors.DarkRed} 50%, rgba(0, 0, 0, 1) 100%)`,
+    }),
+  },
+  //==================
+  //  Cafe du Baljan
+  //==================
   {
     name: "hardlabor",
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getFullYear() == 2025 &&
-        date.getMonth() == 1 &&
+        date.getFullYear() === 2025 &&
+        date.getMonth() === 1 &&
         date.getDate() === 12
       );
     },
@@ -56,8 +93,7 @@ const themes: Theme[] = [
     }),
   },
 
-
-// ---
+  // ---
   // Donken
   // ---
   {
@@ -72,15 +108,11 @@ const themes: Theme[] = [
       );
     },
 
-    successScreen: makeSuccessScreen(
-      {
-        fontColor: BaljanColors.White,
+    successScreen: makeSuccessScreen({
+      fontColor: BaljanColors.White,
       //  backgroundImage: "url(/images/donken/bakgrund.jpg)",
-        sound: [
-          new BlippAudio("/sounds/donken/beep.mp3"),
-        ],
-      },
-    ),
+      sound: [new BlippAudio("/sounds/donken/beep.mp3")],
+    }),
 
     mainScreen: makeMainScreen({
       title: "",
@@ -93,7 +125,6 @@ const themes: Theme[] = [
     }),
   },
 
-  
   /**
    * LeMans 2024 - Festmaskineriet
    */
@@ -168,7 +199,7 @@ const themes: Theme[] = [
         new BlippImage("images/VSR2024/stark.png"),
         new BlippImage("images/VSR2024/targaryen.png")
       ],
-
+ 
       backgroundColor: "#011910",
       fontColor: BaljanColors.White,
       sound: [
@@ -186,7 +217,7 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/VSR2024/A-lannister-always-pays-his-debts.mp3")
       ]
     }),
-
+ 
     snowfall: makeSnowfall({
       content: [
         new BlippImage("images/VSR2024/baljanregn-01.png"),
@@ -203,7 +234,6 @@ const themes: Theme[] = [
   },
   */ ///
 
-
   // ---
   // VSR 2025
   // ---
@@ -217,7 +247,7 @@ const themes: Theme[] = [
          date.getDate() >= 4 &&
          date.getDate() <= 6;
     },
-
+ 
     mainScreen: makeMainScreen({
       title: "",
       backgroundImage: "url(/images/VSR2025/VSR1.png)",
@@ -235,8 +265,7 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/VSR2025/Slytherin.m4a"),
     }),
  },
-  */  
- 
+  */
 
   // ---
   // pi
@@ -313,9 +342,9 @@ const themes: Theme[] = [
       },
       "alternating"
     ),
-
+ 
     errorScreen: makeErrorScreen(),
-
+ 
     snowfall: makeSnowfall({
       content: [
         new BlippImage("images/M55/1000001181-removebg-preview.png"),
@@ -580,7 +609,7 @@ const themes: Theme[] = [
         date.getFullYear() === 2021
       );
     },
-
+ 
     mainScreen: makeMainScreen(),
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/kaffekrok.png"),
@@ -683,14 +712,14 @@ const themes: Theme[] = [
         date.getFullYear() === 2023
       );
     },
-
+ 
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.White,
       backgroundImage:
         "url(/images/VSR2023/heroes/Logga.png), linear-gradient(0deg,rgba(29,61,144,255) 0%, rgba(160,198,221,255) 150%)",
     }),
-
+ 
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, ${OtherColors.DarkGreen} 0%, ${BaljanColors.BrightBlue} 150%)`,
@@ -760,11 +789,11 @@ const themes: Theme[] = [
       backgroundImage:
         "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
     }),
-
+ 
     successScreen: makeSuccessScreen(
       {
         backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
-
+ 
         image: [new BlippImage("/images/UK/cm_text.png")],
         sound: [
           new BlippAudio("/sounds/UK/tagga.mp3"),
@@ -777,7 +806,7 @@ const themes: Theme[] = [
       "alternating"
     ),
     errorScreen: makeErrorScreen(),
-
+ 
     snowfall: makeSnowfall({
       content: ["TAGGA", "TAGGA", "UK"],
       size: 0.8,
@@ -815,7 +844,7 @@ const themes: Theme[] = [
         date.getFullYear() === 2023
       );
     },
-
+ 
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.DarkBlue,

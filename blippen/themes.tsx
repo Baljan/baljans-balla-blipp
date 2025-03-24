@@ -80,15 +80,16 @@ const themes: Theme[] = [
 
     snowfall: makeSnowfall({
       content: [
+        new BlippImage("/images/styret-ht25/kleggbert2.svg"),
         "Sök",
         "Baljan",
-        "Bajan",
         "Bajen",
-        "Blajan",
-        "Styret",
         "Styrelsen",
         new BlippImage("/images/styret-ht25/kleggbert2.svg"),
-        new BlippImage("/images/styret-ht25/kleggbert2.svg"),
+        "Sök",
+        "Blajan",
+        "Bajan",
+        "Styret",
         new BlippImage("/images/styret-ht25/kleggbert2.svg"),
       ],
       size: 0.8,

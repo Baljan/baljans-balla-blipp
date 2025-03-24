@@ -17,6 +17,85 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 // Add any themes to this list.
 const themes: Theme[] = [
   // ---
+  // Sök Styret HT25
+  // ---
+  {
+    name: "recruiting-ht25",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getMonth() === 2 &&
+        date.getDate() >= 17 &&
+        date.getDate() <= 30 &&
+        date.getFullYear() === 2025
+      );
+    },
+
+    mainScreen: makeMainScreen({
+      backgroundImage: "url(/images/styret-ht25/padda.jpg)",
+      title: "",
+      infoFontColor: BaljanColors.White,
+    }),
+
+    successScreen: makeSuccessScreen({
+      // backgroundColor: "white",
+      sound: [
+        new BlippAudio("/sounds/funny-sounds/cykelklocka.wav"),
+        new BlippAudio("/sounds/funny-sounds/wow.mp3"),
+        new BlippAudio("/sounds/funny-sounds/hurra.mp3"),
+        new BlippAudio("/sounds/funny-sounds/giggle.mp3"),
+        new BlippAudio("/sounds/funny-sounds/clownhorn.wav"),
+        new BlippAudio("/sounds/funny-sounds/clownsqueky.wav"),
+        new BlippAudio("/sounds/funny-sounds/kid.wav"),
+        new BlippAudio("/sounds/funny-sounds/wopi.mp3"),
+      ],
+
+      image: [
+        new BlippImage("/images/styret-ht25/affe.png"),
+        new BlippImage("/images/styret-ht25/elsa.png"),
+        new BlippImage("/images/styret-ht25/hanna.png"),
+        new BlippImage("/images/styret-ht25/johan.png"),
+        new BlippImage("/images/styret-ht25/maja.png"),
+        new BlippImage("/images/styret-ht25/thomas.png"),
+        new BlippImage("/images/styret-ht25/angela.png"),
+        new BlippImage("/images/styret-ht25/emma.png"),
+        new BlippImage("/images/styret-ht25/hedda.png"),
+        new BlippImage("/images/styret-ht25/josie.png"),
+        new BlippImage("/images/styret-ht25/molly.png"),
+        new BlippImage("/images/styret-ht25/viktor.png"),
+        new BlippImage("/images/styret-ht25/cajsa.png"),
+        new BlippImage("/images/styret-ht25/erica.png"),
+        new BlippImage("/images/styret-ht25/henry.png"),
+        new BlippImage("/images/styret-ht25/limpan.png"),
+        new BlippImage("/images/styret-ht25/öbbe.png"),
+        new BlippImage("/images/styret-ht25/elin.png"),
+        new BlippImage("/images/styret-ht25/frida.png"),
+        new BlippImage("/images/styret-ht25/jens.png"),
+        new BlippImage("/images/styret-ht25/lukas.png"),
+        new BlippImage("/images/styret-ht25/olle.png"),
+      ],
+    }),
+
+    errorScreen: makeErrorScreen({}),
+
+    snowfall: makeSnowfall({
+      content: [
+        "Sök",
+        "Baljan",
+        "Bajan",
+        "Bajen",
+        "Blajan",
+        "Styret",
+        "Styrelsen",
+        new BlippImage("/images/styret-ht25/kleggbert2.svg"),
+        new BlippImage("/images/styret-ht25/kleggbert2.svg"),
+        new BlippImage("/images/styret-ht25/kleggbert2.svg"),
+      ],
+      size: 0.8,
+    }),
+  },
+
+  // ---
   // Punschrullens dag
   // ---
   {

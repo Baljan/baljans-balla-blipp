@@ -31,9 +31,24 @@ export default function StatusScreen({
       {show && blippStatus.show ? (
         <motion.div
           key="screen"
-          initial={{ transformPerspective: "400px", rotateX: "40deg", translateY: "120%", scale: 0 }}
-          animate={{ transformPerspective: "400px", rotateX: "0deg", translateY: "0%", scale: 1 }}
-          exit={{ transformPerspective: "400px", rotateX: "40deg", translateY: "120%", scale: 0 }}
+          initial={{
+            transformPerspective: "400px",
+            rotateX: "40deg",
+            translateY: "120%",
+            scale: 0,
+          }}
+          animate={{
+            transformPerspective: "400px",
+            rotateX: "0deg",
+            translateY: "0%",
+            scale: 1,
+          }}
+          exit={{
+            transformPerspective: "400px",
+            rotateX: "40deg",
+            translateY: "120%",
+            scale: 0,
+          }}
           transition={{ type: "tween", delayChildren: 0.5 }}
           className={styles.statusScreen}
           style={{
@@ -65,6 +80,18 @@ export default function StatusScreen({
           >
             {blippStatus.message}
           </motion.div>
+          {blippStatus.help_text && (
+            <motion.div
+              key="help_text"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.4 }}
+              className={styles.help_text}
+            >
+              {blippStatus.help_text}
+            </motion.div>
+          )}
         </motion.div>
       ) : null}
     </AnimatePresence>

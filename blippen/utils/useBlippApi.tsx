@@ -44,6 +44,7 @@ export function useBlippApi(
           success: false,
           theme: theme.errorScreen(),
           message: res.message,
+          help_text: res.help_text ?? null,
           duration: res.signedRfid
             ? ANIMATION_DURATION * 2
             : ANIMATION_DURATION,

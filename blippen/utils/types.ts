@@ -11,6 +11,7 @@ export type ApiResult =
   | {
       success: false;
       message: string;
+      help_text?: string;
       signedRfid?: string;
     };
 
@@ -25,6 +26,7 @@ export type BlippStatus =
       success: boolean;
       theme: StatusScreenTheme;
       message: ReactNode;
+      help_text?: ReactNode;
       duration: number;
       signedRfid?: string;
     };

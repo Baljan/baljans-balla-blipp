@@ -44,11 +44,16 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
     .catch((e) => {
       let message = "Ett fel inträffade";
       let signedRfid: string | undefined = undefined;
+      let help_text = undefined;
+
       if (!e.response) {
         message = "Nätverksfel";
       } else {
         if (typeof e.response?.data?.message === "string") {
           message = e.response.data.message;
+        }
+        if (typeof e.response?.data?.help_text === "string") {
+          help_text = e.response.data.help_text;
         }
         if (typeof e.response?.data?.signed_rfid === "string") {
           signedRfid = e.response.data.signed_rfid;
@@ -57,6 +62,7 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
       const apiRes: ApiResult = {
         success: false,
         message,
+        help_text,
         signedRfid,
       };
       return Promise.resolve(apiRes);
@@ -79,5 +85,6 @@ export async function mockBlipp(input: string): Promise<ApiResult> {
   return {
     success: false,
     message: "Ett fel inträffade",
+    help_text: undefined,
   };
 }

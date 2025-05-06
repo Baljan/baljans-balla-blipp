@@ -17,6 +17,49 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 // Add any themes to this list.
 const themes: Theme[] = [
   // ---
+  // Ölstopet 2025
+  // ---
+  {
+    name: "ölstopet-2025",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() == 2025 &&
+        date.getMonth() == 4 &&
+        date.getDate() == 8
+      );
+    },
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/ölstopet-2025/snowflake1.svg"),
+        new BlippImage("/images/ölstopet-2025/snowflake2.svg"),
+      ],
+      size: 1,
+    }),
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundImage: "url(/images/ölstopet-2025/idle.svg)",
+    }),
+    errorScreen: makeErrorScreen({
+      fontColor: "white",
+      backgroundImage: "url(/images/ölstopet-2025/denied.svg)",
+      sound: [
+        new BlippAudio("/sounds/ölstopet-2025/evil-laugh.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/kids-laugh.mp3"),
+      ],
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundImage: "url(/images/ölstopet-2025/success.svg)",
+      sound: [
+        new BlippAudio("/sounds/ölstopet-2025/galactic-whip.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/punch.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/whip-2.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/whip-crack.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/whip.mp3"),
+      ],
+    }),
+  },
+  // ---
   // Sök Styret HT25
   // ---
   {

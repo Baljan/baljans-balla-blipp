@@ -4,10 +4,10 @@ This is a small project for the _blipp_ system for coffee.
 
 ## Development
 
-Can be run for example using the npm package `serve`.
+Can be run for example using.
 
 ```
-npx serve web-root
+npm run dev
 ```
 
 Will then be reachable at `http://localhost:5000`. To run in a testing environment you can add the `testing` and `theme` URL parameters.

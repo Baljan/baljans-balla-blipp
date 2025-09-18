@@ -721,7 +721,7 @@ const themes: Theme[] = [
   // ---
   // Kaffekröken
   // ---
-  /*
+   /*
   {
     name: "kaffekrok",
     shouldApplyToday: () => {
@@ -894,7 +894,7 @@ const themes: Theme[] = [
   // ---
   // UK 2023
   // ---
-  /*
+   /*
   {
     name: "UK2023",
     shouldApplyToday: () => {
@@ -956,15 +956,15 @@ const themes: Theme[] = [
 
   // kafferepet theme
   // ---
-  /*
+  
   {
     name: "kafferepet",
     shouldApplyToday: () => {
       const date = new Date();
       return (
         date.getMonth() === 8 &&
-        date.getDate() === 15 &&
-        date.getFullYear() === 2023
+        date.getDate() === 19 &&
+        date.getFullYear() === 2025
       );
     },
  
@@ -972,32 +972,24 @@ const themes: Theme[] = [
       title: "",
       titleFontColor: BaljanColors.DarkBlue,
       backgroundImage:
-        "url(/images/kafferepet/Kafferepbaljan.jpg), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
+        "url(/images/kafferepet/main25.png), linear-gradient(-45deg, rgba(67, 160, 71), rgb(255, 234, 0), rgba(255, 182, 193), rgba(134,207,240)",
     }),
     successScreen: makeSuccessScreen({
+      backgroundImage: `linear-gradient(0deg, rgba(224,76,52,255) 0%, rgba(232,124,180,255) 40%)`,
+      image: [new BlippImage("/images/kafferepet/Logga.png")],
       sound: [
-        new BlippAudio("/sounds/CM/howdy.mp3"),
-        new BlippAudio("/sounds/CM/dra.mp3"),
-        new BlippAudio("/sounds/CM/cowboy.mp3"),
-        new BlippAudio("/sounds/CM/taggaDraget.mp3"),
-        new BlippAudio("/sounds/CM/yee-haw.mp3"),
+        new BlippAudio("/sounds/kafferepet/main.m4a"),
       ],
     }),
-    errorScreen: makeErrorScreen({
-      image: [new BlippImage("/images/kafferepet/wanted.png")],
-      sound: [new BlippAudio("/sounds/CM/prison.mp3")],
-    }),
-    snowfall: makeSnowfall({
-      content: [
-        new BlippImage("/images/kafferepet/cm.png"),
-        "❤",
-        "☕",
-        new BlippImage("/images/kafferepet/baljanlo.png"),
-      ],
-      size: 1,
-    }),
-  },
-  */
+  errorScreen: makeErrorScreen({}),
+  snowfall: makeSnowfall({
+    size: 1.5,
+    content: [
+      new BlippImage("/images/kafferepet/silverdisco.png"),
+    ],
+  }),
+},
+  
   // ---
   // Dumb coffee theme
   // ---

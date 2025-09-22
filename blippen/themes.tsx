@@ -249,51 +249,50 @@ const themes: Theme[] = [
   },
 
   /**
-   * LeMans 2024 - Festmaskineriet
+   * LeMans 2025 - Festmaskineriet
    */
-  /*
+  
   {
-    name: "LeMans2024",
+    name: "LeMans2025",
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getFullYear() == 2024 &&
-        date.getMonth() == 8 &&
-        Math.abs(date.getDate() - 26) <= 1
+        date.getFullYear() === 2025 &&
+        date.getMonth() === 8 &&
+        date.getDate() === 23
       );
     },
     mainScreen: makeMainScreen({
       title: "",
-      backgroundColor: "#325faa",
+      backgroundColor: "#212427ff",
       titleFontColor: BaljanColors.White,
-      backgroundImage: "url(/images/LeMans24/background.png)",
+      backgroundImage: "url(/images/LeMans25/test2.png)",
     }),
     successScreen: makeSuccessScreen({
-      backgroundColor: "#325faa",
-      fontColor: BaljanColors.White,
+      backgroundColor: "#212427ff",
+      fontColor: "#EC648C",
+      image: [new BlippImage("images/LeMans25/Baljanbild.png")],
       sound: [
-        new BlippAudio("sounds/LeMans24/success-1.mp3"),
-        new BlippAudio("sounds/LeMans24/success-2.mp3"),
-        new BlippAudio("sounds/LeMans24/success-3.mp3"),
+        new BlippAudio("sounds/LeMans25/snyggduär.m4a"),
+        new BlippAudio("sounds/LeMans25/taggakaffe.m4a"),
+        new BlippAudio("sounds/LeMans25/taggalemans.m4a"),
       ],
     }),
     errorScreen: makeErrorScreen({
       backgroundColor: "#F32900",
-      fontColor: BaljanColors.White,
-      sound: new BlippAudio("sounds/LeMans2024/fail-1.mp3"),
+      fontColor: "#EC648C",
+      sound: new BlippAudio("sounds/LeMans25/Nekad.m4a"),
     }),
     snowfall: makeSnowfall({
-      size: 1,
+      size: 2,
       content: [
-        new BlippImage("images/LeMans24/Beer.png"),
-        new BlippImage("images/LeMans24/Hat.png"),
-        new BlippImage("images/LeMans24/OrangeBoot.png"),
-        new BlippImage("images/LeMans24/Spotlight.png"),
-        new BlippImage("images/LeMans24/RedCar.png"),
+        new BlippImage("images/LeMans25/Magnetbaljan2.png"),
+        new BlippImage("images/LeMans25/Baljan3fmlogga.png"),
+        new BlippImage("images/LeMans25/RedCar.png"),
       ],
     }),
   },
-  */
+  
   // ---
   // VSR 2024
   // ---

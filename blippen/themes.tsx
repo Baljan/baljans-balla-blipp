@@ -266,7 +266,7 @@ const themes: Theme[] = [
       title: "",
       backgroundColor: "#212427ff",
       titleFontColor: BaljanColors.White,
-      backgroundImage: "url(/images/LeMans25/test2.png)",
+      backgroundImage: "url(/images/LeMans25/Bakgrund.png)",
     }),
     successScreen: makeSuccessScreen({
       backgroundColor: "#212427ff",
@@ -288,7 +288,6 @@ const themes: Theme[] = [
       content: [
         new BlippImage("images/LeMans25/Magnetbaljan2.png"),
         new BlippImage("images/LeMans25/Baljan3fmlogga.png"),
-        new BlippImage("images/LeMans25/RedCar.png"),
       ],
     }),
   },

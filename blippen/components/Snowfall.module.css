@@ -1,4 +1,3 @@
-
 .snowfall {
   top: 0;
   bottom: 0;
@@ -13,12 +12,16 @@
   cursor: default;
 }
 
+.snowfall[data-rotation="true"] .snowflake > div > * {
+  transform: rotate(var(--rotate));
+}
+
 @keyframes snowflakes-fall {
   0% {
     transform: translateY(-100px) scale(var(--snowflake-size));
   }
   100% {
-    transform: translateY(100vh) scale(var(--snowflake-size));
+    transform: translateY(calc(100vh + 100px)) scale(var(--snowflake-size));
   }
 }
 
@@ -49,6 +52,7 @@
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-play-state: running;
+  transform: rotate(60deg);
 }
 .snowflake > div {
   animation-name: snowflakes-fall;

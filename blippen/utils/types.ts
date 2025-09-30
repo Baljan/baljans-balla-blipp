@@ -58,7 +58,8 @@ export interface MainScreenTheme {
   infoFontColor: string;
   footerFontColor: string;
   infoText: string;
-  title: string;
+  title: string | ReactNode;
+  invertGithub?: boolean;
 }
 
 export interface Snowflake {
@@ -72,6 +73,7 @@ export interface Snowfall {
   count: number;
   reverse: boolean;
   randomHue: boolean;
+  randomRotation: boolean;
 }
 
 export type MainScreenSelector = () => MainScreenTheme;

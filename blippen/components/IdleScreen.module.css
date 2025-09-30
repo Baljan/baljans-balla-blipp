@@ -30,7 +30,6 @@
   max-width: 900px;
 }
 
-
 .footer {
   position: absolute;
   bottom: 0;
@@ -45,6 +44,9 @@
   font-size: 1.5rem;
   display: flex;
   align-items: center;
+}
+.github[data-inverted="true"] {
+  color: white;
 }
 .github span {
   font-size: 1.25rem;

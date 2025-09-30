@@ -141,16 +141,30 @@ export const makeSnowfall =
     reverse?: boolean;
     content: ReactNode[];
     randomHue?: boolean;
+    randomRotation?: boolean;
     count?: number;
     speed?: number;
   }) =>
   () => ({
-    count: options.count ?? 10,
+    count: options.count ?? Math.max(10, options.content.length),
     reverse: options.reverse ?? false,
     randomHue: options.randomHue ?? false,
+    randomRotation: options.randomRotation ?? false,
     getFlake: (i: number) => ({
       size: options.size ?? 2,
       speed: options.speed ?? 1,
       content: options.content[i % options.content.length],
     }),
   });
+
+export const generateDate = (start: string, end?: string) => {
+  const currentDate = new Date();
+  const targetStartDate = new Date(start);
+
+  if (end) {
+    const targetEndDate = new Date(end);
+    return () => targetStartDate <= currentDate && currentDate <= targetEndDate;
+  } else {
+    return () => targetStartDate.toDateString() == currentDate.toDateString();
+  }
+};

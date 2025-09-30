@@ -8,6 +8,7 @@ import {
   makeErrorScreen,
   makeSuccessScreen,
   makeMainScreen,
+  generateDate,
 } from "./utils/themeHelpers";
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
@@ -16,6 +17,91 @@ import { getSemlaDay, getEaster } from "./utils/utils";
 
 // Add any themes to this list.
 const themes: Theme[] = [
+  {
+    name: "kaffetsdag",
+    shouldApplyToday: generateDate("2025-10-01"),
+    mainScreen: makeMainScreen({
+      title: (
+        <p>
+          Kaffets dag,
+          <br />
+          halva priset!!
+        </p>
+      ),
+      infoText: "Vi rundar ner på Blippen!",
+      infoFontColor: "#e6daa6",
+      backgroundColor: "#653700",
+      titleFontColor: "#e6daa6",
+      invertGithub: true,
+    }),
+
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/mr-bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+        new BlippImage("/images/kaffetsdag/bean.png"),
+      ],
+      size: 2.7,
+      randomRotation: true,
+    }),
+    successScreen: makeSuccessScreen(
+      {
+        image: "☕",
+        backgroundColor: "#e6daa6",
+        fontColor: "#653700",
+        sound: [
+          new BlippAudio("/sounds/funny-sounds/funnyturtle.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe1.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe2.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe3.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe4.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe5.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe6.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe7.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe8.mp3"),
+          new BlippAudio("/sounds/kaffetsdag/kaffe9.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+    errorScreen: makeErrorScreen(),
+  },
   // ---
   // Ölstopet 2025
   // ---
@@ -251,7 +337,7 @@ const themes: Theme[] = [
   /**
    * LeMans 2025 - Festmaskineriet
    */
-  
+
   {
     name: "LeMans2025",
     shouldApplyToday: () => {
@@ -291,7 +377,7 @@ const themes: Theme[] = [
       ],
     }),
   },
-  
+
   // ---
   // VSR 2024
   // ---
@@ -719,7 +805,7 @@ const themes: Theme[] = [
   // ---
   // Kaffekröken
   // ---
-   /*
+  /*
   {
     name: "kaffekrok",
     shouldApplyToday: () => {
@@ -892,7 +978,7 @@ const themes: Theme[] = [
   // ---
   // UK 2023
   // ---
-   /*
+  /*
   {
     name: "UK2023",
     shouldApplyToday: () => {
@@ -954,7 +1040,7 @@ const themes: Theme[] = [
 
   // kafferepet theme
   // ---
-  
+
   {
     name: "kafferepet",
     shouldApplyToday: () => {
@@ -965,7 +1051,7 @@ const themes: Theme[] = [
         date.getFullYear() === 2025
       );
     },
- 
+
     mainScreen: makeMainScreen({
       title: "",
       titleFontColor: BaljanColors.DarkBlue,
@@ -975,19 +1061,15 @@ const themes: Theme[] = [
     successScreen: makeSuccessScreen({
       backgroundImage: `linear-gradient(0deg, rgba(224,76,52,255) 0%, rgba(232,124,180,255) 40%)`,
       image: [new BlippImage("/images/kafferepet/Logga.png")],
-      sound: [
-        new BlippAudio("/sounds/kafferepet/main.m4a"),
-      ],
+      sound: [new BlippAudio("/sounds/kafferepet/main.m4a")],
     }),
-  errorScreen: makeErrorScreen({}),
-  snowfall: makeSnowfall({
-    size: 1.5,
-    content: [
-      new BlippImage("/images/kafferepet/silverdisco.png"),
-    ],
-  }),
-},
-  
+    errorScreen: makeErrorScreen({}),
+    snowfall: makeSnowfall({
+      size: 1.5,
+      content: [new BlippImage("/images/kafferepet/silverdisco.png")],
+    }),
+  },
+
   // ---
   // Dumb coffee theme
   // ---

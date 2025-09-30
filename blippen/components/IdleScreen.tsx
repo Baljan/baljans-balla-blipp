@@ -23,6 +23,7 @@ export default React.memo(function IdleScreen({
     footerFontColor,
     infoText,
     title,
+    invertGithub,
   } = useMemo(() => theme.mainScreen(), [theme]);
 
   return (
@@ -48,7 +49,7 @@ export default React.memo(function IdleScreen({
         ) : null}
       </div>
       <div className={styles.footer} style={{ color: footerFontColor }}>
-        <div className={styles.github}>
+        <div className={styles.github} data-inverted={!!invertGithub}>
           <FaGithub />
           <span>
             {testing ? "Blippen körs nu i testläge" : "github.com/Baljan"}

@@ -19,7 +19,11 @@ export default React.memo(function Snowfall({ theme }: Props) {
   const range = Array.from(Array(snowfall.count).keys()); // array of [0, ..., count]
 
   return (
-    <div className={styles.snowfall} aria-hidden="true">
+    <div
+      className={styles.snowfall}
+      aria-hidden="true"
+      data-rotation={!!snowfall.randomRotation}
+    >
       {range.map((i) => {
         const { content, size, speed } = snowfall.getFlake(i);
         const fallSpeed = getRandomNumberBetween(7, 12) / speed;
@@ -27,6 +31,7 @@ export default React.memo(function Snowfall({ theme }: Props) {
         const fallDelay = getRandomNumberBetween(0, fallSpeed);
         const shakeDelay = getRandomNumberBetween(0, shakeSpeed);
         const hueRotate = getRandomNumberBetween(0, 360);
+        const rotation = getRandomNumberBetween(0, 360);
         const flakeVariables = {
           "--snowflake-size": size,
           "--shake-speed": `${shakeSpeed}s`,
@@ -34,7 +39,9 @@ export default React.memo(function Snowfall({ theme }: Props) {
           "--fall-speed": `${fallSpeed}s`,
           "--fall-delay": `-${fallDelay}s`,
           "--hue-rotate": `${hueRotate}deg`,
+          "--rotate": `${rotation}deg`,
         } as React.CSSProperties;
+
         return (
           <div key={i} className={styles.snowflake} style={flakeVariables}>
             <div

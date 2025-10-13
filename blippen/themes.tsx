@@ -271,8 +271,8 @@ const themes: Theme[] = [
       const date = new Date();
       return (
         date.getFullYear() === 2025 &&
-        date.getMonth() === 1 &&
-        date.getDate() === 12
+        date.getMonth() === 9 &&
+        date.getDate() === 13
       );
     },
 

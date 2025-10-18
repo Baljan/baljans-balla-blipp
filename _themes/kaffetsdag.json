@@ -1,30 +1,89 @@
 {
     "name": "kaffets-dag",
     "idle": {
-        "title": "Kaffets dag,\nhalva priset!",
-        "infoText": "Vi rundar ner på Blippen!",
-        "infoFontColor": "#e6daa6",
-        "backgroundColor": "#653700",
-        "titleFontColor": "#e6daa6",
-        "invertGithub": true
+        "title": {
+            "content": "Kaffets dag,\nhalva priset!",
+            "fontColor": "#e6daa6"
+        },
+        "subtitle": {
+            "content": "Vi rundar ner på Blippen!",
+            "fontColor": "#e6daa6"
+        },
+        "background": {
+            "content": "#653700"
+        }
+    },
+    "success": {
+        "sounds": ["kaffe1", "kaffe2"],
+        "background": {
+            "blendMode": "normal",
+            "content": "#00a54c"
+        },
+        "fontColor": "#00F771",
+        "image": "success-icon"
+    },
+    "error": {
+        "background": {
+            "blendMode": "normal",
+            "content": "#820c0c"
+        },
+        "sounds": ["error-sound"],
+        "fontColor": "#ff2b2b",
+        "image": "error-icon"
     },
     "snowfall": {
-        "content": ["2", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+        "content": [
+            "mr-bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean",
+            "bean"
+        ],
         "count": 100,
         "randomRotation": true,
         "size": 1,
         "speed": 1
     },
     "assets": {
-        "1": {
-            "id": "1",
+        "bean": {
+            "id": "bean",
             "type": "image",
             "url": "/images/kaffetsdag/bean.png"
         },
-        "2": {
-            "id": "2",
+        "mr-bean": {
+            "id": "mr-bean",
             "type": "image",
             "url": "/images/kaffetsdag/mr-bean.png"
+        },
+        "kaffe1": {
+            "id": "kaffe1",
+            "type": "audio",
+            "url": "/sounds/kaffetsdag/kaffe1.mp3"
+        },
+        "kaffe2": {
+            "id": "kaffe2",
+            "type": "audio",
+            "url": "/sounds/kaffetsdag/kaffe2.mp3"
+        },
+        "success-icon": {
+            "type": "image",
+            "url": "/images/check.svg",
+            "id": "success-icon"
+        },
+        "error-icon": {
+            "type": "image",
+            "url": "/images/times.svg",
+            "id": "error-icon"
+        },
+        "error-sound": {
+            "type": "audio",
+            "url": "/sounds/error.wav",
+            "id": "error-sound"
         }
     }
 }

@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 
 export interface BaseTheme {
-    backgroundBlendMode?: string;
-    backgroundColor?: string;
-    backgroundImage?: string;
+    background: {
+        content: string;
+        blendMode: "normal";
+    };
 }
 
 export type AssetID = string;
@@ -11,17 +12,20 @@ export interface Asset {
     id: AssetID;
     url: string;
     type: "audio" | "image";
-    width: number;
-    height: number;
 }
 
 export interface IdleTheme extends BaseTheme {
-    infoText?: string;
-    title?: string;
+    title?: { content: string; fontColor: string };
+    subtitle?: {
+        content: string;
+        fontColor: string;
+    };
 }
 
 export type StatusTheme = BaseTheme & {
+    image: AssetID;
     sounds?: AssetID[];
+    fontColor: string;
 };
 
 export interface ThemeInfo {
@@ -53,7 +57,7 @@ export type BlippStatus =
               message: string | ReactNode;
               success: boolean;
               // TODO: Implement later
-              //help_text?: string | ReactNode
+              help_text?: string | ReactNode;
           };
       };
 

@@ -53,6 +53,7 @@ export type BlippStatus =
     | {
           show: true;
           loading: boolean;
+          signedRfid?: string;
           data: {
               message: string | ReactNode;
               success: boolean;
@@ -71,6 +72,16 @@ export type ApiResult =
     | {
           success: false;
           message: string;
+          signedRfid?: string;
           //   help_text?: string;
-          //   signedRfid?: string;
       };
+
+export type RegisterCardState = {
+    show(signedRfid: string): void;
+    status: "hidden" | "shown" | "dismissed";
+    remainingTime: number;
+    extendTime(seconds: number): void;
+    close(): void;
+    reset(): void;
+    value: string;
+};

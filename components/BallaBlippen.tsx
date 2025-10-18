@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import BlippAudio from "../blippen/utils/blippAudio";
-import useRegisterCard from "../blippen/utils/useRegisterCard";
+import useRegisterCard from "../utils/useRegisterCard";
 import IdleScreen from "./IdleScreen";
 import RegisterCard from "./RegisterCard";
 import Snowfall from "./Snowfall";
@@ -23,10 +22,6 @@ export default function BallaBlippen() {
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Enter") {
-                // Audio needs to be initialized by user interaction.
-                // Will initialize each audio file only once.
-                // BlippAudio.initAll();
-
                 setQueue((prev) => [...prev, rfid.current]);
                 rfid.current = "";
             } else {
@@ -64,7 +59,10 @@ export default function BallaBlippen() {
             <StatusScreen key="status" />
             <Snowfall key="snowfall" />
 
-            <RegisterCard registerCardState={registerCardState} />
+            <RegisterCard
+                key="register"
+                registerCardState={registerCardState}
+            />
         </AnimatePresence>
     );
 }

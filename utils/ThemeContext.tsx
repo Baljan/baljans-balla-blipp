@@ -8,10 +8,10 @@ import {
     useEffect,
     useState,
 } from "react";
-import { preload } from "react-dom";
 import useSWR from "swr";
-import defaultTheme from "../components/defaultTheme";
-import { BlippStatus, IdleTheme, StatusTheme, ThemeInfo } from "./types";
+import defaultTheme from "../utils/defaultTheme";
+import { getRandomElement } from "./helpers";
+import { BlippStatus, StatusTheme, ThemeInfo } from "./types";
 
 interface IThemeContext {
     assets: Map<string, HTMLAudioElement | HTMLImageElement>;
@@ -41,7 +41,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     >(new Map());
     const searchParams = useSearchParams();
 
-    const testing = searchParams.has("testing") !== undefined;
+    const testing = searchParams.has("testing");
 
     const themes = searchParams.getAll("theme");
     const themeOverride = themes[0];
@@ -70,15 +70,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const playSound = useCallback(
         (variant: StatusTheme) => {
             if (variant.sounds) {
-                const randomSoundIndex = Math.floor(
-                    Math.random() * variant.sounds.length
-                );
-                const chosenSound = variant.sounds[randomSoundIndex];
-                const soundAsset = assets.get(chosenSound);
+                const soundId = getRandomElement(variant.sounds);
+                const soundAsset = assets.get(soundId);
 
                 if (soundAsset && soundAsset instanceof HTMLAudioElement) {
                     soundAsset.currentTime = 0.01;
                     soundAsset.play();
+                } else {
+                    console.debug(`Could not find sound "${soundId}"`);
                 }
             }
         },

@@ -18,7 +18,7 @@ export default function StatusScreen() {
             setShow(true);
             setTimeout(() => {
                 setShow(false);
-            }, ANIMATION_DURATION);
+            }, ANIMATION_DURATION * (status.signedRfid ? 2 : 1));
 
             playSound(variant);
         }

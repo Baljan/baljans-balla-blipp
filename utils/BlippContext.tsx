@@ -70,11 +70,7 @@ export const BlippProvider = ({ children }: { children: ReactNode }) => {
                         // TODO: Implement later
                         // help_text: res.help_text ?? null,
                     },
-                    // TODO: Figure out what this does
-                    // duration: res.signedRfid
-                    //     ? ANIMATION_DURATION * 2
-                    //     : ANIMATION_DURATION,
-                    // signedRfid: res.signedRfid,
+                    signedRfid: res.signedRfid,
                 });
             }
         },

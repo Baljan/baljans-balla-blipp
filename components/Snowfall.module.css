@@ -12,6 +12,8 @@
     user-select: none;
     pointer-events: none;
     cursor: default;
+
+    z-index: 5;
 }
 
 .snowfall[data-rotation="true"] .snowflake > div > * {

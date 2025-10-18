@@ -30,7 +30,7 @@ export default function RegisterCard({ registerCardState }: Props) {
             <div className={styles.container}>
                 <AnimatePresence>
                     {/* TODO: Figure out what signedRfid is */}
-                    {/* {status.show &&
+                    {status.show &&
                     status.signedRfid &&
                     registerCardState.status === "hidden" ? (
                         <motion.div
@@ -64,7 +64,7 @@ export default function RegisterCard({ registerCardState }: Props) {
                                 Klicka för att koppla ditt blippkort
                             </motion.div>
                         </motion.div>
-                    ) : null} */}
+                    ) : null}
                     {registerCardState.status === "shown" ? (
                         <motion.div
                             key="modal"

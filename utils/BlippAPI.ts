@@ -43,9 +43,9 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
         })
         .catch((e) => {
             let message = "Ett fel inträffade";
+            let signedRfid: string | undefined = undefined;
 
             // TODO: Implement later
-            // let signedRfid: string | undefined = undefined;
             // let help_text = undefined;
 
             if (!e.response) {
@@ -57,15 +57,15 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
                 // if (typeof e.response?.data?.help_text === "string") {
                 //     help_text = e.response.data.help_text;
                 // }
-                // if (typeof e.response?.data?.signed_rfid === "string") {
-                //     signedRfid = e.response.data.signed_rfid;
-                // }
+                if (typeof e.response?.data?.signed_rfid === "string") {
+                    signedRfid = e.response.data.signed_rfid;
+                }
             }
             const apiRes: ApiResult = {
                 success: false,
                 message,
                 // help_text,
-                // signedRfid,
+                signedRfid,
             };
             return Promise.resolve(apiRes);
         });

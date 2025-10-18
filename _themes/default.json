@@ -1,25 +1,25 @@
 {
     "name": "default",
     "assets": {
-        "1": {
+        "success-sound": {
             "type": "audio",
             "url": "/sounds/success.wav",
-            "id": "1"
+            "id": "success-sound"
         },
-        "2": {
+        "error-sound": {
             "type": "audio",
             "url": "/sounds/error.wav",
-            "id": "2"
+            "id": "error-sound"
         },
-        "3": {
+        "success-icon": {
             "type": "image",
             "url": "/images/check.svg",
-            "id": 3
+            "id": "success-icon"
         },
-        "4": {
+        "error-icon": {
             "type": "image",
             "url": "/images/times.svg",
-            "id": 4
+            "id": "error-icon"
         }
     },
     "idle": {
@@ -37,17 +37,17 @@
             "blendMode": "normal",
             "content": "#820c0c"
         },
-        "sounds": ["2"],
+        "sounds": ["error-sound"],
         "fontColor": "#ff2b2b",
-        "image": "4"
+        "image": "error-icon"
     },
     "success": {
-        "sounds": ["1"],
+        "sounds": ["success-sound"],
         "background": {
             "blendMode": "normal",
             "content": "#00a54c"
         },
         "fontColor": "#00F771",
-        "image": "4"
+        "image": "success-icon"
     }
 }

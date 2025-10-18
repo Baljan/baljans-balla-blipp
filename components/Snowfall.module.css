@@ -6,6 +6,8 @@
     position: fixed;
     display: flex;
     justify-content: space-around;
+    gap: 1em;
+    flex-wrap: wrap;
     -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
@@ -18,10 +20,10 @@
 
 @keyframes snowflakes-fall {
     0% {
-        transform: translateY(-100px) scale(var(--snowflake-size));
+        transform: translateY(calc(-150vh)) scale(var(--snowflake-size));
     }
     100% {
-        transform: translateY(calc(100vh + 100px)) scale(var(--snowflake-size));
+        transform: translateY(calc(150vh)) scale(var(--snowflake-size));
     }
 }
 
@@ -39,10 +41,11 @@
 
 .snowflake {
     height: 100%;
+    aspect-ratio: 1;
     color: #fff;
     font-size: 5em;
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 64px;
+    max-height: 64px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     position: relative;
     transform-origin: center;
@@ -55,6 +58,9 @@
     transform: rotate(60deg);
 }
 .snowflake > div {
+    width: 100%;
+    height: 100%;
+    position: relative;
     animation-name: snowflakes-fall;
     animation-duration: var(--fall-speed);
     animation-delay: var(--fall-delay);

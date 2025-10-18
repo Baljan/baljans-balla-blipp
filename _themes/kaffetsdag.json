@@ -9,20 +9,22 @@
         "invertGithub": true
     },
     "snowfall": {
-        "content": ["1", "2"],
-        "size": 2,
-        "randomRotation": true
+        "content": ["2", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+        "count": 100,
+        "randomRotation": true,
+        "size": 1,
+        "speed": 1
     },
-    "assets": [
-        {
+    "assets": {
+        "1": {
             "id": "1",
             "type": "image",
             "url": "/images/kaffetsdag/bean.png"
         },
-        {
+        "2": {
             "id": "2",
             "type": "image",
             "url": "/images/kaffetsdag/mr-bean.png"
         }
-    ]
+    }
 }

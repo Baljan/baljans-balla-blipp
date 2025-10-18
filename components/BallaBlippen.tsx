@@ -59,10 +59,10 @@ export default function BallaBlippen() {
     return (
         <AnimatePresence onExitComplete={resetStatus}>
             {!ready && <LoadingScreen key="loading" />}
-            <IdleScreen />
+            <IdleScreen key="idle" />
 
-            <StatusScreen />
-            {/* <Snowfall /> */}
+            <StatusScreen key="status" />
+            <Snowfall key="snowfall" />
 
             <RegisterCard registerCardState={registerCardState} />
         </AnimatePresence>

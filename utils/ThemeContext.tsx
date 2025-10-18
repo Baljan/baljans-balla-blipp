@@ -35,6 +35,7 @@ export const useThemeContext = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const [ready, setReady] = useState(false);
+    const [theme, setTheme] = useState<ThemeInfo>(defaultTheme);
     const searchParams = useSearchParams();
 
     const testing = searchParams.has("testing") !== undefined;
@@ -42,10 +43,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const themes = searchParams.getAll("theme");
     const themeOverride = themes[0];
 
-    // const isPWA = searchParams.has("pwa") !== undefined;
-    // useEffect(() => setToken(isPWA), [isPWA]);
-
-    const [theme, setTheme] = useState<ThemeInfo>(defaultTheme);
+    const url = `/api/theme/${themeOverride || "current"}`;
+    const { data, error, isLoading, isValidating } = useSWR<ThemeInfo>(
+        url,
+        (url: string) => axios.get(url).then((res) => res.data)
+    );
 
     const getVariant = useCallback(
         (status: BlippStatus) => {
@@ -62,20 +64,34 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         [theme]
     );
 
-    const { data, error, isLoading, isValidating } = useSWR<ThemeInfo>(
-        `/api/theme/default`,
-        (url: string) => axios.get(url).then((res) => res.data)
-    );
-
     useEffect(() => {
+        // TODO: Maybe implement fallback. What if data is null, but loading is false
+        let loaded = 0;
+
         if (!isLoading && data) {
             setTheme(data);
-            for (const asset of data.assets) {
+
+            for (const asset of Object.values(data.assets)) {
                 preload(asset.url, { as: asset.type });
                 console.debug(`Loaded ${asset.url}`);
+
+                const assetElement =
+                    asset.type == "image" ? new Image() : new Audio();
+                assetElement.src = asset.url;
+                assetElement.onload = () => {
+                    loaded++;
+
+                    if (loaded === Object.values(data.assets).length) {
+                        console.debug(
+                            "Loaded all but waiting for clean transition..."
+                        );
+                        setTimeout(() => {
+                            console.debug("Ready!");
+                            setReady(true);
+                        }, 1e3);
+                    }
+                };
             }
-            setTimeout(() => setReady(true), 5e3);
-            // TODO: Maybe implement fallback. What if data is null, but loading is false
         }
     }, [isLoading, data]);
 

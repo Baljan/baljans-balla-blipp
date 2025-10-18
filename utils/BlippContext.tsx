@@ -67,8 +67,7 @@ export const BlippProvider = ({ children }: { children: ReactNode }) => {
                     data: {
                         success: false,
                         message: res.message,
-                        // TODO: Implement later
-                        // help_text: res.help_text ?? null,
+                        help_text: res.help_text ?? null,
                     },
                     signedRfid: res.signedRfid,
                 });

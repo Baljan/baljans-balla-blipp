@@ -29,7 +29,6 @@ export default function RegisterCard({ registerCardState }: Props) {
             </AnimatePresence>
             <div className={styles.container}>
                 <AnimatePresence>
-                    {/* TODO: Figure out what signedRfid is */}
                     {status.show &&
                     status.signedRfid &&
                     registerCardState.status === "hidden" ? (

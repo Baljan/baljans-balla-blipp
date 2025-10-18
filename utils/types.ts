@@ -67,13 +67,12 @@ export type ApiResult =
           success: true;
           paid: number;
           balance: number | "unlimited";
-          //   themeOverride: string;
       }
     | {
           success: false;
           message: string;
           signedRfid?: string;
-          //   help_text?: string;
+          help_text?: string;
       };
 
 export type RegisterCardState = {

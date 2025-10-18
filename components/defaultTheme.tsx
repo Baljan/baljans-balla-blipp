@@ -2,32 +2,54 @@ import { ThemeInfo } from "../utils/types";
 
 export default {
     name: "default",
-    idle: {
-        backgroundColor: "#00a4e0",
-        backgroundImage: "none",
-        backgroundBlendMode: "normal",
-        titleFontColor: "#e6008b",
-        infoFontColor: "#333333",
-        footerFontColor: "#333333",
-        infoText: "",
-        title: "Baljans Balla Blipp",
+    assets: {
+        "1": {
+            type: "audio",
+            url: "/sounds/success.wav",
+            id: "1",
+        },
+        "2": {
+            type: "audio",
+            url: "/sounds/error.wav",
+            id: "2",
+        },
+        "3": {
+            type: "image",
+            url: "/images/check.svg",
+            id: "3",
+        },
+        "4": {
+            type: "image",
+            url: "/images/times.svg",
+            id: "4",
+        },
     },
-    success: {
-        sounds: ["/sounds/success.wav"],
-        backgroundColor: "#00a54c",
-        backgroundImage: "none",
-        backgroundBlendMode: "normal",
-        fontColor: "#00F771",
-        image: {
-            type: "icon",
-            value: "check",
+    idle: {
+        background: {
+            content: "#00a4e0",
+            blendMode: "normal",
+        },
+        title: {
+            content: "Baljans Balla Blipp",
+            fontColor: "#e6008b",
         },
     },
     error: {
-        sounds: ["/sounds/error.wav"],
-        backgroundColor: "#820c0c",
-        backgroundImage: "none",
-        backgroundBlendMode: "normal",
+        background: {
+            blendMode: "normal",
+            content: "#820c0c",
+        },
+        sounds: ["2"],
         fontColor: "#ff2b2b",
+        image: "4",
+    },
+    success: {
+        sounds: ["1"],
+        background: {
+            blendMode: "normal",
+            content: "#00a54c",
+        },
+        fontColor: "#00F771",
+        image: "3",
     },
 } as ThemeInfo;

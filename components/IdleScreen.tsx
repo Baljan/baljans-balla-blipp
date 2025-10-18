@@ -10,46 +10,39 @@ export default React.memo(function IdleScreen() {
 
     const invertGithub = false; // TODO: imp
 
-    const {
-        backgroundColor,
-        backgroundImage,
-        backgroundBlendMode,
-        infoFontColor,
-        titleFontColor,
-        footerFontColor,
-        infoText,
-        title,
-    } = theme.idle;
+    const { background, subtitle, title } = theme.idle;
 
     return (
         <>
             <div
                 className={styles.content}
                 style={{
-                    backgroundImage: backgroundImage,
-                    backgroundColor: backgroundColor,
-                    backgroundBlendMode: backgroundBlendMode,
+                    background: background.content,
+                    backgroundBlendMode: background.blendMode,
                 }}
             >
-                {title !== "" ? (
+                {title ? (
                     <h1
                         className={styles.mainTitle}
-                        style={{ color: titleFontColor }}
+                        style={{ color: title.fontColor }}
                     >
-                        {title}
+                        {title.content}
                     </h1>
                 ) : null}
                 {/* TODO: decide whether to remove, if so remove related styles and theme data */}
-                {infoText ? (
+                {subtitle ? (
                     <p
                         className={styles.infoText}
-                        style={{ color: infoFontColor }}
+                        style={{ color: subtitle.fontColor }}
                     >
-                        {infoText}
+                        {subtitle.content}
                     </p>
                 ) : null}
             </div>
-            <div className={styles.footer} style={{ color: footerFontColor }}>
+            <div
+                className={styles.footer}
+                // style={{ color: footerFontColor }}
+            >
                 <div className={styles.github} data-inverted={!!invertGithub}>
                     <FaGithub />
                     <span>

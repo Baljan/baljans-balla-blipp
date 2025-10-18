@@ -14,18 +14,18 @@ import defaultTheme from "../components/defaultTheme";
 import { BlippStatus, IdleTheme, StatusTheme, ThemeInfo } from "./types";
 
 interface IThemeContext {
-    getVariant: (status: BlippStatus) => StatusTheme | IdleTheme;
+    assets: Map<string, HTMLAudioElement | HTMLImageElement>;
+    getVariant: (status: BlippStatus) => StatusTheme | null;
+    playSound: (variant: StatusTheme) => void;
     ready: boolean;
     testing: boolean;
     theme: ThemeInfo;
 }
 
 const ThemeContext = createContext<IThemeContext>({
-    getVariant: (_) => ({
-        backgroundBlendMode: "hahahaha",
-        backgroundColor: "hahahaha",
-        backgroundImage: "hahahaha",
-    }),
+    assets: new Map(),
+    getVariant: (_) => defaultTheme.success,
+    playSound: () => void 0,
     ready: false,
     testing: false,
     theme: defaultTheme,
@@ -36,6 +36,9 @@ export const useThemeContext = () => useContext(ThemeContext);
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const [ready, setReady] = useState(false);
     const [theme, setTheme] = useState<ThemeInfo>(defaultTheme);
+    const [assets, setAssets] = useState<
+        Map<string, HTMLAudioElement | HTMLImageElement>
+    >(new Map());
     const searchParams = useSearchParams();
 
     const testing = searchParams.has("testing") !== undefined;
@@ -59,44 +62,82 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
                 }
             }
 
-            return theme.idle;
+            return null;
         },
         [theme]
     );
 
+    const playSound = useCallback(
+        (variant: StatusTheme) => {
+            if (variant.sounds) {
+                const randomSoundIndex = Math.floor(
+                    Math.random() * variant.sounds.length
+                );
+                const chosenSound = variant.sounds[randomSoundIndex];
+                const soundAsset = assets.get(chosenSound);
+
+                if (soundAsset && soundAsset instanceof HTMLAudioElement) {
+                    soundAsset.currentTime = 0.01;
+                    soundAsset.play();
+                }
+            }
+        },
+        [assets]
+    );
+
     useEffect(() => {
         // TODO: Maybe implement fallback. What if data is null, but loading is false
-        let loaded = 0;
-
         if (!isLoading && data) {
-            setTheme(data);
+            setTheme({ ...defaultTheme, ...data });
 
-            for (const asset of Object.values(data.assets)) {
-                preload(asset.url, { as: asset.type });
-                console.debug(`Loaded ${asset.url}`);
+            console.time("load-assets");
+            Promise.all(
+                Object.values(data.assets).map((asset) => {
+                    return new Promise<
+                        [string, HTMLAudioElement | HTMLImageElement]
+                    >((resolve) => {
+                        switch (asset.type) {
+                            case "audio":
+                                const audio = new Audio();
+                                audio.id = asset.id;
+                                audio.src = asset.url;
+                                audio.addEventListener(
+                                    "canplaythrough",
+                                    () => resolve([asset.id, audio]),
+                                    { once: true }
+                                );
+                                audio.addEventListener(
+                                    "error",
+                                    () => resolve([asset.id, audio]),
+                                    {
+                                        once: true,
+                                    }
+                                );
+                                break;
+                            case "image":
+                                const image = new Image();
+                                image.id = asset.id;
+                                image.src = asset.url;
 
-                const assetElement =
-                    asset.type == "image" ? new Image() : new Audio();
-                assetElement.src = asset.url;
-                assetElement.onload = () => {
-                    loaded++;
-
-                    if (loaded === Object.values(data.assets).length) {
-                        console.debug(
-                            "Loaded all but waiting for clean transition..."
-                        );
-                        setTimeout(() => {
-                            console.debug("Ready!");
-                            setReady(true);
-                        }, 1e3);
-                    }
-                };
-            }
+                                image
+                                    .decode()
+                                    .finally(() => resolve([asset.id, image]));
+                                break;
+                        }
+                    });
+                })
+            ).then((loadedAssets) => {
+                console.timeEnd("load-assets");
+                setAssets(new Map(loadedAssets));
+                setTimeout(() => setReady(true), 1e3);
+            });
         }
     }, [isLoading, data]);
 
     return (
-        <ThemeContext.Provider value={{ theme, testing, getVariant, ready }}>
+        <ThemeContext.Provider
+            value={{ assets, getVariant, playSound, ready, theme, testing }}
+        >
             {children}
         </ThemeContext.Provider>
     );

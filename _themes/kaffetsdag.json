@@ -1,0 +1,28 @@
+{
+    "name": "kaffets-dag",
+    "idle": {
+        "title": "Kaffets dag,\nhalva priset!",
+        "infoText": "Vi rundar ner på Blippen!",
+        "infoFontColor": "#e6daa6",
+        "backgroundColor": "#653700",
+        "titleFontColor": "#e6daa6",
+        "invertGithub": true
+    },
+    "snowfall": {
+        "content": ["1", "2"],
+        "size": 2,
+        "randomRotation": true
+    },
+    "assets": [
+        {
+            "id": "1",
+            "type": "image",
+            "url": "/images/kaffetsdag/bean.png"
+        },
+        {
+            "id": "2",
+            "type": "image",
+            "url": "/images/kaffetsdag/mr-bean.png"
+        }
+    ]
+}

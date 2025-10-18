@@ -1,38 +1,43 @@
 {
-  "name": "baljans-balla-blipp",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start",
-    "prepare": "husky install",
-    "lint": "next lint",
-    "lint-staged": "lint-staged"
-  },
-  "dependencies": {
-    "axios": "^0.26.1",
-    "framer-motion": "^6.2.8",
-    "next": "12.1.4",
-    "qrcode.react": "^3.0.1",
-    "react": "^18.0.0",
-    "react-dom": "18.0.0",
-    "react-icons": "^4.3.1"
-  },
-  "devDependencies": {
-    "@types/node": "17.0.23",
-    "@types/react": "17.0.43",
-    "eslint": "8.12.0",
-    "eslint-config-next": "12.1.4",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.2",
-    "prettier": "^2.7.1",
-    "typescript": "4.6.3"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,css,md}": "prettier --write"
-  }
+    "name": "baljans-balla-blipp",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build && next export",
+        "start": "next start",
+        "prepare": "husky install",
+        "lint": "next lint",
+        "lint-staged": "lint-staged"
+    },
+    "dependencies": {
+        "axios": "^1.12.2",
+        "framer-motion": "^12.23.22",
+        "next": "15.5.4",
+        "qrcode.react": "^4.2.0",
+        "react": "19.1.1",
+        "react-dom": "19.1.1",
+        "react-icons": "^4.3.1",
+        "swr": "^2.3.6"
+    },
+    "devDependencies": {
+        "@types/node": "^24.6.0",
+        "@types/react": "19.1.16",
+        "@types/react-dom": "^19.2.2",
+        "eslint": "^9.36.0",
+        "eslint-config-next": "15.5.4",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.2",
+        "prettier": "^2.7.1",
+        "typescript": "^5.9.2"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,css,md}": "prettier --write"
+    },
+    "overrides": {
+        "@types/react": "19.1.16"
+    }
 }

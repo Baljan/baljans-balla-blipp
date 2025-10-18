@@ -12,18 +12,18 @@ export const CARD_REGISTER_URL = `${BLIPP_API_DOMAIN}${CARD_REGISTER_PATH}`;
 export const ANIMATION_DURATION = 3000;
 
 export enum BaljanColors {
-  DarkBlue = "#2f308c",
-  BrightBlue = "#00a4e0",
-  Magenta = "#e6008b",
-  Cerise = "#ec008c",
-  Black = "#000000",
-  White = "#ffffff",
+    DarkBlue = "#2f308c",
+    BrightBlue = "#00a4e0",
+    Magenta = "#e6008b",
+    Cerise = "#ec008c",
+    Black = "#000000",
+    White = "#ffffff",
 }
 
 export enum OtherColors {
-  BrightGreen = "#00F771",
-  DarkGreen = "#00a54c",
-  BrightRed = "#ff2b2b",
-  DarkRed = "#820c0c",
-  DarkGray = "#333333",
+    BrightGreen = "#00F771",
+    DarkGreen = "#00a54c",
+    BrightRed = "#ff2b2b",
+    DarkRed = "#820c0c",
+    DarkGray = "#333333",
 }

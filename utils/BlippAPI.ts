@@ -1,7 +1,7 @@
 import axios from "axios";
-import { TOKEN_KEY_LS, BLIPP_API_URL } from "../../utils/constants";
+import { TOKEN_KEY_LS, BLIPP_API_URL } from "./constants";
 import { ApiResult } from "./types";
-import { getRandomNumberBetween } from "./utils";
+import { getRandomNumberBetween } from "./helpers";
 
 // token for auth in PWA version, saved in localStorage as cookies are time-limited on iOS.
 export function setToken(isPWA: boolean) {
@@ -36,15 +36,17 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
                 success: true,
                 balance: res.data.balance as number | "unlimited",
                 paid: res.data.paid as number,
-                themeOverride: res.data.theme_override ?? undefined,
+                // themeOverride: res.data.theme_override ?? undefined,
             };
 
             return Promise.resolve(apiRes);
         })
         .catch((e) => {
             let message = "Ett fel inträffade";
-            let signedRfid: string | undefined = undefined;
-            let help_text = undefined;
+
+            // TODO: Implement later
+            // let signedRfid: string | undefined = undefined;
+            // let help_text = undefined;
 
             if (!e.response) {
                 message = "Nätverksfel";
@@ -52,18 +54,18 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
                 if (typeof e.response?.data?.message === "string") {
                     message = e.response.data.message;
                 }
-                if (typeof e.response?.data?.help_text === "string") {
-                    help_text = e.response.data.help_text;
-                }
-                if (typeof e.response?.data?.signed_rfid === "string") {
-                    signedRfid = e.response.data.signed_rfid;
-                }
+                // if (typeof e.response?.data?.help_text === "string") {
+                //     help_text = e.response.data.help_text;
+                // }
+                // if (typeof e.response?.data?.signed_rfid === "string") {
+                //     signedRfid = e.response.data.signed_rfid;
+                // }
             }
             const apiRes: ApiResult = {
                 success: false,
                 message,
-                help_text,
-                signedRfid,
+                // help_text,
+                // signedRfid,
             };
             return Promise.resolve(apiRes);
         });
@@ -79,12 +81,12 @@ export async function mockBlipp(input: string): Promise<ApiResult> {
             success: true,
             paid: 0,
             balance: "unlimited",
-            themeOverride: "",
+            // themeOverride: "",
         };
     }
     return {
         success: false,
         message: "Ett fel inträffade",
-        help_text: undefined,
+        // help_text: undefined,
     };
 }

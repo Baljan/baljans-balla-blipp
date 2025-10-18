@@ -6,11 +6,10 @@ const postsDirectory = join(process.cwd(), "_themes");
 
 // TODO: All this info should in the future come from cafesys maybe
 
-export async function GET(
-    _: Request,
-    { params }: { params: Promise<{ themeName: string }> }
-) {
-    const { themeName } = await params;
+export async function GET(req: Request) {
+    const themeNames = ["default", "kaffetsdag"];
+    const index = Math.floor(Math.random() * themeNames.length);
+    const themeName = themeNames[index];
 
     const fullPath = join(postsDirectory, `${themeName}.json`);
     const fileContents = fs.readFileSync(fullPath, "utf8");

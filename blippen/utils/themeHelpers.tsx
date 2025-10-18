@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import BlippAudio from "./blippAudio";
-import { BaljanColors, OtherColors } from "../constants";
+import { BaljanColors, OtherColors } from "../../utils/constants";
 import {
-  MainScreenSelector,
-  MainScreenTheme,
-  StatusScreenSelector,
-  StatusScreenTheme,
+    MainScreenSelector,
+    MainScreenTheme,
+    StatusScreenSelector,
+    StatusScreenTheme,
 } from "./types";
 import { getRandomElement } from "./utils";
 
@@ -16,12 +16,12 @@ import { getRandomElement } from "./utils";
 // ---
 
 type MultiProperty<T> = {
-  // Convert all object properties to arrays of the same type.
-  [Property in keyof T]: T[Property] | T[Property][];
+    // Convert all object properties to arrays of the same type.
+    [Property in keyof T]: T[Property] | T[Property][];
 };
 
 type MultiChooserContext = Readonly<{
-  blippCounter: number;
+    blippCounter: number;
 }>;
 
 type StatusScreenThemeOverrides = Partial<MultiProperty<StatusScreenTheme>>;
@@ -31,7 +31,7 @@ type GetOne = <K extends keyof StatusScreenTheme, O>(key: K) => O;
 type MultiStrategy = "random" | "alternating";
 type MultiChooserFunction = <T>(list: T[], context: MultiChooserContext) => T;
 type MultiChooserFunctions = Readonly<{
-  [K in MultiStrategy]: MultiChooserFunction;
+    [K in MultiStrategy]: MultiChooserFunction;
 }>;
 
 // ---
@@ -39,11 +39,11 @@ type MultiChooserFunctions = Readonly<{
 // ---
 
 const alternatingChooser: MultiChooserFunction = (list, context) =>
-  list[context.blippCounter % list.length];
+    list[context.blippCounter % list.length];
 
 const multiChooserFunctions: MultiChooserFunctions = {
-  random: getRandomElement,
-  alternating: alternatingChooser,
+    random: getRandomElement,
+    alternating: alternatingChooser,
 };
 
 // ---
@@ -51,32 +51,32 @@ const multiChooserFunctions: MultiChooserFunctions = {
 // ---
 
 const defaultMainScreen: Readonly<MainScreenTheme> = {
-  backgroundColor: BaljanColors.BrightBlue,
-  backgroundImage: "none",
-  backgroundBlendMode: "normal",
-  titleFontColor: BaljanColors.Magenta,
-  infoFontColor: OtherColors.DarkGray,
-  footerFontColor: OtherColors.DarkGray,
-  infoText: "",
-  title: "Baljans Balla Blipp",
+    backgroundColor: BaljanColors.BrightBlue,
+    backgroundImage: "none",
+    backgroundBlendMode: "normal",
+    titleFontColor: BaljanColors.Magenta,
+    infoFontColor: OtherColors.DarkGray,
+    footerFontColor: OtherColors.DarkGray,
+    infoText: "",
+    title: "Baljans Balla Blipp",
 };
 
 const defaultSuccessScreen: Readonly<StatusScreenTheme> = {
-  sound: new BlippAudio("/sounds/success.wav"),
-  backgroundColor: OtherColors.DarkGreen,
-  backgroundImage: "none",
-  backgroundBlendMode: "normal",
-  fontColor: OtherColors.BrightGreen,
-  image: <FaCheck />,
+    sound: new BlippAudio("/sounds/success.wav"),
+    backgroundColor: OtherColors.DarkGreen,
+    backgroundImage: "none",
+    backgroundBlendMode: "normal",
+    fontColor: OtherColors.BrightGreen,
+    image: <FaCheck />,
 };
 
 const defaultErrorScreen: Readonly<StatusScreenTheme> = {
-  sound: new BlippAudio("/sounds/error.wav"),
-  backgroundColor: OtherColors.DarkRed,
-  backgroundImage: "none",
-  backgroundBlendMode: "normal",
-  fontColor: OtherColors.BrightRed,
-  image: <FaTimes />,
+    sound: new BlippAudio("/sounds/error.wav"),
+    backgroundColor: OtherColors.DarkRed,
+    backgroundImage: "none",
+    backgroundBlendMode: "normal",
+    fontColor: OtherColors.BrightRed,
+    image: <FaTimes />,
 };
 
 // ---
@@ -86,38 +86,38 @@ const defaultErrorScreen: Readonly<StatusScreenTheme> = {
 // Internal function to create a status screen
 // Called later to create separate default values for success and error.
 const makeStatusScreen = (defaults: StatusScreenTheme) => {
-  // Return a function to make a status screen factory
-  return function (
-    overrides: StatusScreenThemeOverrides = {},
-    multiStrategy: MultiStrategy = "random"
-  ): StatusScreenSelector {
-    let blippCounter = 1;
+    // Return a function to make a status screen factory
+    return function (
+        overrides: StatusScreenThemeOverrides = {},
+        multiStrategy: MultiStrategy = "random"
+    ): StatusScreenSelector {
+        let blippCounter = 1;
 
-    // Gets one of the configured overrides according to the strategy
-    const getOne: GetOne = (key) => {
-      const override = overrides[key];
-      const multiChooser = multiChooserFunctions[multiStrategy];
-      if (override instanceof Array && override.length)
-        return multiChooser(override, { blippCounter });
-      if (!(override instanceof Array) && override !== undefined) {
-        return override;
-      }
-      return defaults[key];
-    };
+        // Gets one of the configured overrides according to the strategy
+        const getOne: GetOne = (key) => {
+            const override = overrides[key];
+            const multiChooser = multiChooserFunctions[multiStrategy];
+            if (override instanceof Array && override.length)
+                return multiChooser(override, { blippCounter });
+            if (!(override instanceof Array) && override !== undefined) {
+                return override;
+            }
+            return defaults[key];
+        };
 
-    // Return a function which should be called each time a status screen should be shown
-    return () => {
-      blippCounter++;
-      return {
-        backgroundBlendMode: getOne("backgroundBlendMode"),
-        backgroundColor: getOne("backgroundColor"),
-        backgroundImage: getOne("backgroundImage"),
-        fontColor: getOne("fontColor"),
-        image: getOne("image"),
-        sound: getOne("sound"),
-      };
+        // Return a function which should be called each time a status screen should be shown
+        return () => {
+            blippCounter++;
+            return {
+                backgroundBlendMode: getOne("backgroundBlendMode"),
+                backgroundColor: getOne("backgroundColor"),
+                backgroundImage: getOne("backgroundImage"),
+                fontColor: getOne("fontColor"),
+                image: getOne("image"),
+                sound: getOne("sound"),
+            };
+        };
     };
-  };
 };
 
 // ---
@@ -129,42 +129,44 @@ export const makeSuccessScreen = makeStatusScreen(defaultSuccessScreen);
 export const makeErrorScreen = makeStatusScreen(defaultErrorScreen);
 
 export function makeMainScreen(
-  overrides: Partial<MainScreenTheme> = {}
+    overrides: Partial<MainScreenTheme> = {}
 ): MainScreenSelector {
-  return () => ({ ...defaultMainScreen, ...overrides });
+    return () => ({ ...defaultMainScreen, ...overrides });
 }
 
 // TODO: improve snowfall customization
 export const makeSnowfall =
-  (options: {
-    size?: number;
-    reverse?: boolean;
-    content: ReactNode[];
-    randomHue?: boolean;
-    randomRotation?: boolean;
-    count?: number;
-    speed?: number;
-  }) =>
-  () => ({
-    count: options.count ?? Math.max(10, options.content.length),
-    reverse: options.reverse ?? false,
-    randomHue: options.randomHue ?? false,
-    randomRotation: options.randomRotation ?? false,
-    getFlake: (i: number) => ({
-      size: options.size ?? 2,
-      speed: options.speed ?? 1,
-      content: options.content[i % options.content.length],
-    }),
-  });
+    (options: {
+        size?: number;
+        reverse?: boolean;
+        content: ReactNode[];
+        randomHue?: boolean;
+        randomRotation?: boolean;
+        count?: number;
+        speed?: number;
+    }) =>
+    () => ({
+        count: options.count ?? Math.max(10, options.content.length),
+        reverse: options.reverse ?? false,
+        randomHue: options.randomHue ?? false,
+        randomRotation: options.randomRotation ?? false,
+        getFlake: (i: number) => ({
+            size: options.size ?? 2,
+            speed: options.speed ?? 1,
+            content: options.content[i % options.content.length],
+        }),
+    });
 
 export const generateDate = (start: string, end?: string) => {
-  const currentDate = new Date();
-  const targetStartDate = new Date(start);
+    const currentDate = new Date();
+    const targetStartDate = new Date(start);
 
-  if (end) {
-    const targetEndDate = new Date(end);
-    return () => targetStartDate <= currentDate && currentDate <= targetEndDate;
-  } else {
-    return () => targetStartDate.toDateString() == currentDate.toDateString();
-  }
+    if (end) {
+        const targetEndDate = new Date(end);
+        return () =>
+            targetStartDate <= currentDate && currentDate <= targetEndDate;
+    } else {
+        return () =>
+            targetStartDate.toDateString() == currentDate.toDateString();
+    }
 };

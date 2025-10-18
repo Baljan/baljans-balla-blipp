@@ -1,0 +1,43 @@
+.statusScreen {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-position: center;
+    background-size: cover;
+    padding: 2rem;
+}
+
+.message {
+    margin: 2rem 0 1rem;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.help_text {
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.icon {
+    position: relative;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 15rem;
+    line-height: 1;
+}
+
+.icon > * {
+    max-height: 150%;
+    max-width: 600px;
+    display: block;
+}

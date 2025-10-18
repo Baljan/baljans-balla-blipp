@@ -1,0 +1,31 @@
+.content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-position: center;
+    background-size: cover;
+    background-color: black;
+    color: white;
+    z-index: 100;
+}
+
+.title,
+.subtitle {
+    margin: 0;
+}
+
+.title {
+    font-size: 3em;
+    margin-bottom: 0;
+}
+
+.subtitle {
+    font-size: 1.5em;
+    color: rgb(218, 218, 218);
+}

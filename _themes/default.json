@@ -1,0 +1,46 @@
+{
+    "idle": {
+        "backgroundColor": "#00a4e0",
+        "backgroundImage": "none",
+        "backgroundBlendMode": "normal",
+        "titleFontColor": "#e6008b",
+        "infoFontColor": "#333333",
+        "footerFontColor": "#333333",
+        "infoText": "",
+        "title": "Baljans Balla Blipp"
+    },
+    "success": {
+        "sound": "/sounds/success.wav",
+        "backgroundColor": "#00a54c",
+        "backgroundImage": "none",
+        "backgroundBlendMode": "normal",
+        "fontColor": "#00F771",
+        "image": {
+            "type": "icon",
+            "value": "check"
+        }
+    },
+    "error": {
+        "sound": "/sounds/error.wav",
+        "backgroundColor": "#820c0c",
+        "backgroundImage": "none",
+        "backgroundBlendMode": "normal",
+        "fontColor": "#ff2b2b",
+        "image": {
+            "type": "icon",
+            "value": "times"
+        }
+    },
+    "assets": [
+        {
+            "id": "1",
+            "type": "image",
+            "url": "/images/kaffetsdag/bean.png"
+        },
+        {
+            "id": "2",
+            "type": "image",
+            "url": "/images/kaffetsdag/mr-bean.png"
+        }
+    ]
+}

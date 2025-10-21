@@ -57,7 +57,6 @@ export type BlippStatus =
           data: {
               message: string | ReactNode;
               success: boolean;
-              // TODO: Implement later
               help_text?: string | ReactNode;
           };
       };

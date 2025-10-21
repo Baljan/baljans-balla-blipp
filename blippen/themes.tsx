@@ -12,11 +12,107 @@ import {
 } from "./utils/themeHelpers";
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 // TODO: improve BlippImage preload to only load selected theme
 
 // Add any themes to this list.
 const themes: Theme[] = [
+  {
+    name: "jeblipp",
+    shouldApplyToday: generateDate("2025-10-22"),
+    mainScreen: makeMainScreen({
+      backgroundColor: "#fffbbeff",
+      title: (
+        <div
+          style={{
+            color: BaljanColors.Black,
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <div style={{ position: "relative" }}>
+            <AnimatePresence>
+              <motion.img
+                style={{
+                  width: "30rem",
+                  position: "absolute",
+                  left: "0",
+                  top: 0,
+                  display: "block",
+                  scale: "1.2",
+                  filter: "blur(6px)",
+                }}
+                src="/images/jeblipp/rotate.png"
+                alt=""
+                animate={{ rotate: 360 }}
+                transition={{
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 45,
+                  ease: "linear",
+                }}
+              />
+            </AnimatePresence>
+            <img
+              style={{
+                width: "30rem",
+                display: "block",
+                position: "relative",
+                scale: "1.2",
+              }}
+              src="/images/jeblipp/jens-shadow.png"
+              alt=""
+            />
+            <div style={{ position: "relative", textAlign: "center" }}>
+              <h1 style={{ marginBottom: "0", fontSize: "2.5em" }}>
+                Idag fyller Jens Elektrik år!
+              </h1>
+            </div>
+          </div>
+        </div>
+      ),
+    }),
+    errorScreen: makeErrorScreen(),
+    successScreen: makeSuccessScreen(
+      {
+        sound: [
+          new BlippAudio("/sounds/jeblipp/funny-birthday-horn-wav.mp3"),
+          new BlippAudio("/sounds/jeblipp/happy_birthday.mp3"),
+          new BlippAudio("/sounds/jeblipp/hurray.mp3"),
+          new BlippAudio("/sounds/jeblipp/kids.mp3"),
+          new BlippAudio("/sounds/jeblipp/lets-celebrate.mp3"),
+          new BlippAudio("/sounds/jeblipp/woohoohoo.mp3"),
+        ],
+      },
+      "alternating"
+    ),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/jeblipp/confetti01.png"),
+        new BlippImage("/images/jeblipp/confetti03.png"),
+        new BlippImage("/images/jeblipp/confetti05.png"),
+        new BlippImage("/images/jeblipp/confetti07.png"),
+        new BlippImage("/images/jeblipp/confetti09.png"),
+        new BlippImage("/images/jeblipp/confetti11.png"),
+        new BlippImage("/images/jeblipp/confetti13.png"),
+        new BlippImage("/images/jeblipp/confetti15.png"),
+        new BlippImage("/images/jeblipp/confetti17.png"),
+        new BlippImage("/images/jeblipp/confetti02.png"),
+        new BlippImage("/images/jeblipp/confetti04.png"),
+        new BlippImage("/images/jeblipp/confetti06.png"),
+        new BlippImage("/images/jeblipp/confetti08.png"),
+        new BlippImage("/images/jeblipp/confetti10.png"),
+        new BlippImage("/images/jeblipp/confetti12.png"),
+        new BlippImage("/images/jeblipp/confetti14.png"),
+        new BlippImage("/images/jeblipp/confetti16.png"),
+      ],
+      size: 2,
+      count: 100,
+      randomRotation: true,
+    }),
+  },
   {
     name: "kaffetsdag",
     shouldApplyToday: generateDate("2025-10-01"),

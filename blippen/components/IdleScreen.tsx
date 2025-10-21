@@ -36,11 +36,13 @@ export default React.memo(function IdleScreen({
           backgroundBlendMode: backgroundBlendMode,
         }}
       >
-        {title !== "" ? (
+        {typeof title == "string" ? (
           <h1 className={styles.mainTitle} style={{ color: titleFontColor }}>
             {title}
           </h1>
-        ) : null}
+        ) : (
+          title
+        )}
         {/* TODO: decide whether to remove, if so remove related styles and theme data */}
         {infoText ? (
           <p className={styles.infoText} style={{ color: infoFontColor }}>

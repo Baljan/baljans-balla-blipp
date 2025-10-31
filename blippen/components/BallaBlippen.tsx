@@ -71,6 +71,7 @@ export default function BallaBlippen({
       <IdleScreen
         theme={theme}
         loading={blippStatus.loading}
+        show={blippStatus.show}
         testing={testing}
       />
 

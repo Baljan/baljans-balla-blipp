@@ -6,6 +6,7 @@ import styles from "./IdleScreen.module.css";
 type Props = {
   theme: Theme;
   loading: boolean;
+  show: boolean;
   testing: boolean;
 };
 
@@ -13,6 +14,7 @@ export default React.memo(function IdleScreen({
   theme,
   loading,
   testing,
+  show,
 }: Props) {
   const {
     backgroundColor,
@@ -40,6 +42,8 @@ export default React.memo(function IdleScreen({
           <h1 className={styles.mainTitle} style={{ color: titleFontColor }}>
             {title}
           </h1>
+        ) : typeof title == "function" ? (
+          title(show)
         ) : (
           title
         )}

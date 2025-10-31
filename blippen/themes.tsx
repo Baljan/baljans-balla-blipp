@@ -19,6 +19,57 @@ import { AnimatePresence, motion } from "framer-motion";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "halloween",
+    shouldApplyToday: generateDate("2025-10-31"),
+    mainScreen: makeMainScreen({
+      backgroundColor: "#000",
+      title: (show: boolean) => {
+        return (
+          <div
+            style={{
+              color: BaljanColors.Black,
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            {!show ? (
+              <img
+                style={{
+                  width: "30rem",
+                  display: "block",
+                  position: "relative",
+                  scale: "1.2",
+                }}
+                src="/images/halloween/doot-still.gif"
+                alt=""
+              />
+            ) : (
+              <img
+                style={{
+                  width: "30rem",
+                  display: "block",
+                  position: "relative",
+                  scale: "1.2",
+                }}
+                src="/images/halloween/doot.gif"
+                alt=""
+              />
+            )}
+          </div>
+        );
+      },
+      invertGithub: true,
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundColor: "transparent",
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundColor: "transparent",
+      sound: [new BlippAudio("/sounds/halloween/doot.mp3")],
+    }),
+  },
+  {
     name: "jeblipp",
     shouldApplyToday: generateDate("2025-10-22"),
     mainScreen: makeMainScreen({

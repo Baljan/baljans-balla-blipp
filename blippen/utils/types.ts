@@ -58,7 +58,7 @@ export interface MainScreenTheme {
   infoFontColor: string;
   footerFontColor: string;
   infoText: string;
-  title: string | ReactNode;
+  title: string | ReactNode | Function;
   invertGithub?: boolean;
 }
 

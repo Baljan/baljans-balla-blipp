@@ -40,17 +40,18 @@ const themes: Theme[] = [
             >
               <p
                 style={{
-                  fontSize: "5em",
+                  fontSize: "4em",
                   margin: 0,
                   color: "white",
                   textShadow: "0 0 5px white",
+                  marginTop: "2rem",
                 }}
               >
                 Du har väl inte missat
               </p>
               <h1
                 style={{
-                  fontSize: "13em",
+                  fontSize: "10em",
                   margin: 0,
                   textShadow: "0 0 5px, 0 0 10px",
                 }}

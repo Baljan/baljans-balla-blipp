@@ -1,8 +1,7 @@
 export const TOKEN_KEY_LS = "token";
 
-
 // Blipp API is different in dev and prod environments.
-const BLIPP_API_DOMAIN = process.env.NEXT_PUBLIC_BLIPP_API
+const BLIPP_API_DOMAIN = process.env.NEXT_PUBLIC_BLIPP_API;
 const BLIPP_API_PATH = "/do-blipp";
 
 const CARD_REGISTER_PATH = "/card-id/";
@@ -16,6 +15,7 @@ export enum BaljanColors {
   DarkBlue = "#2f308c",
   BrightBlue = "#00a4e0",
   Magenta = "#e6008b",
+  Cerise = "#ec008c",
   Black = "#000000",
   White = "#ffffff",
 }

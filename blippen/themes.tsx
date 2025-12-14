@@ -26,7 +26,7 @@ const themes: Theme[] = [
       backgroundColor: BaljanColors.DarkBlue,
       title: (
         <>
-          <Bokeh count={100} baseColor={BaljanColors.White} alpha={0.25} />
+          <Bokeh count={100} />
           <div
             style={{
               color: "rgba(236, 0, 140, 0.8)",
@@ -40,7 +40,7 @@ const themes: Theme[] = [
             >
               <p
                 style={{
-                  fontSize: "4em",
+                  fontSize: "5em",
                   margin: 0,
                   color: "white",
                   textShadow: "0 0 5px white",
@@ -50,7 +50,7 @@ const themes: Theme[] = [
               </p>
               <h1
                 style={{
-                  fontSize: "12em",
+                  fontSize: "13em",
                   margin: 0,
                   textShadow: "0 0 5px, 0 0 10px",
                 }}
@@ -59,7 +59,7 @@ const themes: Theme[] = [
               </h1>
               <p
                 style={{
-                  fontSize: "3em",
+                  fontSize: "4em",
                   margin: 0,
                   color: "white",
                   textShadow: "0 0 5px white",

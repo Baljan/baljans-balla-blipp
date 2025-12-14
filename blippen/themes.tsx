@@ -21,7 +21,7 @@ import Bokeh from "./components/Bokeh";
 const themes: Theme[] = [
   {
     name: "wrapped",
-    shouldApplyToday: generateDate("2025-12-15", "2025-12-19"),
+    shouldApplyToday: generateDate("2025-12-14", "2025-12-19"),
     mainScreen: makeMainScreen({
       backgroundColor: BaljanColors.DarkBlue,
       title: (

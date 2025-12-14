@@ -13,11 +13,69 @@ import {
 import { Theme } from "./utils/types";
 import { getSemlaDay, getEaster } from "./utils/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import Bokeh from "./components/Bokeh";
 
 // TODO: improve BlippImage preload to only load selected theme
 
 // Add any themes to this list.
 const themes: Theme[] = [
+  {
+    name: "wrapped",
+    shouldApplyToday: generateDate("2025-12-15", "2025-12-19"),
+    mainScreen: makeMainScreen({
+      backgroundColor: BaljanColors.DarkBlue,
+      title: (
+        <>
+          <Bokeh count={100} baseColor={BaljanColors.White} alpha={0.25} />
+          <div
+            style={{
+              color: "rgba(236, 0, 140, 0.8)",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{ transform: "translateY(-50px)", textAlign: "center" }}
+            >
+              <p
+                style={{
+                  fontSize: "4em",
+                  margin: 0,
+                  color: "white",
+                  textShadow: "0 0 5px white",
+                }}
+              >
+                Du har väl inte missat
+              </p>
+              <h1
+                style={{
+                  fontSize: "12em",
+                  margin: 0,
+                  textShadow: "0 0 5px, 0 0 10px",
+                }}
+              >
+                Blippen Wrapped
+              </h1>
+              <p
+                style={{
+                  fontSize: "3em",
+                  margin: 0,
+                  color: "white",
+                  textShadow: "0 0 5px white",
+                }}
+              >
+                wrapped.baljan.org
+              </p>
+            </div>
+          </div>
+        </>
+      ),
+      // invertGithub: true,
+    }),
+    errorScreen: makeErrorScreen(),
+    successScreen: makeSuccessScreen(),
+  },
   {
     name: "halloween",
     shouldApplyToday: generateDate("2025-10-31"),

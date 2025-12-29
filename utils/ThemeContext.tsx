@@ -11,7 +11,10 @@ import {
 import useSWR from "swr";
 import defaultTheme from "../utils/defaultTheme";
 import { getRandomElement } from "./helpers";
-import { BlippStatus, StatusTheme, ThemeInfo } from "./types";
+import { API, BlippStatus, StatusTheme, ThemeInfo } from "./types";
+
+const parseBackendUrl = (path: string) =>
+    new URL(path, "http://localhost:8000").toString();
 
 interface IThemeContext {
     assets: Map<string, HTMLAudioElement | HTMLImageElement>;
@@ -47,9 +50,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const themeOverride = themes[0];
 
     const url = `/api/theme/${themeOverride || "current"}`;
-    const { data, error, isLoading, isValidating } = useSWR<ThemeInfo>(
-        url,
-        (url: string) => axios.get(url).then((res) => res.data)
+    const {
+        data: resp,
+        error,
+        isLoading,
+        isValidating,
+    } = useSWR<API.Theme>(url, (url: string) =>
+        axios.get(url).then((res) => res.data)
     );
 
     const getVariant = useCallback(
@@ -86,37 +93,42 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         // TODO: Maybe implement fallback. What if data is null, but loading is false
-        if (!isLoading && data) {
-            setTheme({ ...defaultTheme, ...data });
+        if (!isLoading && resp) {
+            setTheme({ ...defaultTheme, ...resp.data });
 
             console.time("load-assets");
             Promise.all(
-                Object.values(data.assets).map((asset) => {
+                resp.assets.map((assetId) => {
                     return new Promise<
                         [string, HTMLAudioElement | HTMLImageElement]
-                    >((resolve) => {
+                    >(async (resolve) => {
+                        const resp = await axios.get<API.Asset>(
+                            parseBackendUrl(`/blippen/asset/${assetId}`)
+                        );
+
+                        const asset = resp.data;
+
                         switch (asset.type) {
                             case "audio":
                                 const audio = new Audio();
                                 audio.id = asset.id;
-                                audio.src = asset.url;
+                                audio.src = parseBackendUrl(asset.url);
+                                const onceEvent = () =>
+                                    resolve([asset.id, audio]);
+
                                 audio.addEventListener(
                                     "canplaythrough",
-                                    () => resolve([asset.id, audio]),
+                                    onceEvent,
                                     { once: true }
                                 );
-                                audio.addEventListener(
-                                    "error",
-                                    () => resolve([asset.id, audio]),
-                                    {
-                                        once: true,
-                                    }
-                                );
+                                audio.addEventListener("error", onceEvent, {
+                                    once: true,
+                                });
                                 break;
                             case "image":
                                 const image = new Image();
                                 image.id = asset.id;
-                                image.src = asset.url;
+                                image.src = parseBackendUrl(asset.url);
 
                                 image
                                     .decode()
@@ -131,7 +143,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
                 setTimeout(() => setReady(true), 1e3);
             });
         }
-    }, [isLoading, data]);
+    }, [isLoading, resp]);
 
     return (
         <ThemeContext.Provider

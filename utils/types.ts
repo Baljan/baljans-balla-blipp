@@ -1,5 +1,25 @@
 import { ReactNode } from "react";
 
+export namespace API {
+    export type Theme = {
+        name: string;
+        title: string;
+        data: {
+            idle: IdleTheme;
+            snowfall?: Snowfall;
+            error: StatusTheme;
+            success: StatusTheme;
+        };
+        assets: Array<AssetID>;
+    };
+
+    export type Asset = {
+        id: AssetID;
+        url: string;
+        type: "audio" | "image";
+    };
+}
+
 export interface BaseTheme {
     background: {
         content: string;
@@ -30,11 +50,12 @@ export type StatusTheme = BaseTheme & {
 
 export interface ThemeInfo {
     name: string;
+    title: string;
     idle: IdleTheme;
     snowfall?: Snowfall;
     error: StatusTheme;
     success: StatusTheme;
-    assets: Record<AssetID, Asset>;
+    // assets: Record<AssetID, Asset>;
 }
 
 export interface Snowfall {

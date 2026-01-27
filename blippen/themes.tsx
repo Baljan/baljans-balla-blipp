@@ -20,6 +20,28 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "VSR2026",
+    shouldApplyToday: generateDate("2026-02-02", "2026-02-8"),
+    mainScreen: makeMainScreen({
+      invertGithub: true,
+      title: "",
+      backgroundImage: "url(/images/VSR2026/Baljanblipp26-1.png)",
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundColor: "#212427ff",
+      backgroundImage: "url(/images/VSR2026/Baljanblipp26-3.png)",
+      image: null,
+      sound: new BlippAudio("/sounds/VSR2026/baljanblippgodkant.mp3"),
+      fontColor: "white",
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundImage: "url(/images/VSR2026/Baljanblipp26-2.png)",
+      sound: new BlippAudio("/sounds/VSR2026/baljanblippNekad.mp3"),
+      image: null,
+      fontColor: "white",
+    }),
+  },
+  {
     name: "wrapped",
     shouldApplyToday: generateDate("2025-12-14", "2025-12-19"),
     mainScreen: makeMainScreen({
@@ -650,15 +672,17 @@ const themes: Theme[] = [
   // ---
   // VSR 2025
   // ---
-  /*
+
   {
     name: "VSR2025",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getFullYear() === 2025 &&
-         date.getMonth() === 1 && // February (0-based index, so January = 0, February = 1)
-         date.getDate() >= 4 &&
-         date.getDate() <= 6;
+      return (
+        date.getFullYear() === 2025 &&
+        date.getMonth() === 1 && // February (0-based index, so January = 0, February = 1)
+        date.getDate() >= 4 &&
+        date.getDate() <= 6
+      );
     },
 
     mainScreen: makeMainScreen({
@@ -674,11 +698,9 @@ const themes: Theme[] = [
     errorScreen: makeErrorScreen({
       image: new BlippImage("images/VSR2025/Empty.png"),
       backgroundImage: "url(/images/VSR2025/VSR3.png)",
-      sound:
-        new BlippAudio("/sounds/VSR2025/Slytherin.m4a"),
+      sound: new BlippAudio("/sounds/VSR2025/Slytherin.m4a"),
     }),
- },
-  */
+  },
 
   // ---
   // pi

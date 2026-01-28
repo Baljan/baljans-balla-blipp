@@ -8,6 +8,8 @@ import RegisterCard from "./RegisterCard";
 import Snowfall from "./Snowfall";
 import StatusScreen from "./StatusScreen";
 
+import styles from "./BallaBlippen.module.css";
+
 type Props = {
   theme: Theme;
   testing: boolean;
@@ -67,7 +69,7 @@ export default function BallaBlippen({
   }, [queue, blippStatus, doBlipp, registerCardState]);
 
   return (
-    <div>
+    <div className={styles.container} data-testing={testing}>
       <IdleScreen
         theme={theme}
         loading={blippStatus.loading}

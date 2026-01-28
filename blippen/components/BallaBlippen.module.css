@@ -1,0 +1,9 @@
+.container[data-testing="true"] {
+  position: relative;
+
+  aspect-ratio: 1024 / 748;
+  max-height: 748px;
+  max-width: 1024px;
+
+  margin-inline: auto;
+}

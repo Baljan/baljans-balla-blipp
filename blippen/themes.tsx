@@ -21,7 +21,7 @@ import Bokeh from "./components/Bokeh";
 const themes: Theme[] = [
   {
     name: "VSR2026",
-    shouldApplyToday: generateDate("2026-02-02", "2026-02-8"),
+    shouldApplyToday: generateDate("2026-02-02", "2026-02-08"),
     mainScreen: makeMainScreen({
       invertGithub: true,
       title: "",

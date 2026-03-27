@@ -80,6 +80,18 @@ export default function StatusScreen({
           >
             {blippStatus.message}
           </motion.div>
+          {blippStatus.incitement !== undefined && (
+            <motion.div
+              key="incitement"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.4 }}
+              className={styles.incitement}
+            >
+              {blippStatus.incitement}
+            </motion.div>
+          )}
           {blippStatus.help_text && (
             <motion.div
               key="help_text"

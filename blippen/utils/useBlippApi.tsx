@@ -34,6 +34,7 @@ export function useBlippApi(
               kvar att blippa för
             </span>
           ),
+          incitement: res.incitement,
           duration: ANIMATION_DURATION,
         });
         setThemeOverride(res.themeOverride);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { TOKEN_KEY_LS, BLIPP_API_URL } from "../constants";
-import { ApiResult } from "./types";
+import { ApiResult, ApiResultSchema } from "./types";
 import { getRandomNumberBetween } from "./utils";
 
 // token for auth in PWA version, saved in localStorage as cookies are time-limited on iOS.
@@ -31,15 +31,9 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
       },
     })
     .then((res) => {
-      // TODO: validate
-      const apiRes: ApiResult = {
-        success: true,
-        balance: res.data.balance as number | "unlimited",
-        paid: res.data.paid as number,
-        themeOverride: res.data.theme_override ?? undefined,
-      };
+      const apiRes = ApiResultSchema.parse(res.data);
 
-      return Promise.resolve(apiRes);
+      return { ...apiRes, success: true };
     })
     .catch((e) => {
       let message = "Ett fel inträffade";
@@ -59,13 +53,13 @@ export async function sendBlipp(input: string): Promise<ApiResult> {
           signedRfid = e.response.data.signed_rfid;
         }
       }
-      const apiRes: ApiResult = {
-        success: false,
+
+      return {
         message,
         help_text,
         signedRfid,
+        success: false,
       };
-      return Promise.resolve(apiRes);
     });
 }
 
@@ -77,7 +71,6 @@ export async function mockBlipp(input: string): Promise<ApiResult> {
   if (input.length) {
     return {
       success: true,
-      paid: 0,
       balance: "unlimited",
       themeOverride: "",
     };

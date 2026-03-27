@@ -1,19 +1,17 @@
 import { ReactNode } from "react";
 import BlippAudio from "./blippAudio";
+import { z } from "zod";
 
-export type ApiResult =
-  | {
-      success: true;
-      paid: number;
-      balance: number | "unlimited";
-      themeOverride: string;
-    }
-  | {
-      success: false;
-      message: string;
-      help_text?: string;
-      signedRfid?: string;
-    };
+export const ApiResultSchema = z.object({
+  balance: z.union([z.number(), z.literal("unlimited")]).optional(),
+  themeOverride: z.string().optional(),
+  incitement: z.string().optional(),
+  message: z.string().optional(),
+  help_text: z.string().optional(),
+  signedRfid: z.string().optional(),
+});
+
+export type ApiResult = z.infer<typeof ApiResultSchema> & { success: boolean };
 
 export type BlippStatus =
   | {
@@ -27,6 +25,7 @@ export type BlippStatus =
       theme: StatusScreenTheme;
       message: ReactNode;
       help_text?: ReactNode;
+      incitement?: ReactNode;
       duration: number;
       signedRfid?: string;
     };

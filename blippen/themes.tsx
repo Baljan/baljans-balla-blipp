@@ -995,6 +995,8 @@ const themes: Theme[] = [
         new BlippAudio("/sounds/funny-sounds/kid.wav"),
         new BlippAudio("/sounds/funny-sounds/wopi.mp3"),
         new BlippAudio("/sounds/baljan35/woohoo.mp3"),
+        new BlippAudio("/sounds/recruiting/egghhh.m4a"),
+        new BlippAudio("/sounds/recruiting/kenny.m4a"),
       ],
 
       image: [

@@ -967,10 +967,10 @@ const themes: Theme[] = [
     shouldApplyToday: () => {
       const date = new Date();
       return (
+        date.getFullYear() === 2026 &&
         date.getMonth() === 3 &&
-        date.getDate() > 2 &&
-        date.getDate() < 9 &&
-        date.getFullYear() === 2023
+        date.getDate() >= 1 &&
+        date.getDate() <= 3
       );
     },
 
@@ -998,27 +998,18 @@ const themes: Theme[] = [
       ],
 
       image: [
-        new BlippImage("/images/styret-vt23/astrid2.png"),
-        new BlippImage("/images/styret-vt23/emil.png"),
-        new BlippImage("/images/styret-vt23/emma.png"),
-        new BlippImage("/images/styret-vt23/erik.png"),
-        new BlippImage("/images/styret-vt23/filip2.png"),
-        new BlippImage("/images/styret-vt23/frida2.png"),
-        new BlippImage("/images/styret-vt23/hlj.png"),
-        new BlippImage("/images/styret-vt23/inge.png"),
-        new BlippImage("/images/styret-vt23/jesper.png"),
-        new BlippImage("/images/styret-vt23/john2.png"),
-        new BlippImage("/images/styret-vt23/jossan2.png"),
-        new BlippImage("/images/styret-vt23/jullan.png"),
-        new BlippImage("/images/styret-vt23/molly.png"),
-        new BlippImage("/images/styret-vt23/og.png"),
-        new BlippImage("/images/styret-vt23/nico.png"),
-        new BlippImage("/images/styret-vt23/oliver.png"),
-        new BlippImage("/images/styret-vt23/otto.png"),
-        new BlippImage("/images/styret-vt23/rosanna.png"),
-        new BlippImage("/images/styret-vt23/unnbonk.png"),
-        new BlippImage("/images/styret-vt23/shakira.png"),
-        new BlippImage("/images/styret-vt23/vincent.png"),
+        new BlippImage("/images/styret-vt26/jens.png"),
+        new BlippImage("/images/styret-vt26/thomas.png"),
+        new BlippImage("/images/styret-vt26/leo.png"),
+        new BlippImage("/images/styret-vt26/ebba.png"),
+        new BlippImage("/images/styret-vt26/maja.png"),
+        new BlippImage("/images/styret-vt26/kenny.png"),
+        new BlippImage("/images/styret-vt26/erica.png"),
+        new BlippImage("/images/styret-vt26/tuva.png"),
+        new BlippImage("/images/styret-vt26/cajsa.png"),
+        new BlippImage("/images/styret-vt26/elin.png"),
+        new BlippImage("/images/styret-vt26/elsa.png"),
+        new BlippImage("/images/styret-vt26/angela.png"),
       ],
     }),
 
@@ -1059,11 +1050,16 @@ const themes: Theme[] = [
     name: "easter",
     shouldApplyToday: () => {
       const date = new Date();
-      const easterDay = getEaster(date.getFullYear());
-      const weekBfEaster = getEaster(date.getFullYear());
-      weekBfEaster.setDate(weekBfEaster.getDate() - 8);
+      return (
+        date.getMonth() === 2 &&
+        date.getDate() === 31 &&
+        date.getFullYear() === 2026
+      );
+      //const easterDay = getEaster(date.getFullYear());
+      //const weekBfEaster = getEaster(date.getFullYear());
+      //weekBfEaster.setDate(weekBfEaster.getDate() - 8);
 
-      return date < easterDay && date > weekBfEaster;
+      //return date < easterDay && date > weekBfEaster;
     },
 
     mainScreen: makeMainScreen({

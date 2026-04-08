@@ -20,6 +20,35 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "flamman2026",
+    shouldApplyToday: generateDate("2026-04-13", "2026-02-19"),
+    mainScreen: makeMainScreen({
+      invertGithub: true,
+      title: (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <source src="/images/flamman/flamman_ani.mp4" type="video/mp4" />
+        </video>
+      ),
+    }),
+    successScreen: makeSuccessScreen(),
+    errorScreen: makeErrorScreen(),
+  },
+  {
     name: "VSR2026",
     shouldApplyToday: generateDate("2026-02-02", "2026-02-08"),
     mainScreen: makeMainScreen({

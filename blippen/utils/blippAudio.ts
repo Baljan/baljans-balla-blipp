@@ -7,7 +7,8 @@ export default class BlippAudio {
   static initAll() {
     if (BlippAudio.uninitializedAudio.length) {
       BlippAudio.uninitializedAudio.forEach((audio) => {
-        audio.play();
+        /*audio.play()*/
+        audio.play().catch(() => {});
         audio.pause();
         audio.currentTime = 0;
       });

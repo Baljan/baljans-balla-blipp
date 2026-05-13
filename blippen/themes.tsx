@@ -402,6 +402,40 @@ const themes: Theme[] = [
       ],
     }),
   },
+
+  // ---
+  // Ölstopet 2026
+  // ---
+  {
+    name: "olstopet26",
+    shouldApplyToday: () => {
+      const date = new Date();
+      return (
+        date.getFullYear() == 2026 &&
+        date.getMonth() == 4 &&
+        date.getDate() == 13
+      );
+    },
+    snowfall: makeSnowfall({
+      content: [new BlippImage("/images/ölstopet-2026/Fm-Ölstopet.png")],
+      randomRotation: true,
+      count: 6,
+      size: 2,
+    }),
+    mainScreen: makeMainScreen({
+      title: "",
+      backgroundImage: "url(/images/ölstopet-2026/BaljanBakgrund.png)",
+    }),
+    errorScreen: makeErrorScreen({
+      sound: [
+        new BlippAudio("/sounds/ölstopet-2025/evil-laugh.mp3"),
+        new BlippAudio("/sounds/ölstopet-2025/kids-laugh.mp3"),
+      ],
+    }),
+    successScreen: makeSuccessScreen({
+      image: new BlippImage("/images/ölstopet-2026/Baljanbild.png"),
+    }),
+  },
   // ---
   // Sök Styret HT25
   // ---

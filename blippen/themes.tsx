@@ -1231,50 +1231,56 @@ const themes: Theme[] = [
   },
 */
   // ---
-  // UK 2023
+  // UK 2026
   // ---
-  /*
   {
-    name: "UK2023",
+    name: "UK2026",
     shouldApplyToday: () => {
       const date = new Date();
       return (
-        date.getMonth() === 7 &&
-        date.getDate() > 2 &&
-        date.getDate() < 7 &&
-        date.getFullYear() === 2023
+        date.getFullYear() === 2026 &&
+        date.getMonth() === 4 &&
+        [11, 12, 15].includes(date.getDate())
       );
     },
     mainScreen: makeMainScreen({
-      title: "",
+      title: (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <img
+            src="/images/UK/26logga.webp"
+            alt="UK 2026"
+            style={{
+              maxWidth: "60%",
+              maxHeight: "60%",
+              objectFit: "contain",
+            }}
+          />
+        </div>
+      ),
       titleFontColor: BaljanColors.White,
       backgroundImage:
-        "url(/images/UK/blomma2.png), linear-gradient(0deg,rgba(228,124,142,255) 0%, rgba(243,212,210,255) 150%)",
+        "linear-gradient(0deg, rgba(247,224,107,255) 0%, rgba(186,213,235,255) 90%, rgba(100,160,220,255) 100%)",
     }),
 
-    successScreen: makeSuccessScreen(
-      {
-        backgroundImage: `linear-gradient(0deg, rgba(228,124,142,255) 0%, ${BaljanColors.BrightBlue} 150%)`,
-
-        image: [new BlippImage("/images/UK/cm_text.png")],
-        sound: [
-          new BlippAudio("/sounds/UK/tagga.mp3"),
-          new BlippAudio("/sounds/UK/kicka-i-huvve.mp3"),
-          new BlippAudio("/sounds/UK/tagga.mp3"),
-          new BlippAudio("/sounds/UK/eee_aaa.mp3"),
-          new BlippAudio("/sounds/UK/va_som_jag.mp3"),
-        ],
-      },
-      "alternating"
-    ),
+    successScreen: makeSuccessScreen({
+      backgroundImage:
+        "linear-gradient(0deg, rgba(247,224,107,255) 0%, rgba(186,213,235,255) 90%, rgba(100,160,220,255) 100%)",
+    }),
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
-      content: ["TAGGA", "TAGGA", "UK"],
-      size: 0.8,
+      content: [new BlippImage("/images/UK/26sol.png")],
+      size: 2.5,
     }),
   },
-  */
   // ---
   // Lättöl theme
   // ---

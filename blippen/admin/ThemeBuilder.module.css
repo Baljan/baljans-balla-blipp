@@ -1,0 +1,261 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 460px) 1fr;
+  height: 100vh;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #1a1a1a;
+  background: #f4f5f7;
+}
+
+.formPane {
+  overflow-y: auto;
+  padding: 1.5rem;
+  border-right: 1px solid #d7dae0;
+  background: #fff;
+}
+
+.heading {
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+
+.note code {
+  background: #eef0f3;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.section {
+  border: 1px solid #d7dae0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.section legend {
+  font-weight: 700;
+  padding: 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field textarea,
+.field select {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #c4c8d0;
+  border-radius: 6px;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.field textarea {
+  resize: vertical;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.row > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.colorRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.colorRow input[type="color"] {
+  width: 38px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #c4c8d0;
+  border-radius: 6px;
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.checkField {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.copyBtn,
+.resetBtn,
+.previewControls button {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #c4c8d0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.45rem 0.9rem;
+}
+
+.copyBtn {
+  margin-bottom: 0.75rem;
+  background: #2f308c;
+  color: #fff;
+  border-color: #2f308c;
+}
+
+.resetBtn {
+  color: #820c0c;
+  border-color: #e0b4b4;
+}
+
+.upload {
+  display: inline-block;
+  margin: -0.25rem 0 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.upload input[type="file"] {
+  display: none;
+}
+
+.upload span {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border: 1px dashed #9aa0aa;
+  border-radius: 6px;
+  background: #f4f5f7;
+}
+
+.assetList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+}
+
+.assetList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.assetList code {
+  font-size: 0.75rem;
+}
+
+.thumb {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #eef0f3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.code {
+  margin: 0;
+  padding: 0.75rem;
+  background: #1e1e1e;
+  color: #e6e6e6;
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ---------- Preview ---------- */
+
+.previewPane {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.previewControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.previewControls button[data-active="true"] {
+  background: #2f308c;
+  color: #fff;
+  border-color: #2f308c;
+}
+
+.previewBox {
+  flex: 1;
+  min-height: 0;
+}
+
+/* The preview iframe is its own viewport, so position:fixed / 100vh / 12vw
+   inside the blipp resolve to the frame and look exactly like production. */
+.frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #c4c8d0;
+  border-radius: 10px;
+  background: #000;
+  display: block;
+}
+
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+}
+
+.frameFull {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.fullscreenControls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.5rem;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}

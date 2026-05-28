@@ -48,9 +48,19 @@ export default function PreviewFrame({ className, onWindow, children }: Props) {
     style.textContent = FRAME_CSS;
     doc.head.appendChild(style);
 
+    // BallaBlippen runs in the parent realm, so its card-reader listens on the
+    // parent window — not this frame's. Forward key events the frame receives
+    // (e.g. a card scanned while the preview is focused) to the parent.
+    const forward = (e: KeyboardEvent) =>
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: e.key }));
+    win.addEventListener("keydown", forward);
+
     setMountNode(doc.body);
     onWindow?.(win);
-    return () => onWindow?.(null);
+    return () => {
+      win.removeEventListener("keydown", forward);
+      onWindow?.(null);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

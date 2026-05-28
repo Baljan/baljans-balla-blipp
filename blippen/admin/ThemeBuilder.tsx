@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import BallaBlippen from "../components/BallaBlippen";
 import PreviewFrame from "./PreviewFrame";
 import {
@@ -296,18 +296,16 @@ function Preview({
   );
 }
 
-// Drive the real card reader: BallaBlippen listens for key events on the
-// preview window and treats Enter as "card swiped". A non-empty id => success,
-// empty => error.
-const simulateBlipp = (win: Window | null, success: boolean) => {
-  const target = win ?? window;
-  const KE = (target as Window & typeof globalThis).KeyboardEvent;
+// Drive the real card reader: BallaBlippen runs in the parent realm and
+// listens for key events on the (parent) window, treating Enter as "card
+// swiped". A non-empty id => success, empty => error.
+const simulateBlipp = (success: boolean) => {
   if (success) {
     for (const ch of "0001112223") {
-      target.dispatchEvent(new KE("keydown", { key: ch }));
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: ch }));
     }
   }
-  target.dispatchEvent(new KE("keydown", { key: "Enter" }));
+  window.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
 };
 
 // ---
@@ -319,8 +317,6 @@ export default function ThemeBuilder() {
   const [assets, setAssets] = useState<AssetMap>({});
   const [fullscreen, setFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
-  // The currently-mounted preview frame's window (inline or fullscreen).
-  const previewWin = useRef<Window | null>(null);
 
   // Load / persist the draft so work survives a refresh.
   // (Uploaded files can't be persisted — their object URLs die on reload.)
@@ -380,16 +376,10 @@ export default function ThemeBuilder() {
 
   const previewControls = (
     <div className={styles.previewControls}>
-      <button
-        type="button"
-        onClick={() => simulateBlipp(previewWin.current, true)}
-      >
+      <button type="button" onClick={() => simulateBlipp(true)}>
         Blippa (godkänd)
       </button>
-      <button
-        type="button"
-        onClick={() => simulateBlipp(previewWin.current, false)}
-      >
+      <button type="button" onClick={() => simulateBlipp(false)}>
         Blippa (nekad)
       </button>
       <button type="button" onClick={() => setFullscreen((f) => !f)}>
@@ -397,10 +387,6 @@ export default function ThemeBuilder() {
       </button>
     </div>
   );
-
-  const setPreviewWin = (win: Window | null) => {
-    previewWin.current = win;
-  };
 
   const uploadedPaths = Object.keys(assets);
 
@@ -689,11 +675,7 @@ export default function ThemeBuilder() {
         </p>
         {!fullscreen && (
           <div className={styles.previewBox}>
-            <Preview
-              theme={theme}
-              className={styles.frame}
-              onWindow={setPreviewWin}
-            />
+            <Preview theme={theme} className={styles.frame} />
           </div>
         )}
       </div>
@@ -701,11 +683,7 @@ export default function ThemeBuilder() {
       {/* ---------- Fullscreen preview (exact production size) ---------- */}
       {fullscreen && (
         <div className={styles.fullscreen}>
-          <Preview
-            theme={theme}
-            className={styles.frameFull}
-            onWindow={setPreviewWin}
-          />
+          <Preview theme={theme} className={styles.frameFull} />
           <div className={styles.fullscreenControls}>{previewControls}</div>
         </div>
       )}

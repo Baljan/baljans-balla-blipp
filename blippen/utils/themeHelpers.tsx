@@ -54,6 +54,7 @@ const defaultMainScreen: Readonly<MainScreenTheme> = {
   backgroundColor: BaljanColors.BrightBlue,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   titleFontColor: BaljanColors.Magenta,
   infoFontColor: OtherColors.DarkGray,
   footerFontColor: OtherColors.DarkGray,
@@ -66,6 +67,7 @@ const defaultSuccessScreen: Readonly<StatusScreenTheme> = {
   backgroundColor: OtherColors.DarkGreen,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   fontColor: OtherColors.BrightGreen,
   image: <FaCheck />,
 };
@@ -75,6 +77,7 @@ const defaultErrorScreen: Readonly<StatusScreenTheme> = {
   backgroundColor: OtherColors.DarkRed,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   fontColor: OtherColors.BrightRed,
   image: <FaTimes />,
 };
@@ -112,6 +115,7 @@ const makeStatusScreen = (defaults: StatusScreenTheme) => {
         backgroundBlendMode: getOne("backgroundBlendMode"),
         backgroundColor: getOne("backgroundColor"),
         backgroundImage: getOne("backgroundImage"),
+        backgroundSize: getOne("backgroundSize"),
         fontColor: getOne("fontColor"),
         image: getOne("image"),
         sound: getOne("sound"),

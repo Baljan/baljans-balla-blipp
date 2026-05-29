@@ -209,6 +209,24 @@
   background: #fff;
 }
 
+.itemSize {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  color: #6a7180;
+}
+
+.itemSize input {
+  width: 3.5rem;
+  font: inherit;
+  padding: 0.2rem 0.3rem;
+  border: 1px solid #c4c8d0;
+  border-radius: 6px;
+  background: #fff;
+}
+
 .removeBtn {
   flex: 0 0 auto;
   width: 24px;

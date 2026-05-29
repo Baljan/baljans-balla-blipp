@@ -61,6 +61,7 @@ export default function StatusScreen({
             backgroundColor: blippStatus.theme.backgroundColor,
             backgroundImage: blippStatus.theme.backgroundImage,
             backgroundBlendMode: blippStatus.theme.backgroundBlendMode,
+            backgroundSize: blippStatus.theme.backgroundSize,
             color: blippStatus.theme.fontColor,
           }}
         >

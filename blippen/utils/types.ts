@@ -45,6 +45,7 @@ export interface StatusScreenTheme {
   backgroundColor: string;
   backgroundImage: string;
   backgroundBlendMode: string;
+  backgroundSize: string;
   fontColor: string;
   sound: BlippAudio | null;
   image: React.ReactNode;
@@ -54,6 +55,7 @@ export interface MainScreenTheme {
   backgroundColor: string;
   backgroundImage: string;
   backgroundBlendMode: string;
+  backgroundSize: string;
   titleFontColor: string;
   infoFontColor: string;
   footerFontColor: string;

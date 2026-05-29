@@ -20,6 +20,7 @@ export default React.memo(function IdleScreen({
     backgroundColor,
     backgroundImage,
     backgroundBlendMode,
+    backgroundSize,
     infoFontColor,
     titleFontColor,
     footerFontColor,
@@ -36,6 +37,7 @@ export default React.memo(function IdleScreen({
           backgroundImage: backgroundImage,
           backgroundColor: backgroundColor,
           backgroundBlendMode: backgroundBlendMode,
+          backgroundSize: backgroundSize,
         }}
       >
         {typeof title == "string" ? (

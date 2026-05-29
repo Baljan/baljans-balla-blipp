@@ -196,6 +196,12 @@ function ItemList({
     onChange(
       items.map((it, idx) => (idx === i ? { kind: "text", value } : it))
     );
+  const setSize = (i: number, size: number) =>
+    onChange(
+      items.map((it, idx) =>
+        idx === i && it.kind === "asset" ? { ...it, size } : it
+      )
+    );
   const addAssets = (files: File[]) =>
     onChange([
       ...items,
@@ -215,6 +221,19 @@ function ItemList({
                 <>
                   <Thumb asset={assets[it.path]} fallback="🖼️" />
                   <code className={styles.itemPath}>{it.path}</code>
+                  <label
+                    className={styles.itemSize}
+                    title="Storlek (1 = standard)"
+                  >
+                    size
+                    <input
+                      type="number"
+                      step={0.1}
+                      min={0.1}
+                      value={it.size ?? 1}
+                      onChange={(e) => setSize(i, Number(e.target.value))}
+                    />
+                  </label>
                 </>
               ) : (
                 <input
@@ -299,18 +318,32 @@ const urlPath = (css: string): string | null => {
   return m ? m[1] : null;
 };
 
+// background-size as a simple multiplier: "cover" (default / fill) = 1,
+// otherwise a percentage like "70%" = 0.7. Anything we can't parse reads as 1.
+const sizeToNumber = (css: string): number => {
+  const m = css.match(/^([\d.]+)%$/);
+  return m ? Number(m[1]) / 100 : 1;
+};
+
+const numberToSize = (n: number): string =>
+  n === 1 ? "cover" : `${+(n * 100).toFixed(2)}%`;
+
 // Background: either an uploaded image (shown as a removable chip, path set by
 // the system) or a CSS gradient / "none" typed as free text. No path typing.
 function BackgroundField({
   label,
   value,
   onChange,
+  size,
+  onSizeChange,
   assets,
   registerAsset,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
+  size: string;
+  onSizeChange: (v: string) => void;
   assets: AssetStore;
   registerAsset: RegisterAsset;
 }) {
@@ -322,6 +355,21 @@ function BackgroundField({
         <div className={styles.item}>
           <Thumb asset={assets[path]} fallback="🖼️" />
           <code className={styles.itemPath}>{path}</code>
+          <label
+            className={styles.itemSize}
+            title="Storlek (1 = täcker skärmen)"
+          >
+            size
+            <input
+              type="number"
+              step={0.1}
+              min={0.1}
+              value={sizeToNumber(size)}
+              onChange={(e) =>
+                onSizeChange(numberToSize(Number(e.target.value)))
+              }
+            />
+          </label>
           <button
             type="button"
             className={styles.removeBtn}
@@ -382,6 +430,8 @@ function StatusEditor({
         label="Background"
         value={draft.backgroundImage}
         onChange={(v) => set("backgroundImage", v)}
+        size={draft.backgroundSize}
+        onSizeChange={(v) => set("backgroundSize", v)}
         assets={assets}
         registerAsset={registerAsset}
       />
@@ -497,23 +547,30 @@ const buildReadme = (
 // Main builder
 // ---
 
+// Read the persisted draft once, when the (client-only) builder first mounts.
+// Seeding state directly avoids a load-effect that would race the save-effect:
+// previously the save-effect ran on mount with the still-empty default and
+// clobbered the stored draft before the load took effect (doubly so under
+// React StrictMode), so edits vanished on reload.
+const loadDraft = (): DraftTheme => {
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) return normalizeDraft(JSON.parse(saved));
+  } catch {
+    /* ignore */
+  }
+  return emptyDraft();
+};
+
 export default function ThemeBuilder() {
-  const [draft, setDraft] = useState<DraftTheme>(emptyDraft);
+  const [draft, setDraft] = useState<DraftTheme>(loadDraft);
   const [assets, setAssets] = useState<AssetStore>({});
   const [fullscreen, setFullscreen] = useState(false);
   // Pin a status screen so its edits show live without re-clicking "Blippa".
   const [hold, setHold] = useState<"success" | "error" | null>(null);
 
-  // Load / persist the draft so work survives a refresh.
+  // Persist the draft so work survives a refresh.
   // (Uploaded files can't be persisted — their object URLs die on reload.)
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(LS_KEY);
-      if (saved) setDraft(normalizeDraft(JSON.parse(saved)));
-    } catch {
-      /* ignore */
-    }
-  }, []);
   useEffect(() => {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(draft));
@@ -677,6 +734,8 @@ export default function ThemeBuilder() {
             label="Background"
             value={draft.main.backgroundImage}
             onChange={(v) => setMain("backgroundImage", v)}
+            size={draft.main.backgroundSize}
+            onSizeChange={(v) => setMain("backgroundSize", v)}
             assets={assets}
             registerAsset={registerAsset}
           />

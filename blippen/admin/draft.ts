@@ -25,14 +25,17 @@ export type MultiStrategy = "random" | "alternating";
 // A single image / falling item. Assets come only from uploads, so their
 // public path is system-assigned and never typed by the user; text items
 // (emoji, "π = 3.14", ...) are free content, not paths.
+// `size` (assets only) is a multiplier on the image's natural display size:
+// 1 = default, 0.7 = 70 %, 1.5 = 150 %. Absent means 1.
 export type ContentItem =
-  | { kind: "asset"; path: string }
+  | { kind: "asset"; path: string; size?: number }
   | { kind: "text"; value: string };
 
 export interface MainDraft {
   backgroundColor: string;
   backgroundImage: string;
   backgroundBlendMode: string;
+  backgroundSize: string; // CSS background-size ("cover" = default / fill)
   titleFontColor: string;
   infoFontColor: string;
   footerFontColor: string;
@@ -45,6 +48,7 @@ export interface StatusDraft {
   backgroundColor: string;
   backgroundImage: string;
   backgroundBlendMode: string;
+  backgroundSize: string; // CSS background-size ("cover" = default / fill)
   fontColor: string;
   images: ContentItem[];
   sounds: string[]; // asset paths only (sounds are always uploaded files)
@@ -81,6 +85,7 @@ export const MAIN_DEFAULTS: MainDraft = {
   backgroundColor: BaljanColors.BrightBlue,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   titleFontColor: BaljanColors.Magenta,
   infoFontColor: OtherColors.DarkGray,
   footerFontColor: OtherColors.DarkGray,
@@ -93,6 +98,7 @@ export const SUCCESS_DEFAULTS: StatusDraft = {
   backgroundColor: OtherColors.DarkGreen,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   fontColor: OtherColors.BrightGreen,
   images: [],
   sounds: [],
@@ -103,6 +109,7 @@ export const ERROR_DEFAULTS: StatusDraft = {
   backgroundColor: OtherColors.DarkRed,
   backgroundImage: "none",
   backgroundBlendMode: "normal",
+  backgroundSize: "cover",
   fontColor: OtherColors.BrightRed,
   images: [],
   sounds: [],
@@ -233,7 +240,7 @@ const toImageNode = (
   assets: AssetMap
 ): ReactNode | BlippImage =>
   item.kind === "asset"
-    ? new BlippImage(resolvePath(item.path, assets))
+    ? new BlippImage(resolvePath(item.path, assets), item.size)
     : item.value;
 
 // ---
@@ -254,6 +261,7 @@ const buildStatusOverrides = (
     overrides.backgroundImage = resolveCss(draft.backgroundImage, assets);
   if (draft.backgroundBlendMode)
     overrides.backgroundBlendMode = draft.backgroundBlendMode;
+  if (draft.backgroundSize) overrides.backgroundSize = draft.backgroundSize;
   if (draft.fontColor) overrides.fontColor = draft.fontColor;
 
   const images = collapse(
@@ -279,6 +287,7 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
       backgroundColor: draft.main.backgroundColor,
       backgroundImage: resolveCss(draft.main.backgroundImage, assets),
       backgroundBlendMode: draft.main.backgroundBlendMode,
+      backgroundSize: draft.main.backgroundSize,
       titleFontColor: draft.main.titleFontColor,
       infoFontColor: draft.main.infoFontColor,
       footerFontColor: draft.main.footerFontColor,
@@ -299,7 +308,7 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
   if (draft.snowfall.enabled) {
     const content = draft.snowfall.content.map((item) =>
       item.kind === "asset"
-        ? new BlippImage(resolvePath(item.path, assets))
+        ? new BlippImage(resolvePath(item.path, assets), item.size)
         : item.value
     );
     theme.snowfall = makeSnowfall({
@@ -323,8 +332,12 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
 
 const q = (value: string) => JSON.stringify(value);
 
-const imageItemExpr = (item: ContentItem): string =>
-  item.kind === "asset" ? `new BlippImage(${q(item.path)})` : q(item.value);
+const imageItemExpr = (item: ContentItem): string => {
+  if (item.kind === "text") return q(item.value);
+  return item.size !== undefined && item.size !== 1
+    ? `new BlippImage(${q(item.path)}, ${item.size})`
+    : `new BlippImage(${q(item.path)})`;
+};
 
 const soundExpr = (path: string): string => `new BlippAudio(${q(path)})`;
 
@@ -344,6 +357,8 @@ const mainCode = (draft: DraftTheme): string => {
   add("backgroundColor", MAIN_DEFAULTS.backgroundColor);
   add("backgroundImage", MAIN_DEFAULTS.backgroundImage);
   add("backgroundBlendMode", MAIN_DEFAULTS.backgroundBlendMode);
+  if (m.backgroundImage !== MAIN_DEFAULTS.backgroundImage)
+    add("backgroundSize", MAIN_DEFAULTS.backgroundSize);
   add("titleFontColor", MAIN_DEFAULTS.titleFontColor);
   add("infoFontColor", MAIN_DEFAULTS.infoFontColor);
   add("footerFontColor", MAIN_DEFAULTS.footerFontColor);
@@ -369,6 +384,8 @@ const statusCode = (
   add("backgroundColor", defaults.backgroundColor);
   add("backgroundImage", defaults.backgroundImage);
   add("backgroundBlendMode", defaults.backgroundBlendMode);
+  if (draft.backgroundImage !== defaults.backgroundImage)
+    add("backgroundSize", defaults.backgroundSize);
   add("fontColor", defaults.fontColor);
 
   if (draft.images.length)
@@ -479,7 +496,7 @@ export const reslugDraft = (
   if (oldSlug === newSlug) return draft;
   const swap = (s: string) => remapSlugPath(s, oldSlug, newSlug);
   const item = (i: ContentItem): ContentItem =>
-    i.kind === "asset" ? { kind: "asset", path: swap(i.path) } : i;
+    i.kind === "asset" ? { ...i, path: swap(i.path) } : i;
   const status = (s: StatusDraft): StatusDraft => ({
     ...s,
     backgroundImage: swap(s.backgroundImage),

@@ -7,24 +7,30 @@ import styles from "./StatusScreen.module.css";
 type Props = {
   blippStatus: BlippStatus;
   onAnimationComplete: () => void;
+  // Preview-only: keep the screen up indefinitely (no auto-hide, no sound)
+  // so the theme editor can tweak it live without re-triggering a blipp.
+  hold?: boolean;
 };
 
 export default function StatusScreen({
   blippStatus,
   onAnimationComplete,
+  hold = false,
 }: Props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (blippStatus.show) {
       setShow(true);
-      setTimeout(() => {
-        setShow(false);
-      }, blippStatus.duration);
+      if (hold) return;
 
       blippStatus.theme.sound?.play();
+      const timer = setTimeout(() => {
+        setShow(false);
+      }, blippStatus.duration);
+      return () => clearTimeout(timer);
     }
-  }, [blippStatus]);
+  }, [blippStatus, hold]);
 
   return (
     <AnimatePresence onExitComplete={onAnimationComplete} exitBeforeEnter>

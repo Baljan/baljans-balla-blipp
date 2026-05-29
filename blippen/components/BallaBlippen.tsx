@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import BlippAudio from "../utils/blippAudio";
-import { Theme } from "../utils/types";
+import { BlippStatus, Theme } from "../utils/types";
 import { useBlippApi } from "../utils/useBlippApi";
 import useRegisterCard from "../utils/useRegisterCard";
 import IdleScreen from "./IdleScreen";
@@ -14,12 +14,16 @@ type Props = {
   theme: Theme;
   testing: boolean;
   setThemeOverride: (name: string) => void;
+  // Preview-only: pin the success/error screen so the theme editor can tweak
+  // it live. The pinned screen reflects the current theme and never times out.
+  holdStatus?: "success" | "error" | null;
 };
 
 export default function BallaBlippen({
   theme,
   testing,
   setThemeOverride,
+  holdStatus = null,
 }: Props) {
   const [queue, setQueue] = useState<string[]>([]);
   const rfid = useRef(""); // Save as ref to not rerender on every change.
@@ -31,6 +35,33 @@ export default function BallaBlippen({
   );
 
   const registerCardState = useRegisterCard();
+
+  // A live, never-timing-out status built straight from the current theme.
+  // Recomputing on every theme edit lets StatusScreen update in place.
+  const heldStatus = useMemo<BlippStatus | null>(
+    () =>
+      holdStatus
+        ? {
+            show: true,
+            loading: false,
+            success: holdStatus === "success",
+            theme:
+              holdStatus === "success"
+                ? theme.successScreen()
+                : theme.errorScreen(),
+            message:
+              holdStatus === "success" ? (
+                <span>
+                  Du har <b>42 kr</b> kvar att blippa för
+                </span>
+              ) : (
+                "Förhandsvisning"
+              ),
+            duration: 0,
+          }
+        : null,
+    [holdStatus, theme]
+  );
 
   // Read from blipp reader and add to queue.
   useEffect(() => {
@@ -78,8 +109,9 @@ export default function BallaBlippen({
       />
 
       <StatusScreen
-        blippStatus={blippStatus}
+        blippStatus={heldStatus ?? blippStatus}
         onAnimationComplete={resetBlippStatus}
+        hold={!!heldStatus}
       />
 
       <Snowfall theme={theme} />

@@ -153,24 +153,6 @@
   background: #f4f5f7;
 }
 
-.assetList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.78rem;
-}
-
-.assetList li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
-}
-
-.assetList code {
-  font-size: 0.75rem;
-}
-
 .thumb {
   width: 28px;
   height: 28px;
@@ -184,17 +166,91 @@
   font-size: 1rem;
 }
 
-.code {
-  margin: 0;
-  padding: 0.75rem;
-  background: #1e1e1e;
-  color: #e6e6e6;
+/* ---------- Managed item lists ---------- */
+
+.itemBlock {
+  font-weight: 400;
+}
+
+.itemList {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid #e1e4ea;
   border-radius: 6px;
-  font-family: ui-monospace, monospace;
-  font-size: 0.75rem;
-  line-height: 1.45;
-  overflow-x: auto;
-  white-space: pre;
+  background: #fafbfc;
+}
+
+.itemPath {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.72rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemText {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-weight: 400;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid #c4c8d0;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.removeBtn {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: 1px solid #e0b4b4;
+  border-radius: 6px;
+  background: #fff;
+  color: #820c0c;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addTextBtn {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.35rem 0.7rem;
+  border: 1px dashed #9aa0aa;
+  border-radius: 6px;
+  background: #f4f5f7;
+}
+
+.summaryList {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.warn {
+  font-size: 0.8rem;
+  color: #820c0c;
+  margin: 0 0 0.75rem;
+  line-height: 1.4;
 }
 
 /* ---------- Preview ---------- */

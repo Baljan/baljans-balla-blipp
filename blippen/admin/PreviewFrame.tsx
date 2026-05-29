@@ -6,6 +6,16 @@ import { createPortal } from "react-dom";
 // so effects (falling images), backgrounds and the title scale to the
 // preview area and look exactly like production at any size.
 
+// The kiosk iPad's screen: it runs full-screen (PWA/standalone, no Safari
+// toolbar), so the full 1024x768 is used. We render the iframe at exactly
+// this logical size and transform:scale() it to fit the pane, so both vw/vh
+// AND absolute px (spinner, max-widths) resolve exactly as on the iPad — a
+// pixel-faithful, uniformly scaled mirror rather than a stretched one.
+// (The 1024x748 cap in BallaBlippen.module.css only applies to testing mode,
+// and FRAME_CSS overrides it here anyway.)
+const VIEWPORT_W = 1024;
+const VIEWPORT_H = 768;
+
 // Injected into the frame so the blipp fills it (testing mode otherwise
 // caps the app to a centred 1024x748 box).
 const FRAME_CSS = `
@@ -34,8 +44,25 @@ type Props = {
 };
 
 export default function PreviewFrame({ className, onWindow, children }: Props) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
+  const [scale, setScale] = useState(1);
+
+  // Fit the fixed 1024x748 frame into whatever space the pane gives us,
+  // capped at 1:1 so it never blows up past actual iPad size.
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const update = () => {
+      const { width, height } = wrapper.getBoundingClientRect();
+      setScale(Math.min(width / VIEWPORT_W, height / VIEWPORT_H, 1));
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(wrapper);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -65,9 +92,29 @@ export default function PreviewFrame({ className, onWindow, children }: Props) {
   }, []);
 
   return (
-    <>
-      <iframe ref={iframeRef} className={className} title="Blipp preview" />
+    <div
+      ref={wrapperRef}
+      className={className}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      <iframe
+        ref={iframeRef}
+        title="Blipp preview"
+        style={{
+          flex: "0 0 auto",
+          width: VIEWPORT_W,
+          height: VIEWPORT_H,
+          border: 0,
+          transform: `scale(${scale})`,
+          transformOrigin: "center",
+        }}
+      />
       {mountNode && createPortal(children, mountNode)}
-    </>
+    </div>
   );
 }

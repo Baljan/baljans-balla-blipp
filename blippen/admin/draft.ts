@@ -22,6 +22,13 @@ import { Theme } from "../utils/types";
 
 export type MultiStrategy = "random" | "alternating";
 
+// A single image / falling item. Assets come only from uploads, so their
+// public path is system-assigned and never typed by the user; text items
+// (emoji, "π = 3.14", ...) are free content, not paths.
+export type ContentItem =
+  | { kind: "asset"; path: string }
+  | { kind: "text"; value: string };
+
 export interface MainDraft {
   backgroundColor: string;
   backgroundImage: string;
@@ -39,16 +46,14 @@ export interface StatusDraft {
   backgroundImage: string;
   backgroundBlendMode: string;
   fontColor: string;
-  // One entry per line. URLs/paths become BlippImage/BlippAudio,
-  // anything else (emoji, text) stays a plain string.
-  images: string;
-  sounds: string;
+  images: ContentItem[];
+  sounds: string[]; // asset paths only (sounds are always uploaded files)
   strategy: MultiStrategy;
 }
 
 export interface SnowfallDraft {
   enabled: boolean;
-  content: string; // one entry per line
+  content: ContentItem[];
   size: number;
   count: number;
   speed: number;
@@ -89,8 +94,8 @@ export const SUCCESS_DEFAULTS: StatusDraft = {
   backgroundImage: "none",
   backgroundBlendMode: "normal",
   fontColor: OtherColors.BrightGreen,
-  images: "",
-  sounds: "",
+  images: [],
+  sounds: [],
   strategy: "random",
 };
 
@@ -99,14 +104,14 @@ export const ERROR_DEFAULTS: StatusDraft = {
   backgroundImage: "none",
   backgroundBlendMode: "normal",
   fontColor: OtherColors.BrightRed,
-  images: "",
-  sounds: "",
+  images: [],
+  sounds: [],
   strategy: "random",
 };
 
 export const SNOWFALL_DEFAULTS: SnowfallDraft = {
   enabled: false,
-  content: "",
+  content: [],
   size: 2,
   count: 0,
   speed: 1,
@@ -129,7 +134,7 @@ export const emptyDraft = (): DraftTheme => ({
 // Parsing helpers
 // ---
 
-export const parseLines = (text: string): string[] =>
+const parseLines = (text: string): string[] =>
   text
     .split("\n")
     .map((line) => line.trim())
@@ -139,6 +144,57 @@ const IMAGE_EXT = /\.(png|jpe?g|gif|svg|webp|avif|mp4)$/i;
 
 const looksLikeAsset = (line: string): boolean =>
   /^(https?:\/\/|\/)/.test(line) || IMAGE_EXT.test(line);
+
+const toContentItem = (line: string): ContentItem =>
+  looksLikeAsset(line)
+    ? { kind: "asset", path: line }
+    : { kind: "text", value: line };
+
+// ---
+// Normalize a persisted/partial draft into the current shape. Earlier drafts
+// stored images/sounds/content as newline-separated strings; coerce those so
+// a saved draft from before the list rewrite still loads.
+// ---
+
+const toItems = (value: unknown): ContentItem[] => {
+  if (Array.isArray(value)) return value as ContentItem[];
+  if (typeof value === "string") return parseLines(value).map(toContentItem);
+  return [];
+};
+
+const toPaths = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value as string[];
+  if (typeof value === "string") return parseLines(value);
+  return [];
+};
+
+const normalizeStatus = (
+  raw: Partial<StatusDraft>,
+  def: StatusDraft
+): StatusDraft => ({
+  ...def,
+  ...raw,
+  images: toItems((raw as { images?: unknown }).images),
+  sounds: toPaths((raw as { sounds?: unknown }).sounds),
+});
+
+export const normalizeDraft = (raw: Partial<DraftTheme>): DraftTheme => {
+  const base = emptyDraft();
+  return {
+    ...base,
+    ...raw,
+    main: { ...base.main, ...raw.main },
+    success: normalizeStatus(raw.success ?? {}, SUCCESS_DEFAULTS),
+    error: normalizeStatus(raw.error ?? {}, ERROR_DEFAULTS),
+    snowfall: {
+      ...base.snowfall,
+      ...raw.snowfall,
+      content: toItems(
+        (raw.snowfall as { content?: unknown } | undefined)?.content
+      ),
+    },
+  };
+};
 
 // Collapse a list into the shape make*Screen expects:
 // nothing -> undefined (use default), one -> single value, many -> array.
@@ -170,11 +226,15 @@ const resolveCss = (value: string, assets: AssetMap): string =>
     value
   );
 
-// A status/snowfall "image" line: asset paths render as <img> (using the
-// uploaded object URL when available), everything else (emoji, "π = 3.14",
-// ...) renders as text.
-const toImageNode = (line: string, assets: AssetMap): ReactNode | BlippImage =>
-  looksLikeAsset(line) ? new BlippImage(resolvePath(line, assets)) : line;
+// A status/snowfall content item: assets render as <img> (using the uploaded
+// object URL when available), text items (emoji, "π = 3.14", ...) stay text.
+const toImageNode = (
+  item: ContentItem,
+  assets: AssetMap
+): ReactNode | BlippImage =>
+  item.kind === "asset"
+    ? new BlippImage(resolvePath(item.path, assets))
+    : item.value;
 
 // ---
 // Build a live Theme object from the draft using the real helpers.
@@ -197,15 +257,13 @@ const buildStatusOverrides = (
   if (draft.fontColor) overrides.fontColor = draft.fontColor;
 
   const images = collapse(
-    parseLines(draft.images).map((line) => toImageNode(line, assets))
+    draft.images.map((item) => toImageNode(item, assets))
   );
   if (images !== undefined)
     overrides.image = images as StatusOverrides["image"];
 
   const sounds = collapse(
-    parseLines(draft.sounds).map(
-      (line) => new BlippAudio(resolvePath(line, assets))
-    )
+    draft.sounds.map((path) => new BlippAudio(resolvePath(path, assets)))
   );
   if (sounds !== undefined)
     overrides.sound = sounds as StatusOverrides["sound"];
@@ -239,8 +297,10 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
   };
 
   if (draft.snowfall.enabled) {
-    const content = parseLines(draft.snowfall.content).map((line) =>
-      looksLikeAsset(line) ? new BlippImage(resolvePath(line, assets)) : line
+    const content = draft.snowfall.content.map((item) =>
+      item.kind === "asset"
+        ? new BlippImage(resolvePath(item.path, assets))
+        : item.value
     );
     theme.snowfall = makeSnowfall({
       content: content.length ? content : ["❆"],
@@ -263,16 +323,15 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
 
 const q = (value: string) => JSON.stringify(value);
 
-// Render one asset/text line as a code expression.
-const assetExpr = (line: string, kind: "image" | "sound"): string => {
-  if (kind === "sound") return `new BlippAudio(${q(line)})`;
-  return looksLikeAsset(line) ? `new BlippImage(${q(line)})` : q(line);
-};
+const imageItemExpr = (item: ContentItem): string =>
+  item.kind === "asset" ? `new BlippImage(${q(item.path)})` : q(item.value);
+
+const soundExpr = (path: string): string => `new BlippAudio(${q(path)})`;
 
 // Render the value for image/sound overrides (single vs array).
-const listValue = (lines: string[], kind: "image" | "sound"): string => {
-  if (lines.length === 1) return assetExpr(lines[0], kind);
-  const inner = lines.map((line) => `        ${assetExpr(line, kind)},`);
+const listValue = (exprs: string[]): string => {
+  if (exprs.length === 1) return exprs[0];
+  const inner = exprs.map((expr) => `        ${expr},`);
   return `[\n${inner.join("\n")}\n      ]`;
 };
 
@@ -312,10 +371,10 @@ const statusCode = (
   add("backgroundBlendMode", defaults.backgroundBlendMode);
   add("fontColor", defaults.fontColor);
 
-  const images = parseLines(draft.images);
-  if (images.length) lines.push(`      image: ${listValue(images, "image")},`);
-  const sounds = parseLines(draft.sounds);
-  if (sounds.length) lines.push(`      sound: ${listValue(sounds, "sound")},`);
+  if (draft.images.length)
+    lines.push(`      image: ${listValue(draft.images.map(imageItemExpr))},`);
+  if (draft.sounds.length)
+    lines.push(`      sound: ${listValue(draft.sounds.map(soundExpr))},`);
 
   const strategyArg = draft.strategy === "alternating" ? `, "alternating"` : "";
 
@@ -326,11 +385,8 @@ const statusCode = (
 
 const snowfallCode = (draft: SnowfallDraft): string | null => {
   if (!draft.enabled) return null;
-  const content = parseLines(draft.content);
-  const contentInner = content
-    .map((line) =>
-      looksLikeAsset(line) ? `new BlippImage(${q(line)})` : q(line)
-    )
+  const contentInner = draft.content
+    .map(imageItemExpr)
     .map((expr) => `        ${expr},`)
     .join("\n");
 
@@ -379,4 +435,128 @@ export const generateCode = (draft: DraftTheme): string => {
   if (snow) parts.push(`    snowfall: ${snow},`);
   parts.push(`  },`);
   return parts.join("\n");
+};
+
+// ---
+// Every public asset path the draft references — used to decide which uploaded
+// files go into the export zip and to show the "what's missing" list.
+// ---
+
+// Pull the path out of a CSS background value like url(/images/x/bg.png).
+const cssUrlPath = (css: string): string | null => {
+  const m = css.match(/url\(\s*['"]?([^'")]+)['"]?\s*\)/);
+  return m && m[1].startsWith("/") ? m[1] : null;
+};
+
+// Theme name -> URL/dir-safe slug. Uploaded assets live under this slug, so
+// renaming the theme must move them with it (see reslugDraft).
+export const slugify = (name: string): string =>
+  name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "") || "my-theme";
+
+// Rewrite the /images/<slug>/ and /sounds/<slug>/ segment of one path string
+// (works for bare paths and CSS like url(/images/<slug>/bg.png)).
+export const remapSlugPath = (
+  value: string,
+  oldSlug: string,
+  newSlug: string
+): string =>
+  value
+    .split(`/images/${oldSlug}/`)
+    .join(`/images/${newSlug}/`)
+    .split(`/sounds/${oldSlug}/`)
+    .join(`/sounds/${newSlug}/`);
+
+// Move every asset path in a draft from oldSlug to newSlug.
+export const reslugDraft = (
+  draft: DraftTheme,
+  oldSlug: string,
+  newSlug: string
+): DraftTheme => {
+  if (oldSlug === newSlug) return draft;
+  const swap = (s: string) => remapSlugPath(s, oldSlug, newSlug);
+  const item = (i: ContentItem): ContentItem =>
+    i.kind === "asset" ? { kind: "asset", path: swap(i.path) } : i;
+  const status = (s: StatusDraft): StatusDraft => ({
+    ...s,
+    backgroundImage: swap(s.backgroundImage),
+    images: s.images.map(item),
+    sounds: s.sounds.map(swap),
+  });
+  return {
+    ...draft,
+    main: { ...draft.main, backgroundImage: swap(draft.main.backgroundImage) },
+    success: status(draft.success),
+    error: status(draft.error),
+    snowfall: { ...draft.snowfall, content: draft.snowfall.content.map(item) },
+  };
+};
+
+export const referencedAssetPaths = (draft: DraftTheme): string[] => {
+  const paths = new Set<string>();
+  const addCss = (css: string) => {
+    const p = cssUrlPath(css);
+    if (p) paths.add(p);
+  };
+  addCss(draft.main.backgroundImage);
+  for (const status of [draft.success, draft.error]) {
+    addCss(status.backgroundImage);
+    status.images.forEach((i) => i.kind === "asset" && paths.add(i.path));
+    status.sounds.forEach((p) => paths.add(p));
+  }
+  if (draft.snowfall.enabled)
+    draft.snowfall.content.forEach(
+      (i) => i.kind === "asset" && paths.add(i.path)
+    );
+  return Array.from(paths);
+};
+
+// ---
+// A short, human-readable list of what the draft changes from the defaults —
+// shown in the UI instead of the raw generated code.
+// ---
+
+export const summarizeDraft = (draft: DraftTheme): string[] => {
+  const out: string[] = [];
+
+  if (draft.dateStart || draft.dateEnd)
+    out.push(`Aktiv: ${draft.dateStart || "?"} – ${draft.dateEnd || "?"}`);
+
+  const m = draft.main;
+  const main: string[] = [];
+  if (m.title !== MAIN_DEFAULTS.title) main.push(`titel "${m.title}"`);
+  if (m.backgroundColor !== MAIN_DEFAULTS.backgroundColor)
+    main.push("bakgrundsfärg");
+  if (m.backgroundImage !== MAIN_DEFAULTS.backgroundImage)
+    main.push("bakgrund");
+  if (m.titleFontColor !== MAIN_DEFAULTS.titleFontColor) main.push("titelfärg");
+  if (m.infoText !== MAIN_DEFAULTS.infoText) main.push("infotext");
+  if (
+    m.infoFontColor !== MAIN_DEFAULTS.infoFontColor ||
+    m.footerFontColor !== MAIN_DEFAULTS.footerFontColor
+  )
+    main.push("textfärger");
+  if (m.invertGithub) main.push("inverterad GitHub-logga");
+  if (main.length) out.push(`Startskärm: ${main.join(", ")}`);
+
+  const status = (label: string, d: StatusDraft, def: StatusDraft) => {
+    const parts: string[] = [];
+    if (d.backgroundColor !== def.backgroundColor) parts.push("bakgrundsfärg");
+    if (d.backgroundImage !== def.backgroundImage) parts.push("bakgrund");
+    if (d.fontColor !== def.fontColor) parts.push("textfärg");
+    if (d.images.length) parts.push(`${d.images.length} bild/text`);
+    if (d.sounds.length) parts.push(`${d.sounds.length} ljud`);
+    if (d.strategy !== def.strategy) parts.push(d.strategy);
+    if (parts.length) out.push(`${label}: ${parts.join(", ")}`);
+  };
+  status("Godkänd-skärm", draft.success, SUCCESS_DEFAULTS);
+  status("Nekad-skärm", draft.error, ERROR_DEFAULTS);
+
+  if (draft.snowfall.enabled)
+    out.push(`Fall-effekt: på (${draft.snowfall.content.length} objekt)`);
+
+  return out;
 };

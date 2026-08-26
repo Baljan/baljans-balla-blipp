@@ -1,6 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import BallaBlippen from "../components/BallaBlippen";
 import PreviewFrame from "./PreviewFrame";
+import {
+  idbClearAssets,
+  idbDeleteAsset,
+  idbLoadAssets,
+  idbPutAsset,
+} from "./assetDb";
 import {
   AssetMap,
   ContentItem,
@@ -24,8 +30,9 @@ import styles from "./ThemeBuilder.module.css";
 const LS_KEY = "theme-builder-draft";
 
 // An uploaded file kept around so the live preview can show it (url) and the
-// export zip can bundle the real bytes (file).
-type Asset = { url: string; file: File };
+// export zip can bundle the real bytes (file). Mirrored to IndexedDB so it
+// survives a reload — always in the user's own browser, never on a server.
+type Asset = { url: string; file: Blob };
 type AssetStore = Record<string, Asset>; // public path -> asset
 
 // Register an uploaded file under a system-assigned public path and hand back
@@ -160,6 +167,11 @@ function UploadButton({
   );
 }
 
+// Show only the filename in the UI — the full public path is an internal
+// detail that just confuses non-technical users (it still lives in the draft
+// and the exported zip).
+const fileName = (path: string): string => path.split("/").pop() ?? path;
+
 // A small thumbnail: the uploaded image when we have it, otherwise a stand-in.
 function Thumb({ asset, fallback }: { asset?: Asset; fallback: string }) {
   if (asset)
@@ -220,12 +232,12 @@ function ItemList({
               {it.kind === "asset" ? (
                 <>
                   <Thumb asset={assets[it.path]} fallback="🖼️" />
-                  <code className={styles.itemPath}>{it.path}</code>
+                  <span className={styles.itemPath}>{fileName(it.path)}</span>
                   <label
                     className={styles.itemSize}
                     title="Storlek (1 = standard)"
                   >
-                    size
+                    storlek
                     <input
                       type="number"
                       step={0.1}
@@ -289,7 +301,7 @@ function SoundList({
               <span className={styles.thumb} aria-hidden>
                 🔊
               </span>
-              <code className={styles.itemPath}>{p}</code>
+              <span className={styles.itemPath}>{fileName(p)}</span>
               <button
                 type="button"
                 className={styles.removeBtn}
@@ -328,6 +340,23 @@ const sizeToNumber = (css: string): number => {
 const numberToSize = (n: number): string =>
   n === 1 ? "cover" : `${+(n * 100).toFixed(2)}%`;
 
+// CSS background-blend-mode: how the image/gradient mixes with the
+// background color underneath (soft-light is what valentine/semla use).
+const BLEND_MODES = [
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "soft-light",
+  "hard-light",
+  "color-dodge",
+  "color-burn",
+  "difference",
+  "luminosity",
+];
+
 // Background: either an uploaded image (shown as a removable chip, path set by
 // the system) or a CSS gradient / "none" typed as free text. No path typing.
 function BackgroundField({
@@ -336,6 +365,8 @@ function BackgroundField({
   onChange,
   size,
   onSizeChange,
+  blend,
+  onBlendChange,
   assets,
   registerAsset,
 }: {
@@ -344,22 +375,25 @@ function BackgroundField({
   onChange: (v: string) => void;
   size: string;
   onSizeChange: (v: string) => void;
+  blend: string;
+  onBlendChange: (v: string) => void;
   assets: AssetStore;
   registerAsset: RegisterAsset;
 }) {
   const path = urlPath(value);
+  const hasBackground = value.trim() !== "" && value.trim() !== "none";
   return (
     <div className={styles.field}>
       <span>{label}</span>
       {path ? (
         <div className={styles.item}>
           <Thumb asset={assets[path]} fallback="🖼️" />
-          <code className={styles.itemPath}>{path}</code>
+          <span className={styles.itemPath}>{fileName(path)}</span>
           <label
             className={styles.itemSize}
             title="Storlek (1 = täcker skärmen)"
           >
-            size
+            storlek
             <input
               type="number"
               step={0.1}
@@ -382,9 +416,11 @@ function BackgroundField({
       ) : (
         <input
           type="text"
-          value={value}
-          placeholder="none eller linear-gradient(...)"
-          onChange={(e) => onChange(e.target.value)}
+          value={value === "none" ? "" : value}
+          placeholder="ingen — eller CSS-gradient (avancerat)"
+          onChange={(e) =>
+            onChange(e.target.value.trim() === "" ? "none" : e.target.value)
+          }
         />
       )}
       <UploadButton
@@ -394,6 +430,21 @@ function BackgroundField({
           files[0] && onChange(`url(${registerAsset(files[0], "image")})`)
         }
       />
+      {hasBackground && (
+        <label
+          className={styles.blendRow}
+          title="CSS background-blend-mode — hur bilden/gradienten blandas med bakgrundsfärgen"
+        >
+          <span>Blandningsläge</span>
+          <select value={blend} onChange={(e) => onBlendChange(e.target.value)}>
+            {BLEND_MODES.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
     </div>
   );
 }
@@ -422,26 +473,28 @@ function StatusEditor({
     <fieldset className={styles.section}>
       <legend>{title}</legend>
       <ColorField
-        label="Background color"
+        label="Bakgrundsfärg"
         value={draft.backgroundColor}
         onChange={(v) => set("backgroundColor", v)}
       />
       <BackgroundField
-        label="Background"
+        label="Bakgrund"
         value={draft.backgroundImage}
         onChange={(v) => set("backgroundImage", v)}
         size={draft.backgroundSize}
         onSizeChange={(v) => set("backgroundSize", v)}
+        blend={draft.backgroundBlendMode}
+        onBlendChange={(v) => set("backgroundBlendMode", v)}
         assets={assets}
         registerAsset={registerAsset}
       />
       <ColorField
-        label="Font color"
+        label="Textfärg"
         value={draft.fontColor}
         onChange={(v) => set("fontColor", v)}
       />
       <div className={styles.field}>
-        <span>Image(s) — uploaded picture or text/emoji</span>
+        <span>Bild(er) — uppladdad bild eller text/emoji</span>
         <ItemList
           items={draft.images}
           onChange={(v) => set("images", v)}
@@ -450,7 +503,7 @@ function StatusEditor({
         />
       </div>
       <div className={styles.field}>
-        <span>Sound(s)</span>
+        <span>Ljud</span>
         <SoundList
           paths={draft.sounds}
           onChange={(v) => set("sounds", v)}
@@ -458,13 +511,13 @@ function StatusEditor({
         />
       </div>
       <label className={styles.field}>
-        <span>Multiple-item strategy</span>
+        <span>Vid flera bilder/ljud</span>
         <select
           value={draft.strategy}
           onChange={(e) => set("strategy", e.target.value as MultiStrategy)}
         >
-          <option value="random">random</option>
-          <option value="alternating">alternating</option>
+          <option value="random">slumpmässig</option>
+          <option value="alternating">växlande</option>
         </select>
       </label>
     </fieldset>
@@ -579,11 +632,34 @@ export default function ThemeBuilder() {
     }
   }, [draft]);
 
-  // Free object URLs when leaving the page.
+  // Rehydrate uploaded files from IndexedDB so they survive a reload.
+  useEffect(() => {
+    let cancelled = false;
+    idbLoadAssets().then((stored) => {
+      if (cancelled) return;
+      setAssets((prev) => {
+        const next = { ...prev };
+        for (const [path, blob] of Object.entries(stored))
+          if (!next[path])
+            next[path] = { url: URL.createObjectURL(blob), file: blob };
+        return next;
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Free object URLs when leaving the page (only on unmount — revoking on
+  // every store change would kill URLs that are still in use).
+  const assetsRef = useRef(assets);
+  assetsRef.current = assets;
   useEffect(
     () => () =>
-      Object.values(assets).forEach((a) => URL.revokeObjectURL(a.url)),
-    [assets]
+      Object.values(assetsRef.current).forEach((a) =>
+        URL.revokeObjectURL(a.url)
+      ),
+    []
   );
 
   // path -> url, the shape buildTheme expects for the live preview.
@@ -614,6 +690,15 @@ export default function ThemeBuilder() {
         next[remapSlugPath(path, oldSlug, newSlug)] = asset;
       return next;
     });
+    // Mirror the move in IndexedDB (outside the updater — StrictMode runs
+    // updaters twice, and side effects in them would double up).
+    for (const [path, asset] of Object.entries(assets)) {
+      const newPath = remapSlugPath(path, oldSlug, newSlug);
+      if (newPath !== path) {
+        void idbPutAsset(newPath, asset.file);
+        void idbDeleteAsset(path);
+      }
+    }
   };
 
   const registerAsset: RegisterAsset = (file, kind) => {
@@ -621,6 +706,7 @@ export default function ThemeBuilder() {
     const path = dir + file.name;
     const url = URL.createObjectURL(file);
     setAssets((a) => ({ ...a, [path]: { url, file } }));
+    void idbPutAsset(path, file);
     return path;
   };
 
@@ -676,7 +762,7 @@ export default function ThemeBuilder() {
         📌 Håll nekad
       </button>
       <button type="button" onClick={() => setFullscreen((f) => !f)}>
-        {fullscreen ? "Exit fullscreen" : "Fullscreen"}
+        {fullscreen ? "Stäng helskärm" : "Helskärm"}
       </button>
     </div>
   );
@@ -690,32 +776,43 @@ export default function ThemeBuilder() {
         className={styles.formPane}
         onKeyDownCapture={(e) => e.stopPropagation()}
       >
-        <h1 className={styles.heading}>Theme builder</h1>
+        <header className={styles.brand}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={styles.brandLogo}
+            src="/images/pwa-icon-512.png"
+            alt="Sektionscafé Baljan"
+          />
+          <div>
+            <h1 className={styles.heading}>Temabyggaren</h1>
+            <p className={styles.tagline}>Mer kaffe åt folket!</p>
+          </div>
+        </header>
+        <div className={styles.garland} aria-hidden />
         <p className={styles.note}>
-          Configure the data-driven parts of a theme and preview it in the real
-          blipp. When you&apos;re happy, hit{" "}
-          <strong>Ladda ner tema (.zip)</strong> — packa upp den i projektroten
-          och klistra in snippeten i <code>blippen/themes.tsx</code>. Custom JSX
-          themes (video, animations) stay hand-coded.
+          Bygg ett tema och se det direkt i förhandsvisningen — precis som det
+          kommer se ut på blippen. Allt du gör sparas lokalt i din webbläsare,
+          inget laddas upp någonstans. När du är nöjd: klicka{" "}
+          <strong>Ladda ner tema (.zip)</strong> och skicka filen till Baljan.
         </p>
 
         <fieldset className={styles.section}>
-          <legend>Theme</legend>
+          <legend>Tema</legend>
           <TextField
-            label="Name"
+            label="Namn"
             value={draft.name}
-            placeholder="my-theme-2026"
+            placeholder="mitt-tema-2026"
             onChange={renameTheme}
           />
           <div className={styles.row}>
             <TextField
-              label="Active from (YYYY-MM-DD)"
+              label="Aktivt från (ÅÅÅÅ-MM-DD)"
               value={draft.dateStart}
               placeholder="2026-04-13"
               onChange={(v) => setDraft((d) => ({ ...d, dateStart: v }))}
             />
             <TextField
-              label="Active to (optional)"
+              label="Aktivt till (valfritt)"
               value={draft.dateEnd}
               placeholder="2026-04-19"
               onChange={(v) => setDraft((d) => ({ ...d, dateEnd: v }))}
@@ -724,64 +821,66 @@ export default function ThemeBuilder() {
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>Main (idle) screen</legend>
+          <legend>Huvudskärm</legend>
           <ColorField
-            label="Background color"
+            label="Bakgrundsfärg"
             value={draft.main.backgroundColor}
             onChange={(v) => setMain("backgroundColor", v)}
           />
           <BackgroundField
-            label="Background"
+            label="Bakgrund"
             value={draft.main.backgroundImage}
             onChange={(v) => setMain("backgroundImage", v)}
             size={draft.main.backgroundSize}
             onSizeChange={(v) => setMain("backgroundSize", v)}
+            blend={draft.main.backgroundBlendMode}
+            onBlendChange={(v) => setMain("backgroundBlendMode", v)}
             assets={assets}
             registerAsset={registerAsset}
           />
           <TextField
-            label="Title"
+            label="Titel"
             value={draft.main.title}
             onChange={(v) => setMain("title", v)}
           />
           <ColorField
-            label="Title font color"
+            label="Titelfärg"
             value={draft.main.titleFontColor}
             onChange={(v) => setMain("titleFontColor", v)}
           />
           <TextField
-            label="Info text"
+            label="Infotext"
             value={draft.main.infoText}
             onChange={(v) => setMain("infoText", v)}
           />
           <div className={styles.row}>
             <ColorField
-              label="Info font color"
+              label="Infotextfärg"
               value={draft.main.infoFontColor}
               onChange={(v) => setMain("infoFontColor", v)}
             />
             <ColorField
-              label="Footer font color"
+              label="Sidfotsfärg"
               value={draft.main.footerFontColor}
               onChange={(v) => setMain("footerFontColor", v)}
             />
           </div>
           <CheckField
-            label="Invert GitHub footer (white)"
+            label="Invertera GitHub-loggan (vit)"
             value={draft.main.invertGithub}
             onChange={(v) => setMain("invertGithub", v)}
           />
         </fieldset>
 
         <StatusEditor
-          title="Success screen"
+          title="Godkänd-skärm"
           draft={draft.success}
           onChange={(next) => setDraft((d) => ({ ...d, success: next }))}
           assets={assets}
           registerAsset={registerAsset}
         />
         <StatusEditor
-          title="Error screen"
+          title="Nekad-skärm"
           draft={draft.error}
           onChange={(next) => setDraft((d) => ({ ...d, error: next }))}
           assets={assets}
@@ -789,14 +888,14 @@ export default function ThemeBuilder() {
         />
 
         <fieldset className={styles.section}>
-          <legend>Falling effect</legend>
+          <legend>Fallande effekt</legend>
           <p className={styles.note}>
-            Drops images (or emoji/text) down over the blipp — like the snow,
-            confetti or coffee-bean effects. Upload what should fall and tune
-            the amount and motion below.
+            Låter bilder (eller emoji/text) falla ner över blippen — som snö-,
+            konfetti- eller kaffebönseffekterna. Ladda upp det som ska falla och
+            justera mängd och rörelse nedan.
           </p>
           <CheckField
-            label="Enable falling effect"
+            label="Aktivera fallande effekt"
             value={draft.snowfall.enabled}
             onChange={(v) =>
               setDraft((d) => ({
@@ -808,7 +907,9 @@ export default function ThemeBuilder() {
           {draft.snowfall.enabled && (
             <>
               <div className={styles.field}>
-                <span>Falling items — uploaded picture(s) or text/emoji</span>
+                <span>
+                  Fallande objekt — uppladdade bilder eller text/emoji
+                </span>
                 <ItemList
                   items={draft.snowfall.content}
                   onChange={(content) =>
@@ -823,7 +924,7 @@ export default function ThemeBuilder() {
               </div>
               <div className={styles.row}>
                 <NumberField
-                  label="Amount (0 = auto)"
+                  label="Antal (0 = auto)"
                   value={draft.snowfall.count}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -833,7 +934,7 @@ export default function ThemeBuilder() {
                   }
                 />
                 <NumberField
-                  label="Size"
+                  label="Storlek"
                   step={0.1}
                   value={draft.snowfall.size}
                   onChange={(v) =>
@@ -844,7 +945,7 @@ export default function ThemeBuilder() {
                   }
                 />
                 <NumberField
-                  label="Speed"
+                  label="Hastighet"
                   step={0.1}
                   value={draft.snowfall.speed}
                   onChange={(v) =>
@@ -857,7 +958,7 @@ export default function ThemeBuilder() {
               </div>
               <div className={styles.row}>
                 <CheckField
-                  label="Reverse"
+                  label="Omvänd riktning"
                   value={draft.snowfall.reverse}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -867,7 +968,7 @@ export default function ThemeBuilder() {
                   }
                 />
                 <CheckField
-                  label="Random hue"
+                  label="Slumpad färgton"
                   value={draft.snowfall.randomHue}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -877,7 +978,7 @@ export default function ThemeBuilder() {
                   }
                 />
                 <CheckField
-                  label="Random rotation"
+                  label="Slumpad rotation"
                   value={draft.snowfall.randomRotation}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -892,7 +993,7 @@ export default function ThemeBuilder() {
         </fieldset>
 
         <fieldset className={styles.section}>
-          <legend>Export</legend>
+          <legend>Exportera</legend>
           {summary.length > 0 ? (
             <>
               <p className={styles.note}>Ändringar mot standardtemat:</p>
@@ -909,8 +1010,12 @@ export default function ThemeBuilder() {
           )}
           {missing.length > 0 && (
             <p className={styles.warn}>
-              {missing.length} uppladdad fil saknas efter omladdning och kommer
-              inte med i zip:en — ladda upp dem igen.
+              {missing.length === 1
+                ? "1 uppladdad fil saknas"
+                : `${missing.length} uppladdade filer saknas`}{" "}
+              (troligen för att webbläsarens sparade data rensats) och kommer
+              inte med i zip-filen — ladda upp{" "}
+              {missing.length === 1 ? "den" : "dem"} igen.
             </p>
           )}
           <button
@@ -921,9 +1026,8 @@ export default function ThemeBuilder() {
             Ladda ner tema (.zip)
           </button>
           <p className={styles.note}>
-            Zip:en innehåller dina uppladdade filer på rätt path under{" "}
-            <code>public/</code> plus en textfil med koden att klistra in i{" "}
-            <code>themes.tsx</code>.
+            Zip-filen innehåller hela temat — bilder, ljud och inställningar.
+            Skicka den till Baljan så läggs temat in i blippen.
           </p>
         </fieldset>
 
@@ -931,13 +1035,15 @@ export default function ThemeBuilder() {
           type="button"
           className={styles.resetBtn}
           onClick={() => {
-            if (confirm("Reset the whole draft?")) {
+            if (confirm("Rensa hela utkastet?")) {
+              Object.values(assets).forEach((a) => URL.revokeObjectURL(a.url));
               setDraft(emptyDraft());
               setAssets({});
+              void idbClearAssets();
             }
           }}
         >
-          Reset draft
+          Rensa utkast
         </button>
       </div>
 
@@ -945,8 +1051,9 @@ export default function ThemeBuilder() {
       <div className={styles.previewPane}>
         {previewControls}
         <p className={styles.note}>
-          This is the real blipp running in testing mode. Use the buttons (or
-          scan/type a card while the preview is focused) to trigger a blipp.
+          Detta är den riktiga blippen i testläge. Använd knapparna (eller
+          blippa/skriv ett kortnummer när förhandsvisningen är i fokus) för att
+          testa.
         </p>
         {!fullscreen && (
           <div className={styles.previewBox}>

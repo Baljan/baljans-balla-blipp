@@ -11,8 +11,22 @@ const ThemeBuilder = dynamic(() => import("../blippen/admin/ThemeBuilder"), {
 const Admin: NextPage = () => (
   <>
     <Head>
-      <title>Theme builder — Baljans Balla Blipp</title>
+      <title>Temabyggaren — Baljans Balla Blipp</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      {/* Lobster is one of the display faces in Baljans grafiska profil.
+          Loaded here (not in _document) on purpose: only /admin uses it and
+          the kiosk should not fetch Google Fonts. */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+        rel="stylesheet"
+      />
     </Head>
     <ThemeBuilder />
   </>

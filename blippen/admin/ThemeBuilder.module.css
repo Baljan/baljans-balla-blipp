@@ -1,57 +1,123 @@
+/* Baljans grafiska profil:
+   rosa #E6008B (Strong Red U), ljusblå #00A4E0 (2995 U),
+   mörkblå #2F308C (Reflex Blue U) + svart/vitt, toningar 10–80 %.
+   Arial för webb-UI, Lobster som lekfullt displaytypsnitt. */
+
 .layout {
+  --rosa: #e6008b;
+  --rosa-dark: #b8006f;
+  --rosa-tint: #fce5f3;
+  --ljusbla: #00a4e0;
+  --ljusbla-tint: #e5f5fc;
+  --morkbla: #2f308c;
+  --morkbla-dark: #232468;
+  --line: #d5d6e8;
+  --line-strong: #b8b9d8;
+  --ink: #1c1d3a;
+  --muted: #5b5c78;
+  --paper: #fbfbfe;
+  --font-display: "Lobster", "Arial Rounded MT Bold", "Comic Sans MS", cursive;
+
   display: grid;
   grid-template-columns: minmax(360px, 460px) 1fr;
   height: 100vh;
-  font-family: "Nunito", system-ui, sans-serif;
-  color: #1a1a1a;
-  background: #f4f5f7;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  accent-color: var(--rosa);
 }
 
 .formPane {
   overflow-y: auto;
   padding: 1.5rem;
-  border-right: 1px solid #d7dae0;
+  border-right: 1px solid var(--line);
   background: #fff;
 }
 
+/* ---------- Brand header ---------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.brandLogo {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+}
+
 .heading {
-  font-size: 1.6rem;
-  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--morkbla);
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0.1rem 0 0;
+  color: var(--rosa);
+}
+
+/* Girlangen ur profilen (favicon = ett girlang-element), som på
+   fram- och baksidan av den grafiska profilen. */
+.garland {
+  height: 15px;
+  margin: 0.85rem -1.5rem 1rem;
+  background: url("/favicon.png") left center / auto 15px repeat-x;
 }
 
 .note {
   font-size: 0.85rem;
-  color: #555;
+  color: var(--muted);
   margin: 0 0 1rem;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .note code {
-  background: #eef0f3;
+  background: var(--ljusbla-tint);
+  color: var(--morkbla);
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
 
+/* ---------- Sections & fields ---------- */
+
 .section {
-  border: 1px solid #d7dae0;
-  border-radius: 8px;
-  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem 1.1rem;
   margin: 0 0 1.25rem;
+  background: #fff;
+}
+
+/* The field/checkbox bottom margins provide rhythm between rows; the last
+   row should sit flush against the card's own padding. */
+.section > :last-child {
+  margin-bottom: 0;
 }
 
 .section legend {
-  font-weight: 700;
-  padding: 0 0.4rem;
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--morkbla);
+  padding: 0 0.45rem;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 0.75rem;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .field input[type="text"],
@@ -61,11 +127,23 @@
   font: inherit;
   font-weight: 400;
   padding: 0.4rem 0.5rem;
-  border: 1px solid #c4c8d0;
-  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
   background: #fff;
+  color: var(--ink);
   width: 100%;
   box-sizing: border-box;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible,
+.field select:focus-visible,
+.itemText:focus-visible,
+.itemSize input:focus-visible,
+.blendRow select:focus-visible {
+  outline: none;
+  border-color: var(--ljusbla);
+  box-shadow: 0 0 0 3px rgba(0, 164, 224, 0.2);
 }
 
 .field textarea {
@@ -94,8 +172,8 @@
   width: 38px;
   height: 34px;
   padding: 0;
-  border: 1px solid #c4c8d0;
-  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
   background: #fff;
   flex: 0 0 auto;
 }
@@ -105,9 +183,30 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
 }
+
+.blendRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.blendRow select {
+  flex: 0 1 12rem;
+  font: inherit;
+  color: var(--ink);
+  padding: 0.25rem 0.35rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* ---------- Buttons ---------- */
 
 .copyBtn,
 .resetBtn,
@@ -115,27 +214,45 @@
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid #c4c8d0;
-  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
   background: #fff;
+  color: var(--morkbla);
   padding: 0.45rem 0.9rem;
 }
 
+.previewControls button:hover {
+  border-color: var(--morkbla);
+}
+
 .copyBtn {
-  margin-bottom: 0.75rem;
-  background: #2f308c;
+  display: block;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin: 0.25rem 0 0.75rem;
+  background: var(--rosa);
   color: #fff;
-  border-color: #2f308c;
+  border-color: var(--rosa);
+}
+
+.copyBtn:hover {
+  background: var(--rosa-dark);
+  border-color: var(--rosa-dark);
 }
 
 .resetBtn {
-  color: #820c0c;
-  border-color: #e0b4b4;
+  color: var(--rosa);
+  border-color: #eeb1d6;
+}
+
+.resetBtn:hover {
+  background: var(--rosa-tint);
 }
 
 .upload {
   display: inline-block;
-  margin: -0.25rem 0 0.75rem;
+  align-self: flex-start;
+  margin: 0;
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
@@ -145,12 +262,20 @@
   display: none;
 }
 
-.upload span {
+.upload span,
+.addTextBtn {
   display: inline-block;
-  padding: 0.35rem 0.7rem;
-  border: 1px dashed #9aa0aa;
-  border-radius: 6px;
-  background: #f4f5f7;
+  padding: 0.4rem 0.8rem;
+  border: 1px dashed var(--ljusbla);
+  border-radius: 8px;
+  background: var(--ljusbla-tint);
+  color: var(--morkbla);
+  box-sizing: border-box;
+}
+
+.upload:hover span,
+.addTextBtn:hover {
+  border-style: solid;
 }
 
 .thumb {
@@ -159,7 +284,7 @@
   flex: 0 0 auto;
   object-fit: contain;
   border-radius: 4px;
-  background: #eef0f3;
+  background: var(--ljusbla-tint);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -184,15 +309,16 @@
   gap: 0.5rem;
   margin-bottom: 0.35rem;
   padding: 0.25rem 0.35rem;
-  border: 1px solid #e1e4ea;
-  border-radius: 6px;
-  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
 }
 
 .itemPath {
   flex: 1;
   min-width: 0;
   font-size: 0.72rem;
+  color: var(--morkbla-dark);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -204,8 +330,8 @@
   font: inherit;
   font-weight: 400;
   padding: 0.3rem 0.45rem;
-  border: 1px solid #c4c8d0;
-  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
   background: #fff;
 }
 
@@ -215,15 +341,15 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.68rem;
-  color: #6a7180;
+  color: var(--muted);
 }
 
 .itemSize input {
   width: 3.5rem;
   font: inherit;
   padding: 0.2rem 0.3rem;
-  border: 1px solid #c4c8d0;
-  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
   background: #fff;
 }
 
@@ -234,15 +360,19 @@
   line-height: 1;
   font-size: 1.1rem;
   cursor: pointer;
-  border: 1px solid #e0b4b4;
-  border-radius: 6px;
+  border: 1px solid #eeb1d6;
+  border-radius: 8px;
   background: #fff;
-  color: #820c0c;
+  color: var(--rosa);
+}
+
+.removeBtn:hover {
+  background: var(--rosa-tint);
 }
 
 .itemActions {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
 }
 
@@ -251,10 +381,6 @@
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
-  padding: 0.35rem 0.7rem;
-  border: 1px dashed #9aa0aa;
-  border-radius: 6px;
-  background: #f4f5f7;
 }
 
 .summaryList {
@@ -264,9 +390,13 @@
   line-height: 1.5;
 }
 
+.summaryList li::marker {
+  color: var(--rosa);
+}
+
 .warn {
   font-size: 0.8rem;
-  color: #820c0c;
+  color: var(--rosa-dark);
   margin: 0 0 0.75rem;
   line-height: 1.4;
 }
@@ -278,19 +408,24 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--paper);
 }
 
 .previewControls {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
   flex-wrap: wrap;
 }
 
+.previewControls button {
+  padding: 0.5rem 1rem;
+}
+
 .previewControls button[data-active="true"] {
-  background: #2f308c;
+  background: var(--morkbla);
   color: #fff;
-  border-color: #2f308c;
+  border-color: var(--morkbla);
 }
 
 .previewBox {
@@ -303,8 +438,8 @@
 .frame {
   width: 100%;
   height: 100%;
-  border: 1px solid #c4c8d0;
-  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
   background: #000;
   display: block;
 }
@@ -330,6 +465,6 @@
   z-index: 1001;
   background: rgba(255, 255, 255, 0.85);
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 10px;
   backdrop-filter: blur(4px);
 }

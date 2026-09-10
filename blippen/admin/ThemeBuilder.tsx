@@ -24,7 +24,7 @@ import {
   slugify,
   summarizeDraft,
 } from "./draft";
-import { ZipEntry, createZip } from "./zip";
+import { ZipEntry, createZip, readZip } from "./zip";
 import styles from "./ThemeBuilder.module.css";
 
 const LS_KEY = "theme-builder-draft";
@@ -118,26 +118,74 @@ function CheckField({
   );
 }
 
+// Decimal input that keeps the raw text while the user types. A controlled
+// <input type="number"> turns "" into 0 and writes it straight back, so you
+// can never clear the field and type "0.5" (or ",5") in one go. We only
+// commit when the text parses; comma is accepted as a decimal separator.
+function DecimalInput({
+  value,
+  min,
+  onChange,
+  title,
+}: {
+  value: number;
+  min?: number;
+  onChange: (v: number) => void;
+  title?: string;
+}) {
+  const [text, setText] = useState(String(value));
+  // Follow external changes (reset, reload, rename) unless they're just
+  // the echo of what we last committed.
+  useEffect(() => {
+    setText((t) => (parseDecimal(t) === value ? t : String(value)));
+  }, [value]);
+  const commit = (raw: string) => {
+    setText(raw);
+    const n = parseDecimal(raw);
+    if (n !== null && (min === undefined || n >= min)) onChange(n);
+  };
+  const blur = () => {
+    const n = parseDecimal(text);
+    if (n === null) setText(String(value));
+    else if (min !== undefined && n < min) {
+      setText(String(min));
+      onChange(min);
+    } else setText(String(n));
+  };
+  return (
+    <input
+      type="text"
+      inputMode="decimal"
+      title={title}
+      value={text}
+      onChange={(e) => commit(e.target.value)}
+      onBlur={blur}
+    />
+  );
+}
+
+const parseDecimal = (raw: string): number | null => {
+  const t = raw.trim().replace(",", ".");
+  if (!/^-?(\d+\.?\d*|\.\d+)$/.test(t)) return null;
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+};
+
 function NumberField({
   label,
   value,
-  step,
+  min,
   onChange,
 }: {
   label: string;
   value: number;
-  step?: number;
+  min?: number;
   onChange: (v: number) => void;
 }) {
   return (
     <label className={styles.field}>
       <span>{label}</span>
-      <input
-        type="number"
-        value={value}
-        step={step ?? 1}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
+      <DecimalInput value={value} min={min} onChange={onChange} />
     </label>
   );
 }
@@ -145,18 +193,22 @@ function NumberField({
 function UploadButton({
   label,
   accept,
+  multiple = true,
+  className,
   onFiles,
 }: {
   label: string;
   accept: string;
+  multiple?: boolean;
+  className?: string;
   onFiles: (files: File[]) => void;
 }) {
   return (
-    <label className={styles.upload}>
+    <label className={className ?? styles.upload}>
       <input
         type="file"
         accept={accept}
-        multiple
+        multiple={multiple}
         onChange={(e) => {
           onFiles(Array.from(e.target.files ?? []));
           e.target.value = "";
@@ -238,12 +290,10 @@ function ItemList({
                     title="Storlek (1 = standard)"
                   >
                     storlek
-                    <input
-                      type="number"
-                      step={0.1}
+                    <DecimalInput
                       min={0.1}
                       value={it.size ?? 1}
-                      onChange={(e) => setSize(i, Number(e.target.value))}
+                      onChange={(v) => setSize(i, v)}
                     />
                   </label>
                 </>
@@ -357,8 +407,167 @@ const BLEND_MODES = [
   "luminosity",
 ];
 
-// Background: either an uploaded image (shown as a removable chip, path set by
-// the system) or a CSS gradient / "none" typed as free text. No path typing.
+// ---
+// Colour gradients. Stored in backgroundImage as plain CSS so the preview,
+// buildTheme and code-gen need no changes — the editor just reads/writes the
+// string. Only the shapes we emit are parsed; anything else (hand-written
+// CSS) falls back to the advanced text input.
+// ---
+
+type GradientDirection =
+  | "180deg"
+  | "0deg"
+  | "90deg"
+  | "270deg"
+  | "135deg"
+  | "45deg"
+  | "radial";
+
+type Gradient = { direction: GradientDirection; colors: string[] };
+
+const GRADIENT_DIRECTIONS: { value: GradientDirection; label: string }[] = [
+  { value: "180deg", label: "Uppifrån och ner" },
+  { value: "0deg", label: "Nerifrån och upp" },
+  { value: "90deg", label: "Vänster till höger" },
+  { value: "270deg", label: "Höger till vänster" },
+  { value: "135deg", label: "Diagonalt ↘" },
+  { value: "45deg", label: "Diagonalt ↗" },
+  { value: "radial", label: "Från mitten" },
+];
+
+const gradientToCss = ({ direction, colors }: Gradient): string => {
+  const stops = colors
+    .map((c, i) => `${c} ${Math.round((i / (colors.length - 1)) * 100)}%`)
+    .join(", ");
+  return direction === "radial"
+    ? `radial-gradient(circle, ${stops})`
+    : `linear-gradient(${direction}, ${stops})`;
+};
+
+const parseGradient = (css: string): Gradient | null => {
+  const m = css
+    .trim()
+    .match(/^(linear|radial)-gradient\(\s*([^,]+)\s*,(.+)\)$/i);
+  if (!m) return null;
+  const head = m[2].trim();
+  let direction: GradientDirection;
+  if (m[1].toLowerCase() === "radial") {
+    if (head !== "circle") return null;
+    direction = "radial";
+  } else {
+    if (!GRADIENT_DIRECTIONS.some((d) => d.value === head)) return null;
+    direction = head as GradientDirection;
+  }
+  const colors: string[] = [];
+  for (const stop of m[3].split(",")) {
+    const parts = stop.trim().split(/\s+/);
+    if (!isHex(parts[0]) || parts.length > 2) return null;
+    colors.push(parts[0].toLowerCase());
+  }
+  return colors.length >= 2 ? { direction, colors } : null;
+};
+
+const DEFAULT_GRADIENT: Gradient = {
+  direction: "180deg",
+  colors: ["#e6008b", "#2f308c"],
+};
+
+function GradientEditor({
+  gradient,
+  onChange,
+  onRemove,
+}: {
+  gradient: Gradient;
+  onChange: (g: Gradient) => void;
+  onRemove: () => void;
+}) {
+  const setColor = (i: number, c: string) =>
+    onChange({
+      ...gradient,
+      colors: gradient.colors.map((x, j) => (j === i ? c : x)),
+    });
+  const removeColor = (i: number) =>
+    onChange({
+      ...gradient,
+      colors: gradient.colors.filter((_, j) => j !== i),
+    });
+  const addColor = () =>
+    onChange({
+      ...gradient,
+      colors: [...gradient.colors, gradient.colors[gradient.colors.length - 1]],
+    });
+  return (
+    <div className={styles.gradient}>
+      <div
+        className={styles.gradientPreview}
+        style={{ backgroundImage: gradientToCss(gradient) }}
+        aria-hidden
+      />
+      <div className={styles.gradientStops}>
+        {gradient.colors.map((c, i) => (
+          <span key={i} className={styles.gradientStop}>
+            <input
+              type="color"
+              value={c}
+              title={`Färg ${i + 1}`}
+              onChange={(e) => setColor(i, e.target.value)}
+            />
+            {gradient.colors.length > 2 && (
+              <button
+                type="button"
+                className={styles.removeBtn}
+                onClick={() => removeColor(i)}
+                aria-label={`Ta bort färg ${i + 1}`}
+              >
+                ×
+              </button>
+            )}
+          </span>
+        ))}
+        {gradient.colors.length < 6 && (
+          <button
+            type="button"
+            className={styles.addTextBtn}
+            onClick={addColor}
+          >
+            + färg
+          </button>
+        )}
+      </div>
+      <label className={styles.blendRow}>
+        <span>Riktning</span>
+        <select
+          value={gradient.direction}
+          onChange={(e) =>
+            onChange({
+              ...gradient,
+              direction: e.target.value as GradientDirection,
+            })
+          }
+        >
+          {GRADIENT_DIRECTIONS.map((d) => (
+            <option key={d.value} value={d.value}>
+              {d.label}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          className={styles.removeBtn}
+          onClick={onRemove}
+          aria-label="Ta bort gradient"
+          title="Ta bort gradient"
+        >
+          ×
+        </button>
+      </label>
+    </div>
+  );
+}
+
+// Background: an uploaded image (removable chip, path set by the system), a
+// colour gradient built with the picker, or — for hand-written CSS the picker
+// can't represent — a free-text "advanced" input.
 function BackgroundField({
   label,
   value,
@@ -381,7 +590,9 @@ function BackgroundField({
   registerAsset: RegisterAsset;
 }) {
   const path = urlPath(value);
+  const gradient = path ? null : parseGradient(value);
   const hasBackground = value.trim() !== "" && value.trim() !== "none";
+  const isNone = !hasBackground;
   return (
     <div className={styles.field}>
       <span>{label}</span>
@@ -394,14 +605,10 @@ function BackgroundField({
             title="Storlek (1 = täcker skärmen)"
           >
             storlek
-            <input
-              type="number"
-              step={0.1}
+            <DecimalInput
               min={0.1}
               value={sizeToNumber(size)}
-              onChange={(e) =>
-                onSizeChange(numberToSize(Number(e.target.value)))
-              }
+              onChange={(v) => onSizeChange(numberToSize(v))}
             />
           </label>
           <button
@@ -413,23 +620,41 @@ function BackgroundField({
             ×
           </button>
         </div>
-      ) : (
+      ) : gradient ? (
+        <GradientEditor
+          gradient={gradient}
+          onChange={(g) => onChange(gradientToCss(g))}
+          onRemove={() => onChange("none")}
+        />
+      ) : isNone ? null : (
         <input
           type="text"
-          value={value === "none" ? "" : value}
-          placeholder="ingen — eller CSS-gradient (avancerat)"
+          value={value}
+          placeholder="CSS-bakgrund (avancerat)"
+          title="Egen CSS för background-image (avancerat)"
           onChange={(e) =>
             onChange(e.target.value.trim() === "" ? "none" : e.target.value)
           }
         />
       )}
-      <UploadButton
-        label="Ladda upp bakgrundsbild"
-        accept="image/*"
-        onFiles={(files) =>
-          files[0] && onChange(`url(${registerAsset(files[0], "image")})`)
-        }
-      />
+      <div className={styles.bgActions}>
+        {isNone && (
+          <button
+            type="button"
+            className={styles.addTextBtn}
+            onClick={() => onChange(gradientToCss(DEFAULT_GRADIENT))}
+          >
+            Skapa färggradient
+          </button>
+        )}
+        <UploadButton
+          label="Ladda upp bakgrundsbild"
+          accept="image/*"
+          onFiles={(files) =>
+            files[0] && onChange(`url(${registerAsset(files[0], "image")})`)
+          }
+        />
+      </div>
       {hasBackground && (
         <label
           className={styles.blendRow}
@@ -578,7 +803,8 @@ const buildReadme = (
     "1. Packa upp denna zip i projektets rot. Assets hamnar då i",
     `   public/images/${slug}/ och public/sounds/${slug}/.`,
     "2. Klistra in objektet nedan i themes-arrayen i blippen/themes.tsx.",
-    "3. Ta bort den här filen.",
+    "3. Ta bort den här filen och tema.json (tema.json används bara av",
+    "   Temabyggaren för att kunna öppna zip-filen igen).",
     "",
     "--- klistra in i themes.tsx ---",
     "",
@@ -595,6 +821,35 @@ const buildReadme = (
   }
   return lines.join("\n");
 };
+
+// Machine-readable copy of the draft shipped inside the zip so a downloaded
+// theme can be opened again in the builder later ("Öppna tema").
+const DRAFT_FILE = "tema.json";
+const DRAFT_FILE_VERSION = 1;
+
+const MIME_BY_EXT: Record<string, string> = {
+  png: "image/png",
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  gif: "image/gif",
+  webp: "image/webp",
+  svg: "image/svg+xml",
+  mp3: "audio/mpeg",
+  wav: "audio/wav",
+  ogg: "audio/ogg",
+  m4a: "audio/mp4",
+};
+
+const mimeFromPath = (path: string): string =>
+  MIME_BY_EXT[path.split(".").pop()?.toLowerCase() ?? ""] ?? "";
+
+const assetFromBlob = (blob: Blob): Asset => ({
+  url: URL.createObjectURL(blob),
+  file: blob,
+});
+
+const isEmptyDraft = (draft: DraftTheme): boolean =>
+  JSON.stringify(draft) === JSON.stringify(emptyDraft());
 
 // ---
 // Main builder
@@ -621,6 +876,7 @@ export default function ThemeBuilder() {
   const [fullscreen, setFullscreen] = useState(false);
   // Pin a status screen so its edits show live without re-clicking "Blippa".
   const [hold, setHold] = useState<"success" | "error" | null>(null);
+  const [importError, setImportError] = useState<string | null>(null);
 
   // Persist the draft so work survives a refresh.
   // (Uploaded files can't be persisted — their object URLs die on reload.)
@@ -640,8 +896,7 @@ export default function ThemeBuilder() {
       setAssets((prev) => {
         const next = { ...prev };
         for (const [path, blob] of Object.entries(stored))
-          if (!next[path])
-            next[path] = { url: URL.createObjectURL(blob), file: blob };
+          if (!next[path]) next[path] = assetFromBlob(blob);
         return next;
       });
     });
@@ -729,6 +984,12 @@ export default function ThemeBuilder() {
       path: `KLISTRA-IN-${slug}.txt`,
       data: new TextEncoder().encode(readme),
     });
+    entries.push({
+      path: DRAFT_FILE,
+      data: new TextEncoder().encode(
+        JSON.stringify({ version: DRAFT_FILE_VERSION, draft }, null, 2)
+      ),
+    });
 
     const blob = createZip(entries);
     const url = URL.createObjectURL(blob);
@@ -737,6 +998,65 @@ export default function ThemeBuilder() {
     a.download = `${slug}-theme.zip`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  // Open a previously downloaded zip and continue editing it. Everything
+  // happens in the browser: the file is parsed locally, the draft goes to
+  // localStorage and the bundled images/sounds to IndexedDB — nothing is
+  // sent anywhere.
+  const importZip = async (file: File) => {
+    setImportError(null);
+    let entries: ZipEntry[];
+    try {
+      entries = await readZip(await file.arrayBuffer());
+    } catch (err) {
+      setImportError(
+        err instanceof Error ? err.message : "Kunde inte läsa zip-filen."
+      );
+      return;
+    }
+
+    // Allow a folder prefix in case the zip was unpacked and re-zipped.
+    const draftEntry = entries.find(
+      (e) => e.path === DRAFT_FILE || e.path.endsWith(`/${DRAFT_FILE}`)
+    );
+    if (!draftEntry) {
+      setImportError(
+        `Den här zip-filen innehåller ingen ${DRAFT_FILE} — den är troligen ` +
+          "skapad med en äldre version av Temabyggaren och går inte att öppna."
+      );
+      return;
+    }
+    const prefix = draftEntry.path.slice(0, -DRAFT_FILE.length);
+
+    let imported: DraftTheme;
+    try {
+      const parsed = JSON.parse(new TextDecoder().decode(draftEntry.data));
+      imported = normalizeDraft(parsed?.draft ?? parsed);
+    } catch {
+      setImportError(`${DRAFT_FILE} i zip-filen gick inte att tolka.`);
+      return;
+    }
+
+    if (!isEmptyDraft(draft) && !confirm("Ersätta det nuvarande utkastet?"))
+      return;
+
+    // Out with the old…
+    Object.values(assets).forEach((a) => URL.revokeObjectURL(a.url));
+    await idbClearAssets();
+
+    // …in with the bundled files, keyed by their public path.
+    const next: AssetStore = {};
+    for (const entry of entries) {
+      if (!entry.path.startsWith(`${prefix}public/`)) continue;
+      const path = entry.path.slice(prefix.length + "public".length);
+      const blob = new Blob([entry.data], { type: mimeFromPath(path) });
+      next[path] = assetFromBlob(blob);
+      void idbPutAsset(path, blob);
+    }
+    setAssets(next);
+    setDraft(imported);
+    setHold(null);
   };
 
   const previewControls = (
@@ -794,6 +1114,8 @@ export default function ThemeBuilder() {
           kommer se ut på blippen. Allt du gör sparas lokalt i din webbläsare,
           inget laddas upp någonstans. När du är nöjd: klicka{" "}
           <strong>Ladda ner tema (.zip)</strong> och skicka filen till Baljan.
+          Vill du fortsätta senare på en annan dator kan du öppna samma zip-fil
+          igen med <strong>Öppna tema (.zip)</strong>.
         </p>
 
         <fieldset className={styles.section}>
@@ -935,7 +1257,6 @@ export default function ThemeBuilder() {
                 />
                 <NumberField
                   label="Storlek"
-                  step={0.1}
                   value={draft.snowfall.size}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -946,7 +1267,6 @@ export default function ThemeBuilder() {
                 />
                 <NumberField
                   label="Hastighet"
-                  step={0.1}
                   value={draft.snowfall.speed}
                   onChange={(v) =>
                     setDraft((d) => ({
@@ -1028,6 +1348,18 @@ export default function ThemeBuilder() {
           <p className={styles.note}>
             Zip-filen innehåller hela temat — bilder, ljud och inställningar.
             Skicka den till Baljan så läggs temat in i blippen.
+          </p>
+          <UploadButton
+            label="Öppna tema (.zip)"
+            accept=".zip,application/zip"
+            multiple={false}
+            className={styles.openBtn}
+            onFiles={(files) => files[0] && void importZip(files[0])}
+          />
+          {importError && <p className={styles.warn}>{importError}</p>}
+          <p className={styles.note}>
+            Fortsätt på ett tema du laddat ner tidigare. Filen läses bara i din
+            webbläsare och skickas inte någonstans.
           </p>
         </fieldset>
 

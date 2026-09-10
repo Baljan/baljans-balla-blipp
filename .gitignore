@@ -35,3 +35,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# claude
+.claude/
+
+# graphify
+graphify-out/

@@ -105,3 +105,88 @@ export const createZip = (entries: ZipEntry[]): Blob => {
 
   return new Blob([...parts, ...central, end], { type: "application/zip" });
 };
+
+// ---
+// Reader — the inverse of createZip, so an exported theme can be opened
+// again later. Walks the central directory (the authoritative index) and
+// slices each file out of its local header. Our own archives are stored
+// uncompressed, but if someone re-zips the unpacked folder with Finder or
+// Explorer the entries come back deflated, so that case is handled via the
+// browser's built-in DecompressionStream.
+// ---
+
+const findEndOfCentralDirectory = (view: DataView): number => {
+  // The EOCD record is 22 bytes + an optional comment (max 65535 bytes).
+  const min = Math.max(0, view.byteLength - 22 - 0xffff);
+  for (let i = view.byteLength - 22; i >= min; i--) {
+    if (view.getUint32(i, true) === 0x06054b50) return i;
+  }
+  throw new Error("Inte en giltig zip-fil");
+};
+
+// TypeScript 4.6's DOM lib predates DecompressionStream (Chrome 103+,
+// Safari 16.4+, Firefox 113+); declare the bit we use and feature-detect.
+type DecompressionStreamCtor = new (format: string) => {
+  readable: ReadableStream;
+  writable: WritableStream;
+};
+
+const inflateRaw = async (bytes: Uint8Array): Promise<Uint8Array> => {
+  const Ctor = (globalThis as { DecompressionStream?: DecompressionStreamCtor })
+    .DecompressionStream;
+  if (!Ctor)
+    throw new Error("Webbläsaren kan inte packa upp komprimerade zip-filer");
+  const ds = new Ctor("deflate-raw");
+  const body = new Blob([bytes]).stream() as unknown as {
+    pipeThrough: (t: {
+      readable: ReadableStream;
+      writable: WritableStream;
+    }) => ReadableStream;
+  };
+  return new Uint8Array(await new Response(body.pipeThrough(ds)).arrayBuffer());
+};
+
+export const readZip = async (data: ArrayBuffer): Promise<ZipEntry[]> => {
+  const bytes = new Uint8Array(data);
+  const view = new DataView(data);
+  const decoder = new TextDecoder();
+  const eocd = findEndOfCentralDirectory(view);
+  const count = view.getUint16(eocd + 10, true);
+  let pos = view.getUint32(eocd + 16, true);
+
+  const entries: ZipEntry[] = [];
+  for (let n = 0; n < count; n++) {
+    if (view.getUint32(pos, true) !== 0x02014b50)
+      throw new Error("Trasig zip-fil (central directory)");
+    const method = view.getUint16(pos + 10, true);
+    const compressedSize = view.getUint32(pos + 20, true);
+    const nameLength = view.getUint16(pos + 28, true);
+    const extraLength = view.getUint16(pos + 30, true);
+    const commentLength = view.getUint16(pos + 32, true);
+    const localOffset = view.getUint32(pos + 42, true);
+    const path = decoder.decode(
+      bytes.subarray(pos + 46, pos + 46 + nameLength)
+    );
+    pos += 46 + nameLength + extraLength + commentLength;
+
+    if (path.endsWith("/")) continue; // directory placeholder
+
+    if (view.getUint32(localOffset, true) !== 0x04034b50)
+      throw new Error("Trasig zip-fil (local header)");
+    const localNameLength = view.getUint16(localOffset + 26, true);
+    const localExtraLength = view.getUint16(localOffset + 28, true);
+    const start = localOffset + 30 + localNameLength + localExtraLength;
+    const raw = bytes.slice(start, start + compressedSize);
+
+    let content: Uint8Array;
+    if (method === 0) content = raw;
+    else if (method === 8) content = await inflateRaw(raw);
+    else
+      throw new Error(
+        `Zip-filen använder en komprimering som inte stöds (${method})`
+      );
+
+    entries.push({ path, data: content });
+  }
+  return entries;
+};

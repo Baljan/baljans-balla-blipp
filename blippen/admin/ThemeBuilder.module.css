@@ -468,3 +468,99 @@
   border-radius: 10px;
   backdrop-filter: blur(4px);
 }
+
+/* "Öppna tema (.zip)" — a full-width secondary action under the export button. */
+.openBtn {
+  display: block;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.openBtn input[type="file"] {
+  display: none;
+}
+
+.openBtn span {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px dashed var(--ljusbla);
+  border-radius: 8px;
+  background: var(--ljusbla-tint);
+  color: var(--morkbla);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.openBtn:hover span {
+  border-style: solid;
+}
+
+/* ---------- Gradient editor ---------- */
+
+.bgActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.bgActions .addTextBtn {
+  cursor: pointer;
+  font: inherit;
+}
+
+.gradient {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.gradientPreview {
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+}
+
+.gradientStops {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.gradientStops .addTextBtn {
+  cursor: pointer;
+  font: inherit;
+  padding: 0.3rem 0.6rem;
+}
+
+.gradientStop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.gradientStop input[type="color"] {
+  width: 38px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.gradient .blendRow button {
+  margin-left: auto;
+}

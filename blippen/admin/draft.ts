@@ -163,14 +163,44 @@ const toContentItem = (line: string): ContentItem =>
 // a saved draft from before the list rewrite still loads.
 // ---
 
+// Numbers end up unquoted in the generated themes.tsx snippet, so a draft
+// (localStorage or an imported tema.json) must never smuggle anything else
+// into those slots. Anything that isn't a finite number falls back.
+const toNumber = (value: unknown, fallback: number): number => {
+  const n = typeof value === "string" ? Number(value) : value;
+  return typeof n === "number" && Number.isFinite(n) ? n : fallback;
+};
+
+// Only the two item shapes we know; drops anything else and coerces size.
+const toItem = (value: unknown): ContentItem | null => {
+  if (typeof value === "string") return toContentItem(value);
+  if (!value || typeof value !== "object") return null;
+  const v = value as {
+    kind?: unknown;
+    path?: unknown;
+    value?: unknown;
+    size?: unknown;
+  };
+  if (v.kind === "asset" && typeof v.path === "string") {
+    const item: ContentItem = { kind: "asset", path: v.path };
+    if (v.size !== undefined) item.size = toNumber(v.size, 1);
+    return item;
+  }
+  if (v.kind === "text" && typeof v.value === "string")
+    return { kind: "text", value: v.value };
+  return null;
+};
+
 const toItems = (value: unknown): ContentItem[] => {
-  if (Array.isArray(value)) return value as ContentItem[];
+  if (Array.isArray(value))
+    return value.map(toItem).filter((i): i is ContentItem => i !== null);
   if (typeof value === "string") return parseLines(value).map(toContentItem);
   return [];
 };
 
 const toPaths = (value: unknown): string[] => {
-  if (Array.isArray(value)) return value as string[];
+  if (Array.isArray(value))
+    return value.filter((p): p is string => typeof p === "string");
   if (typeof value === "string") return parseLines(value);
   return [];
 };
@@ -199,6 +229,9 @@ export const normalizeDraft = (raw: Partial<DraftTheme>): DraftTheme => {
       content: toItems(
         (raw.snowfall as { content?: unknown } | undefined)?.content
       ),
+      size: toNumber(raw.snowfall?.size, base.snowfall.size),
+      count: toNumber(raw.snowfall?.count, base.snowfall.count),
+      speed: toNumber(raw.snowfall?.speed, base.snowfall.speed),
     },
   };
 };

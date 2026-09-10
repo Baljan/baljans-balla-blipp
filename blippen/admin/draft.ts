@@ -215,14 +215,38 @@ const normalizeStatus = (
   sounds: toPaths((raw as { sounds?: unknown }).sounds),
 });
 
+// background-size only makes sense for an uploaded image. A gradient (or
+// "none") must always fill the screen, so any percentage left over from a
+// since-removed image is dropped here — otherwise a gradient created after
+// removing a resized image inherits its "48%" and renders as a narrow
+// centred strip.
+const isImageBackground = (css: string): boolean => /url\(/.test(css);
+
+export const effectiveBackgroundSize = (
+  backgroundImage: string,
+  backgroundSize: string
+): string => (isImageBackground(backgroundImage) ? backgroundSize : "cover");
+
+const withSaneSize = <
+  T extends { backgroundImage: string; backgroundSize: string }
+>(
+  screen: T
+): T => ({
+  ...screen,
+  backgroundSize: effectiveBackgroundSize(
+    screen.backgroundImage,
+    screen.backgroundSize
+  ),
+});
+
 export const normalizeDraft = (raw: Partial<DraftTheme>): DraftTheme => {
   const base = emptyDraft();
   return {
     ...base,
     ...raw,
-    main: { ...base.main, ...raw.main },
-    success: normalizeStatus(raw.success ?? {}, SUCCESS_DEFAULTS),
-    error: normalizeStatus(raw.error ?? {}, ERROR_DEFAULTS),
+    main: withSaneSize({ ...base.main, ...raw.main }),
+    success: withSaneSize(normalizeStatus(raw.success ?? {}, SUCCESS_DEFAULTS)),
+    error: withSaneSize(normalizeStatus(raw.error ?? {}, ERROR_DEFAULTS)),
     snowfall: {
       ...base.snowfall,
       ...raw.snowfall,
@@ -294,7 +318,11 @@ const buildStatusOverrides = (
     overrides.backgroundImage = resolveCss(draft.backgroundImage, assets);
   if (draft.backgroundBlendMode)
     overrides.backgroundBlendMode = draft.backgroundBlendMode;
-  if (draft.backgroundSize) overrides.backgroundSize = draft.backgroundSize;
+  if (draft.backgroundSize)
+    overrides.backgroundSize = effectiveBackgroundSize(
+      draft.backgroundImage,
+      draft.backgroundSize
+    );
   if (draft.fontColor) overrides.fontColor = draft.fontColor;
 
   const images = collapse(
@@ -320,7 +348,10 @@ export const buildTheme = (draft: DraftTheme, assets: AssetMap = {}): Theme => {
       backgroundColor: draft.main.backgroundColor,
       backgroundImage: resolveCss(draft.main.backgroundImage, assets),
       backgroundBlendMode: draft.main.backgroundBlendMode,
-      backgroundSize: draft.main.backgroundSize,
+      backgroundSize: effectiveBackgroundSize(
+        draft.main.backgroundImage,
+        draft.main.backgroundSize
+      ),
       titleFontColor: draft.main.titleFontColor,
       infoFontColor: draft.main.infoFontColor,
       footerFontColor: draft.main.footerFontColor,
@@ -390,7 +421,7 @@ const mainCode = (draft: DraftTheme): string => {
   add("backgroundColor", MAIN_DEFAULTS.backgroundColor);
   add("backgroundImage", MAIN_DEFAULTS.backgroundImage);
   add("backgroundBlendMode", MAIN_DEFAULTS.backgroundBlendMode);
-  if (m.backgroundImage !== MAIN_DEFAULTS.backgroundImage)
+  if (isImageBackground(m.backgroundImage))
     add("backgroundSize", MAIN_DEFAULTS.backgroundSize);
   add("titleFontColor", MAIN_DEFAULTS.titleFontColor);
   add("infoFontColor", MAIN_DEFAULTS.infoFontColor);
@@ -417,7 +448,7 @@ const statusCode = (
   add("backgroundColor", defaults.backgroundColor);
   add("backgroundImage", defaults.backgroundImage);
   add("backgroundBlendMode", defaults.backgroundBlendMode);
-  if (draft.backgroundImage !== defaults.backgroundImage)
+  if (isImageBackground(draft.backgroundImage))
     add("backgroundSize", defaults.backgroundSize);
   add("fontColor", defaults.fontColor);
 

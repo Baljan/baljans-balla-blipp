@@ -593,6 +593,12 @@ function BackgroundField({
   const gradient = path ? null : parseGradient(value);
   const hasBackground = value.trim() !== "" && value.trim() !== "none";
   const isNone = !hasBackground;
+  // The size control only exists for images; leaving a percentage behind
+  // when switching to a gradient/none would shrink that too (see draft.ts).
+  const change = (next: string) => {
+    onChange(next);
+    if (!urlPath(next) && size !== "cover") onSizeChange("cover");
+  };
   return (
     <div className={styles.field}>
       <span>{label}</span>
@@ -614,7 +620,7 @@ function BackgroundField({
           <button
             type="button"
             className={styles.removeBtn}
-            onClick={() => onChange("none")}
+            onClick={() => change("none")}
             aria-label="Ta bort"
           >
             ×
@@ -623,8 +629,8 @@ function BackgroundField({
       ) : gradient ? (
         <GradientEditor
           gradient={gradient}
-          onChange={(g) => onChange(gradientToCss(g))}
-          onRemove={() => onChange("none")}
+          onChange={(g) => change(gradientToCss(g))}
+          onRemove={() => change("none")}
         />
       ) : isNone ? null : (
         <input
@@ -633,7 +639,7 @@ function BackgroundField({
           placeholder="CSS-bakgrund (avancerat)"
           title="Egen CSS för background-image (avancerat)"
           onChange={(e) =>
-            onChange(e.target.value.trim() === "" ? "none" : e.target.value)
+            change(e.target.value.trim() === "" ? "none" : e.target.value)
           }
         />
       )}
@@ -642,7 +648,7 @@ function BackgroundField({
           <button
             type="button"
             className={styles.addTextBtn}
-            onClick={() => onChange(gradientToCss(DEFAULT_GRADIENT))}
+            onClick={() => change(gradientToCss(DEFAULT_GRADIENT))}
           >
             Skapa färggradient
           </button>

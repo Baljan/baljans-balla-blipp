@@ -20,6 +20,34 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "draget26",
+    shouldApplyToday: generateDate("2026-09-18"),
+    mainScreen: makeMainScreen({
+      backgroundImage: "url(/images/draget-blipp/Baljan_blipp_bakgrund.png)",
+      title: "",
+      invertGithub: true,
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundImage: "url(/images/draget-blipp/Baljan_blipp.png)",
+      fontColor: "#6ccd51",
+    }),
+    errorScreen: makeErrorScreen(),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/draget-blipp/Blomma_1.png"),
+        new BlippImage("/images/draget-blipp/Blomma_2.png"),
+        new BlippImage("/images/draget-blipp/Blomma_3.png"),
+        new BlippImage("/images/draget-blipp/Blomma_4.png"),
+        new BlippImage("/images/draget-blipp/Blomma_5.png"),
+      ],
+      size: 5,
+      count: 25,
+      speed: 1.5,
+      reverse: true,
+      randomRotation: true,
+    }),
+  },
+  {
     name: "flamman2026",
     shouldApplyToday: generateDate("2026-04-13", "2026-04-19"),
     mainScreen: makeMainScreen({

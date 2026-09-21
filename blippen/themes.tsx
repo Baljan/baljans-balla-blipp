@@ -20,6 +20,33 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "Lemans2026",
+    shouldApplyToday: generateDate("2026-09-23"),
+    mainScreen: makeMainScreen({
+      backgroundColor: "#0f0db5",
+      backgroundImage: "url(/images/le-mans-2026/baljan_bakgrund.png)",
+      title: "",
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundImage: "url(/images/le-mans-2026/BALJAN_BLIPP_GODKÄND_2.png)",
+      sound: new BlippAudio("/sounds/le-mans-2026/Tagga_Le_Mans_7.m4a"),
+      image: null,
+    }),
+    errorScreen: makeErrorScreen({
+      backgroundImage: "url(/images/le-mans-2026/BALJAN_BLIPP_NEKAD.png)",
+      fontColor: "#820c0c",
+      sound: new BlippAudio("/sounds/le-mans-2026/Tagga_Le_Mans_8.m4a"),
+      image: null,
+    }),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/le-mans-2026/FM_LOGGA_RUND_PNG.png", 0.7),
+        new BlippImage("/images/le-mans-2026/TRAMBIL_VEKTOR_baljan.png", 1.5),
+      ],
+      count: 5,
+    }),
+  },
+  {
     name: "draget26",
     shouldApplyToday: generateDate("2026-09-18"),
     mainScreen: makeMainScreen({

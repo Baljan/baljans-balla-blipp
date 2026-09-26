@@ -21,7 +21,7 @@ import Bokeh from "./components/Bokeh";
 const themes: Theme[] = [
   {
     name: "Lemans2026",
-    shouldApplyToday: generateDate("2026-09-23"),
+    shouldApplyToday: generateDate("2026-09-23", "2026-09-26"),
     mainScreen: makeMainScreen({
       backgroundColor: "#0f0db5",
       backgroundImage: "url(/images/le-mans-2026/baljan_bakgrund.png)",

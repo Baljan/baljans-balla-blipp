@@ -12,7 +12,7 @@
   cursor: default;
 }
 
-.snowfall[data-rotation="true"] .snowflake > div > * {
+.snowfall[data-rotation="true"] .rotator {
   transform: rotate(var(--rotate));
 }
 

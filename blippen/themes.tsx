@@ -20,6 +20,28 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "kaffekort-på-nätet",
+    shouldApplyToday: generateDate("2026-09-28", "2026-10-02"),
+    mainScreen: makeMainScreen({
+      backgroundImage: "url(/images/kaffekort-p-n-tet/blipptema.png)",
+      title: "",
+    }),
+    successScreen: makeSuccessScreen({
+      backgroundColor: "#000",
+      fontColor: "#0f0",
+      image: new BlippImage("/images/kaffekort-p-n-tet/checkmark.png", 0.6),
+    }),
+    errorScreen: makeErrorScreen(),
+    snowfall: makeSnowfall({
+      content: [
+        new BlippImage("/images/kaffekort-p-n-tet/gult kaffekort.png"),
+        new BlippImage("/images/kaffekort-p-n-tet/blått kaffekort.png"),
+      ],
+      size: 1,
+      randomRotation: true,
+    }),
+  },
+  {
     name: "Lemans2026",
     shouldApplyToday: generateDate("2026-09-23", "2026-09-26"),
     mainScreen: makeMainScreen({

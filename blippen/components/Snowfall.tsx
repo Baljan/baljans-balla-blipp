@@ -53,7 +53,11 @@ export default React.memo(function Snowfall({ theme }: Props) {
                   : "none",
               }}
             >
-              {content instanceof BlippImage ? content.getReactNode() : content}
+              <div className={styles.rotator}>
+                {content instanceof BlippImage
+                  ? content.getReactNode()
+                  : content}
+              </div>
             </div>
           </div>
         );

@@ -14,7 +14,7 @@ import { createPortal } from "react-dom";
 // (The 1024x748 cap in BallaBlippen.module.css only applies to testing mode,
 // and FRAME_CSS overrides it here anyway.)
 const VIEWPORT_W = 1024;
-const VIEWPORT_H = 768;
+const VIEWPORT_H = 748;
 
 // Injected into the frame so the blipp fills it (testing mode otherwise
 // caps the app to a centred 1024x748 box).

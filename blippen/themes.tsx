@@ -1035,7 +1035,7 @@ const themes: Theme[] = [
     name: "kanelbulle",
     shouldApplyToday: () => {
       const date = new Date();
-      return date.getMonth() === 9 && date.getDate() === 4;
+      return date.getMonth() === 9 && date.getDate() === 5;
     },
     successScreen: makeSuccessScreen({
       image: new BlippImage("/images/bakelser/kanelbulle.png"),
@@ -1043,12 +1043,14 @@ const themes: Theme[] = [
     }),
     mainScreen: makeMainScreen({
       title: "Baljans balla bullar",
+      infoText: "en dag i efterskott",
     }),
     errorScreen: makeErrorScreen(),
 
     snowfall: makeSnowfall({
       content: [new BlippImage("/images/bakelser/kanelbulle.png")],
       size: 2,
+      randomRotation: true,
     }),
   },
 

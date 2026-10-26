@@ -20,6 +20,51 @@ import Bokeh from "./components/Bokeh";
 // Add any themes to this list.
 const themes: Theme[] = [
   {
+    name: "styret-vt27",
+    shouldApplyToday: generateDate("2026-10-26", "2026-11-06"),
+    mainScreen: makeMainScreen({
+      backgroundImage: "url(/images/styret-vt27/Blipptema.png)",
+      title: "",
+    }),
+    successScreen: makeSuccessScreen({
+      image: [
+        new BlippImage("/images/styret-vt27/cajsa big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/ebbaö big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/edvin big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/emma big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/erika big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/hedda big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/johan big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/johanna big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/kenny big.png", 0.8),
+        new BlippImage("/images/styret-vt27/leo big 1.png", 0.8),
+        new BlippImage("/images/styret-vt27/micke big.png", 0.8),
+        new BlippImage("/images/styret-vt27/hilda big 1.png", 0.8),
+      ],
+      sound: [
+        new BlippAudio("/sounds/styret-vt27/applepay.mp3"),
+        new BlippAudio("/sounds/styret-vt27/yt1s_nijLeKo.mp3"),
+        new BlippAudio("/sounds/styret-vt27/anime-wow-sound-effect.mp3"),
+        new BlippAudio("/sounds/styret-vt27/cat-iphone-ringtone.wav"),
+        new BlippAudio("/sounds/styret-vt27/michael-jackson-hee-hee.mp3"),
+        new BlippAudio("/sounds/styret-vt27/rizz-sound-effect.mp3"),
+        new BlippAudio("/sounds/styret-vt27/discord-nofications.mp3"),
+        new BlippAudio("/sounds/styret-vt27/minecraft-firework.mp3"),
+      ],
+    }),
+    errorScreen: makeErrorScreen({
+      sound: [
+        new BlippAudio("/sounds/styret-vt27/vine-boom.mp3"),
+        new BlippAudio("/sounds/styret-vt27/among-us-role-reveal-sound.mp3"),
+      ],
+    }),
+    snowfall: makeSnowfall({
+      content: ["❄️", "☕"],
+      size: 0.7,
+      randomRotation: true,
+    }),
+  },
+  {
     name: "kaffekort-på-nätet",
     shouldApplyToday: generateDate("2026-09-28", "2026-10-02"),
     mainScreen: makeMainScreen({
